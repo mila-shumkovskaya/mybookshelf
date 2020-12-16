@@ -10,4 +10,6 @@
     <string name="menu_home">Home</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="notif_switch">Enable notifications</string>
+    <string name="notif_label">Time for notification</string>
 </resources>
