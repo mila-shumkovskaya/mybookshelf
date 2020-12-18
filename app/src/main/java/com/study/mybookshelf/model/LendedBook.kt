@@ -6,7 +6,7 @@ data class LendedBook(
     var lbTitle: String,
     var lbAuthor: String,
     var lbPhoto: Int,
-    var lbRaiting: Float,
+    var lbRaiting: Double,
     var lbIsDigital: Boolean,
     var lbComments: String,
 

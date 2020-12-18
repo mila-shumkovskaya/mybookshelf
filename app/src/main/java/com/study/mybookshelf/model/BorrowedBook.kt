@@ -6,11 +6,11 @@ data class BorrowedBook(
     var lbTitle: String,
     var lbAuthor: String,
     var lbPhoto: Int,
-    var lbRaiting: Float,
+    var lbRaiting: Double,
     var lbIsDigital: Boolean,
     var lbComments: String,
 
-    var owner: String,
+    var recipient: String,
     var returnDate: Date,
     var transferDate: Date
 ) : Book(lbTitle, lbAuthor, lbPhoto, lbRaiting, lbIsDigital, lbComments) {
