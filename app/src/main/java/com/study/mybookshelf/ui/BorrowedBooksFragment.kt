@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.study.mybookshelf.R
-import com.study.mybookshelf.ui.home.HomeViewModel
 
 
 class BorrowedBooksFragment : Fragment() {
