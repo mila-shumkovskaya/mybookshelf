@@ -1,6 +1,6 @@
 package com.study.mybookshelf.model
 
-import java.util.Date
+import java.time.LocalDate
 
 data class LendedBook(
     var lbTitle: String,
@@ -11,8 +11,8 @@ data class LendedBook(
     var lbComments: String,
 
     var owner: String,
-    var returnDate: Date,
-    var receiveDate: Date
+    var returnDate: LocalDate,
+    var receiveDate: LocalDate
 ) : Book(lbTitle, lbAuthor, lbPhoto, lbRating, lbIsDigital, lbComments) {
 
 }
