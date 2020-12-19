@@ -2,7 +2,7 @@ package com.study.mybookshelf.model
 
 import java.time.LocalDate
 
-data class BorrowedBook(
+data class BorrowedBook( //взяты
     var bbTitle: String,
     var bbAuthor: String,
     var bbPhoto: Int,
@@ -10,9 +10,9 @@ data class BorrowedBook(
     var bbIsDigital: Boolean,
     var bbComments: String,
 
-    var recipient: String,
+    var owner: String,
     var returnDate: LocalDate,
-    var transferDate: LocalDate
+    var receiveDate: LocalDate
 ) : Book(bbTitle, bbAuthor, bbPhoto, bbRating, bbIsDigital, bbComments) {
 
 }
