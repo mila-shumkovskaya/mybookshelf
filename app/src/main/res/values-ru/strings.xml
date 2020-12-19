@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Book Shelf</string>
+    <string name="nav_header_subtitle">Структурируй свою домашнюю библиотеку! :)</string>
+    <string name="action_settings">Настройки</string>
+    <string name="menu_home">Книги</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="tab1_library">Библиотека</string>
+    <string name="tab2_borrowed_books">Взято почитать</string>
+    <string name="tab3_lended_books">Отдано</string>
+</resources>
