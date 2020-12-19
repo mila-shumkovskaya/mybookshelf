@@ -12,6 +12,7 @@ import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.model.getString
 import kotlinx.android.synthetic.main.recycler_view_borrowed_book_item.view.*
 
 
@@ -48,7 +49,7 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
             tbAuthor.text = book.author
             ivCover.setImageResource(book.photo)
             tbRecipient.text = book.recipient
-            tbReturnDate.text = book.returnDate.toString()
+            tbReturnDate.text = book.returnDate.getString()
         }
     }
 
@@ -64,7 +65,7 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
             tbAuthor.text = book.author
             ivCover.setImageResource(book.photo)
             tbOwner.text = book.owner
-            tbReturnDate.text = book.returnDate.toString()
+            tbReturnDate.text = book.returnDate.getString()
         }
     }
 
