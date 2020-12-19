@@ -15,13 +15,13 @@ class LendedBooksViewModel : ViewModel() {
 
     init {
         val booksList = ArrayList<LendedBook>()
-        booksList.add(LendedBook("HarryPotter1", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
-        booksList.add(LendedBook("HarryPotter2", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
-        booksList.add(LendedBook("HarryPotter3", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
-        booksList.add(LendedBook("HarryPotter4", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
-        booksList.add(LendedBook("HarryPotter5", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
-        booksList.add(LendedBook("HarryPotter6", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
-        booksList.add(LendedBook("HarryPotter7", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
+        booksList.add(LendedBook("HarryPotter1", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
+        booksList.add(LendedBook("HarryPotter2", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
+        booksList.add(LendedBook("HarryPotter3", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
+        booksList.add(LendedBook("HarryPotter4", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
+        booksList.add(LendedBook("HarryPotter5", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
+        booksList.add(LendedBook("HarryPotter6", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
+        booksList.add(LendedBook("HarryPotter7", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", Date(2020, 12, 12), Date(2020, 12, 12)))
         lendedBooksList.value = booksList
     }
 }

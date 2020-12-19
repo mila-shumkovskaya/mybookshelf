@@ -9,9 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.study.mybookshelf.R
-
+import com.study.mybookshelf.ui.BookRecyclerView.BooksRecyclerView
 
 class BorrowedBooksFragment : Fragment() {
+
     private lateinit var borrowedBooksViewModel: BorrowedBooksViewModel
 
     override fun onCreateView(
@@ -19,14 +20,14 @@ class BorrowedBooksFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        borrowedBooksViewModel =
-                ViewModelProviders.of(this).get(BorrowedBooksViewModel::class.java)
+        borrowedBooksViewModel = ViewModelProviders.of(this).get(BorrowedBooksViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_borrowed_books, container, false)
-        val textView: TextView = root.findViewById(R.id.textView3)
-        borrowedBooksViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+
+        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
+        borrowedBooksViewModel.borrowedBooksList.observe(viewLifecycleOwner, Observer {
+            rvBooks.adapter.refreshBooks(it)
         })
+
         return root
     }
 }

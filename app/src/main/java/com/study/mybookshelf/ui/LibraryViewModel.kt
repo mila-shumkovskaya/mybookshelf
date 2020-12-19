@@ -15,13 +15,13 @@ class LibraryViewModel : ViewModel() {
 
     init {
         val booksList = ArrayList<Book>()
-        booksList.add(Book("HarryPotter1", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1"))
-        booksList.add(Book("HarryPotter2", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1"))
-        booksList.add(Book("HarryPotter3", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1"))
-        booksList.add(Book("HarryPotter4", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1"))
-        booksList.add(Book("HarryPotter5", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1"))
-        booksList.add(Book("HarryPotter6", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1"))
-        booksList.add(Book("HarryPotter7", "J.K.Rowling", R.mipmap.ic_launcher, 5.0, true, "comment1"))
+        booksList.add(Book("HarryPotter1", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1"))
+        booksList.add(Book("HarryPotter2", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1"))
+        booksList.add(Book("HarryPotter3", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1"))
+        booksList.add(Book("HarryPotter4", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1"))
+        booksList.add(Book("HarryPotter5", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1"))
+        booksList.add(Book("HarryPotter6", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1"))
+        booksList.add(Book("HarryPotter7", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1"))
         libraryBooksList.value = booksList
     }
 }

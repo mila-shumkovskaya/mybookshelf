@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.study.mybookshelf.R
+import com.study.mybookshelf.ui.BookRecyclerView.BooksRecyclerView
 
 class LibraryFragment: Fragment() {
 
@@ -21,10 +22,12 @@ class LibraryFragment: Fragment() {
         libraryViewModel =
                 ViewModelProviders.of(this).get(LibraryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_library, container, false)
-        val textView: TextView = root.findViewById(R.id.textView2)
-        libraryViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+
+        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
+        libraryViewModel.libraryBooksList.observe(viewLifecycleOwner, Observer {
+            rvBooks.adapter.refreshBooks(it)
         })
+
         return root
     }
 }
