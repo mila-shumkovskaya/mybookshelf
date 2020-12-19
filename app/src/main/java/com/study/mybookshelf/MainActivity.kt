@@ -2,7 +2,6 @@ package com.study.mybookshelf
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -14,9 +13,6 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.study.mybookshelf.model.LendedBook
-
-import com.study.mybookshelf.utils.BookType
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,12 +38,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_settings), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-
-        val rep = Repository()
-        val list: List<LendedBook> = rep.getBooksList(BookType.LENDED_BOOK) as List<LendedBook>
-        val toast = Toast.makeText(applicationContext, list.toString(), Toast.LENGTH_LONG)
-        toast.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
