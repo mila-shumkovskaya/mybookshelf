@@ -1,9 +1,12 @@
 package com.study.mybookshelf
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.study.mybookshelf.utils.*
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.model.BorrowedBook
+import java.time.LocalDate
 import java.util.Date
 
 class Repository {
@@ -13,12 +16,17 @@ class Repository {
         val book2 = Book("title_2", "author_2", 2, 3.0.toFloat(), false, "unuseful comments")
         val book3 = Book("title_3", "author_3", 3, 4.7.toFloat(), false, "best comment ever")
 
-        val lended1 = LendedBook("lended_1", "author_1", 1, 5.0.toFloat(), true, "interesting book", "Petya", Date(2020-12-20), Date(2021-12-20))
-        val lended2 = LendedBook("lended_2", "author_2", 2, 3.0.toFloat(), false, "hi!", "Kate&Leo", Date(2020-10-20), Date(2021-11-20))
-        val lended3 = LendedBook("lended_3", "author_3", 3, 4.7.toFloat(), true, "lendeeed", "Smb", Date(2019-12-10), Date(2020-12-20))
+        val lended1 = LendedBook("lended_1", "author_1", 1, 5.0.toFloat(), true, "interesting book",
+                                 "Petya", LocalDate.of(2020, 12, 20), LocalDate.of(2021, 12, 20))
+        val lended2 = LendedBook("lended_2", "author_2", 2, 3.0.toFloat(), false, "hi!",
+                                 "Kate&Leo", LocalDate.of(2020, 10, 20), LocalDate.of(2021, 11, 20))
+        val lended3 = LendedBook("lended_3", "author_3", 3, 4.7.toFloat(), true, "lendeeed",
+                                 "Smb", LocalDate.of(2019, 12, 10), LocalDate.of(2020, 12, 20))
 
-        val borrowed1 = BorrowedBook("borrowed_1", "author_1", 1, 5.0.toFloat(), true, "hi there i'm using whatsApp", "Ted", Date(2019-12-10), Date(2020-12-20))
-        val borrowed2 = BorrowedBook("borrowed_2", "author_2", 2, 3.0.toFloat(), false, "boRRRRRowed BOOOOOk", "Mya", Date(2018-12-10), Date(2022-12-20))
+        val borrowed1 = BorrowedBook("borrowed_1", "author_1", 1, 5.0.toFloat(), true, "hi there i'm using whatsApp",
+                                    "Ted", LocalDate.of(2019, 12, 10), LocalDate.of(2020, 12, 20))
+        val borrowed2 = BorrowedBook("borrowed_2", "author_2", 2, 3.0.toFloat(), false, "boRRRRRowed BOOOOOk",
+                                    "Mya", LocalDate.of(2018, 12, 10), LocalDate.of(2022, 12, 20))
 
         val list: MutableList<Book> = arrayListOf()
 
