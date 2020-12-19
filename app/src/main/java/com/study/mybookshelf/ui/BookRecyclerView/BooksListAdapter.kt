@@ -6,14 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
-import com.study.mybookshelf.model.getString
-import kotlinx.android.synthetic.main.recycler_view_borrowed_book_item.view.*
+import com.study.mybookshelf.utils.BookType
+import com.study.mybookshelf.utils.getString
 
 
 class BooksListAdapter(private val context: Context): RecyclerView.Adapter<BooksListAdapter.BookViewHolder<*>>()  {
@@ -45,9 +44,9 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
         private val tbRecipient: TextView = bookView.findViewById(R.id.text_book_recipient)
         private val tbReturnDate: TextView = bookView.findViewById(R.id.text_book_return_date)
         override fun bind(book: BorrowedBook) {
-            tbTitle.text = book.title
-            tbAuthor.text = book.author
-            ivCover.setImageResource(book.photo)
+            tbTitle.text = book.bbTitle
+            tbAuthor.text = book.bbAuthor
+            ivCover.setImageResource(book.bbPhoto)
             tbRecipient.text = book.recipient
             tbReturnDate.text = book.returnDate.getString()
         }
@@ -61,9 +60,9 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
         private val tbOwner: TextView = bookView.findViewById(R.id.text_book_owner)
         private val tbReturnDate: TextView = bookView.findViewById(R.id.text_book_return_date)
         override fun bind(book: LendedBook) {
-            tbTitle.text = book.title
-            tbAuthor.text = book.author
-            ivCover.setImageResource(book.photo)
+            tbTitle.text = book.lbTitle
+            tbAuthor.text = book.lbAuthor
+            ivCover.setImageResource(book.lbPhoto)
             tbOwner.text = book.owner
             tbReturnDate.text = book.returnDate.getString()
         }
@@ -72,15 +71,15 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder<*> {
         return when (viewType) {
-            TYPE_BORROWED_BOOK -> {
+            BookType.BORROWED_BOOK.id -> {
                 val view = LayoutInflater.from(context).inflate(R.layout.recycler_view_borrowed_book_item, parent, false)
                 BorrowedBookViewHolder(view)
             }
-            TYPE_LENDED_BOOK -> {
+            BookType.LENDED_BOOK.id -> {
                 val view = LayoutInflater.from(context).inflate(R.layout.recycler_view_lended_book_item, parent, false)
                 LendedBookViewHolder(view)
             }
-            TYPE_LIBRARY_BOOK -> {
+            BookType.BOOK.id -> {
                 val view = LayoutInflater.from(context).inflate(R.layout.recycler_view_book_item, parent, false)
                 LibraryBookViewHolder(view)
             }
@@ -105,16 +104,10 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
 
     override fun getItemViewType(position: Int): Int {
         return when (booksList[position]){
-            is BorrowedBook -> TYPE_BORROWED_BOOK
-            is LendedBook -> TYPE_LENDED_BOOK
-            else -> TYPE_LIBRARY_BOOK
+            is BorrowedBook -> BookType.BORROWED_BOOK.id
+            is LendedBook -> BookType.LENDED_BOOK.id
+            else -> BookType.BOOK.id
         }
-    }
-
-    companion object {
-        private const val TYPE_LIBRARY_BOOK = 0
-        private const val TYPE_BORROWED_BOOK = 1
-        private const val TYPE_LENDED_BOOK = 2
     }
 
     fun refreshBooks(items: List<Book>) {
