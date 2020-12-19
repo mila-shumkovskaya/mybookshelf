@@ -10,4 +10,8 @@
     <string name="menu_home">Home</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="owner">Owner:</string>
+    <string name="recipient">Recipient:</string>
+    <string name="return_date">Return date:</string>
 </resources>
