@@ -3,16 +3,16 @@ package com.study.mybookshelf.model
 import java.util.Date
 
 data class BorrowedBook(
-    var lbTitle: String,
-    var lbAuthor: String,
-    var lbPhoto: Int,
-    var lbRaiting: Float,
-    var lbIsDigital: Boolean,
-    var lbComments: String,
+    var bbTitle: String,
+    var bbAuthor: String,
+    var bbPhoto: Int,
+    var bbRaiting: Float,
+    var bbIsDigital: Boolean,
+    var bbComments: String,
 
-    var owner: String,
+    var recipient: String,
     var returnDate: Date,
     var transferDate: Date
-) : Book(lbTitle, lbAuthor, lbPhoto, lbRaiting, lbIsDigital, lbComments) {
+) : Book(bbTitle, bbAuthor, bbPhoto, bbRaiting, bbIsDigital, bbComments) {
 
 }
