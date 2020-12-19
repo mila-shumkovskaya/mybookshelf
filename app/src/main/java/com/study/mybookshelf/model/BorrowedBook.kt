@@ -6,13 +6,13 @@ data class BorrowedBook(
     var bbTitle: String,
     var bbAuthor: String,
     var bbPhoto: Int,
-    var bbRaiting: Float,
+    var bbRating: Float,
     var bbIsDigital: Boolean,
     var bbComments: String,
 
     var recipient: String,
     var returnDate: Date,
     var transferDate: Date
-) : Book(bbTitle, bbAuthor, bbPhoto, bbRaiting, bbIsDigital, bbComments) {
+) : Book(bbTitle, bbAuthor, bbPhoto, bbRating, bbIsDigital, bbComments) {
 
 }
