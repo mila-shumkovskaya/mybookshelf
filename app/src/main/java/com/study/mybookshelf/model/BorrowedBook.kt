@@ -1,6 +1,8 @@
 package com.study.mybookshelf.model
 
+import android.os.Parcelable
 import io.realm.annotations.PrimaryKey
+import java.io.Serializable
 import io.realm.RealmObject as RealmObject1
 
 open class BorrowedBook (
@@ -14,4 +16,4 @@ open class BorrowedBook (
     var owner: String = "",
     var returnDate: String = "",
     var receiveDate: String = ""
-) : Book, RealmObject1()
+) : Book, Serializable, RealmObject1()

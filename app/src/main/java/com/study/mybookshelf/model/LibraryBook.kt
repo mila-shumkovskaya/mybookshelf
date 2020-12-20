@@ -2,6 +2,7 @@ package com.study.mybookshelf.model
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import java.io.Serializable
 
 open class LibraryBook (
     @PrimaryKey override var title: String = "",
@@ -10,4 +11,4 @@ open class LibraryBook (
     override var rating: Float = 0.0.toFloat(),
     override var isDigital: Boolean = false,
     override var comments: String = ""
-): Book, RealmObject()
+): Book, Serializable, RealmObject()

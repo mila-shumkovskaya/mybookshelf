@@ -2,6 +2,7 @@ package com.study.mybookshelf.model
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import java.io.Serializable
 
 open class LendedBook(
     @PrimaryKey override var title: String = "",
@@ -14,4 +15,4 @@ open class LendedBook(
     var recipient: String = "",
     var returnDate: String = "",
     var transferDate: String = ""
-) : Book, RealmObject()
+) : Book, Serializable, RealmObject()
