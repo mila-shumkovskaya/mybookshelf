@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.study.mybookshelf.R
 
 
-open class BooksRecyclerView @JvmOverloads constructor(
+class BooksRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -38,8 +38,7 @@ class ItemOffsetDecoration(private val mItemOffset: Int) : ItemDecoration() {
     constructor(
         context: Context,
         @DimenRes itemOffsetId: Int
-    ) : this(context.resources.getDimensionPixelSize(itemOffsetId)) {
-    }
+    ) : this(context.resources.getDimensionPixelSize(itemOffsetId))
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -47,7 +46,7 @@ class ItemOffsetDecoration(private val mItemOffset: Int) : ItemDecoration() {
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        super.getItemOffsets(outRect, view, parent!!, state!!)
+        super.getItemOffsets(outRect, view, parent, state)
         outRect.set(mItemOffset, mItemOffset, mItemOffset, mItemOffset)
     }
 

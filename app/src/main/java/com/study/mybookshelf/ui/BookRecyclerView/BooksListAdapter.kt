@@ -44,11 +44,11 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
         private val tbRecipient: TextView = bookView.findViewById(R.id.text_book_recipient)
         private val tbReturnDate: TextView = bookView.findViewById(R.id.text_book_return_date)
         override fun bind(book: BorrowedBook) {
-            tbTitle.text = book.bbTitle
-            tbAuthor.text = book.bbAuthor
-            ivCover.setImageResource(book.bbPhoto)
+            tbTitle.text = book.title
+            tbAuthor.text = book.author
+            ivCover.setImageResource(book.photo)
             tbRecipient.text = book.recipient
-            tbReturnDate.text = book.returnDate.getString()
+            tbReturnDate.text = book.returnDate
         }
     }
 
@@ -60,11 +60,11 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
         private val tbOwner: TextView = bookView.findViewById(R.id.text_book_owner)
         private val tbReturnDate: TextView = bookView.findViewById(R.id.text_book_return_date)
         override fun bind(book: LendedBook) {
-            tbTitle.text = book.lbTitle
-            tbAuthor.text = book.lbAuthor
-            ivCover.setImageResource(book.lbPhoto)
+            tbTitle.text = book.title
+            tbAuthor.text = book.author
+            ivCover.setImageResource(book.photo)
             tbOwner.text = book.owner
-            tbReturnDate.text = book.returnDate.getString()
+            tbReturnDate.text = book.returnDate
         }
     }
 

@@ -1,18 +1,17 @@
 package com.study.mybookshelf.model
 
-import java.time.LocalDate
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-data class LendedBook(
-    var lbTitle: String,
-    var lbAuthor: String,
-    var lbPhoto: Int,
-    var lbRating: Float,
-    var lbIsDigital: Boolean,
-    var lbComments: String,
+open class LendedBook(
+    @PrimaryKey override var title: String = "",
+    override var author: String = "",
+    override var photo: Int = 0,
+    override var rating: Float = 0.0.toFloat(),
+    override var isDigital: Boolean = false,
+    override var comments: String = "",
 
-    var owner: String,
-    var returnDate: LocalDate,
-    var receiveDate: LocalDate
-) : Book(lbTitle, lbAuthor, lbPhoto, lbRating, lbIsDigital, lbComments) {
-
-}
+    var owner: String = "",
+    var returnDate: String = "",
+    var receiveDate: String = ""
+) : Book, RealmObject()
