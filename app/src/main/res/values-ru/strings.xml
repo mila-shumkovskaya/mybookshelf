@@ -11,4 +11,10 @@
     <string name="owner">Владелец:</string>
     <string name="return_date">Срок возврата:</string>
     <string name="recipient">Кому:</string>
+
+    <string name="title">Название:</string>
+    <string name="author">Автор:</string>
+    <string name="rating">Рейтинг:</string>
+    <string name="isEl">Электронная книга:</string>
+    <string name="comment">Комментарий:</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui.BookRecyclerView
+package com.study.mybookshelf.ui.book_recycler_view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.utils.BookType
-import com.study.mybookshelf.utils.getString
+
 
 
 class BooksListAdapter(private val context: Context): RecyclerView.Adapter<BooksListAdapter.BookViewHolder<*>>()  {
@@ -52,8 +52,12 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
             tbAuthor.text = book.bbAuthor
             ivCover.setImageResource(book.bbPhoto)
             tbRating.rating = book.rating
+            tbTitle.text = book.title
+            tbAuthor.text = book.author
+            ivCover.setImageResource(book.photo)
+            tbRating.rating = book.rating
             tbOwner.text = book.owner
-            tbReturnDate.text = book.returnDate.getString()
+            tbReturnDate.text = book.returnDate
         }
     }
 
@@ -66,12 +70,12 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
         private val tbRecipient: TextView = bookView.findViewById(R.id.text_book_recipient)
         private val tbReturnDate: TextView = bookView.findViewById(R.id.text_book_return_date)
         override fun bind(book: LendedBook) {
-            tbTitle.text = book.lbTitle
-            tbAuthor.text = book.lbAuthor
-            ivCover.setImageResource(book.lbPhoto)
+            tbTitle.text = book.title
+            tbAuthor.text = book.author
+            ivCover.setImageResource(book.photo)
             tbRating.rating = book.rating
             tbRecipient.text = book.recipient
-            tbReturnDate.text = book.returnDate.getString()
+            tbReturnDate.text = book.returnDate
         }
     }
 

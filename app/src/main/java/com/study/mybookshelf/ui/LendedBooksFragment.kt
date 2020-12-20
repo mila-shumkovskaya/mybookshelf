@@ -5,16 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.study.mybookshelf.DetailsActivity
 import com.study.mybookshelf.R
-import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.LendedBook
-import com.study.mybookshelf.ui.BookRecyclerView.BooksRecyclerView
+import com.study.mybookshelf.ui.book_recycler_view.BooksRecyclerView
+import com.study.mybookshelf.utils.getString
 import java.time.LocalDate
 
 class LendedBooksFragment: Fragment() {
@@ -38,7 +37,7 @@ class LendedBooksFragment: Fragment() {
         fab.setOnClickListener { view ->
             val intent = Intent(context, DetailsActivity::class.java)
             val book = LendedBook("lended_1", "author_1", R.mipmap.ic_launcher, 5.0.toFloat(), true, "interesting book",
-                    "Petya", LocalDate.of(2020, 12, 20), LocalDate.of(2021, 12, 20))
+                    "Petya", LocalDate.of(2020, 12, 20).getString(), LocalDate.of(2021, 12, 20).getString())
             //val bundle = bundleOf( "book" to book)
             intent.putExtra("book", book)
 
