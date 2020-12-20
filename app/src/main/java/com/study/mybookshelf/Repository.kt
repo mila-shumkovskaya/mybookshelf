@@ -22,51 +22,7 @@ class Repository<T : RealmModel?>(booksList: MutableLiveData<List<T>>, private v
             }
         }
 
-    /*private var libraryBooksResults: RealmResults<LibraryBook>? = realm.where<LibraryBook>().sort("title").findAll()
-    private var borrowedBooksResults: RealmResults<BorrowedBook> = realm.where<BorrowedBook>().sort("title").findAll()
-    private var lendedBooksResults: RealmResults<LendedBook>? = realm.where<LendedBook>().sort("title").findAll()*/
-
-    /*private var realmLibraryBooksChangeListener: RealmChangeListener<RealmResults<LibraryBook?>> =
-        RealmChangeListener { results ->
-            if (results.isLoaded && results.isValid && results.isNotEmpty()) {
-                libraryBooksList.value = results as List<LibraryBook>
-            } else {
-                libraryBooksList.value = listOf()
-            }
-        }
-
-    private var realmBorrowedBooksChangeListener: RealmChangeListener<RealmResults<BorrowedBook?>> =
-        RealmChangeListener { results ->
-            if (results.isLoaded && results.isValid && results.isNotEmpty()) {
-                borrowedBooksList.value = results as List<BorrowedBook>
-            } else {
-                borrowedBooksList.value = listOf()
-            }
-        }
-
-    private var realmLendedBooksChangeListener: RealmChangeListener<RealmResults<LendedBook?>> =
-        RealmChangeListener { results ->
-            if (results.isLoaded && results.isValid && results.isNotEmpty()) {
-                lendedBooksList.value = results as List<LendedBook>
-            } else {
-                lendedBooksList.value = listOf()
-            }
-
-        }*/
-
-
     init {
-        /*when (bookType) {
-            BookType.BOOK -> {
-                results = realm.where<LibraryBook>().sort("title").findAll()
-            }
-            BookType.BORROWED_BOOK -> {
-                results = realm.where<BorrowedBook>().sort("title").findAll()
-            }
-            BookType.LENDED_BOOK -> {
-                results = realm.where<LendedBook>().sort("title").findAll()
-            }
-        }*/
         results.addChangeListener(realmChangeListener)
     }
 
