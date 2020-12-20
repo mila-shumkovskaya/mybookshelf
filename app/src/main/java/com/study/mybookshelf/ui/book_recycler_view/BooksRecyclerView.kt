@@ -16,6 +16,8 @@ import com.study.mybookshelf.MainActivity
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
+import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.model.LibraryBook
 import com.study.mybookshelf.utils.getString
 import java.time.LocalDate
 
@@ -44,9 +46,25 @@ class BooksRecyclerView @JvmOverloads constructor(
     
     private fun bookClicked(book: Book) {
         val intent = Intent(context, DetailsActivity::class.java)
-        intent.putExtra("book", book)
-        Toast.makeText(context, "Its toast from book "+book.title, Toast.LENGTH_SHORT).show()
-       // context.startActivity(intent)//this fucking place crush all
+        if(book is LendedBook)
+        {
+            val actBook: LendedBook= LendedBook(book.title, book.author, book.photo, book.rating, book.isDigital,
+            book.comments, book.recipient, book.returnDate, book.transferDate)
+            intent.putExtra("book", actBook)
+        }
+        if(book is BorrowedBook)
+        {
+            val actBook: LendedBook= LendedBook(book.title, book.author, book.photo, book.rating, book.isDigital,
+                book.comments, book.owner, book.returnDate, book.receiveDate)
+            intent.putExtra("book", actBook)
+        }
+        if(book is LibraryBook)
+        {
+            val actBook = LibraryBook(book.title, book.author, book.photo, book.rating, book.isDigital, book.comments)
+            intent.putExtra("book", actBook)
+        }
+        //Toast.makeText(context, "Its toast from book "+book.title, Toast.LENGTH_SHORT).show()
+        context.startActivity(intent)
     }
 
 

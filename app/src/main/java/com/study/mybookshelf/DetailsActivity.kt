@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.model.LibraryBook
 import com.study.mybookshelf.ui.BorrowedBookDetailsFragment
 import com.study.mybookshelf.ui.LendedBookDetailsFragment
 import com.study.mybookshelf.ui.LibraryBookDetailsFragment
@@ -26,8 +27,6 @@ class DetailsActivity : AppCompatActivity() {
                 .beginTransaction()
 
         val book= intent.getSerializableExtra("book")
-
-        // добавляем фрагмент
 
         if(book is LendedBook)
         {
@@ -53,8 +52,9 @@ class DetailsActivity : AppCompatActivity() {
             val realm: Realm = Realm.getDefaultInstance()
             book as Book
             realm.executeTransaction { realm ->
-                val delbook = realm.where(Book::class.java).equalTo("title", book.title).findFirst()
+                val delbook = realm.where(LibraryBook::class.java).equalTo("title", book.title).findFirst()
                 delbook?.deleteFromRealm()
+                onBackPressed()
             }
 
         }
