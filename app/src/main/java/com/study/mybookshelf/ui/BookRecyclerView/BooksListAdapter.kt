@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.study.mybookshelf.R
@@ -28,11 +29,13 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
         private val tbTitle: TextView = bookView.findViewById(R.id.text_book_title)
         private val tbAuthor: TextView = bookView.findViewById(R.id.text_book_author)
         private val ivCover: ImageView = itemView.findViewById(R.id.image_cover)
+        private val tbRating: RatingBar = itemView.findViewById(R.id.rating_bar)
 
         override fun bind(book: Book) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
             ivCover.setImageResource(book.photo)
+            tbRating.rating = book.rating
         }
     }
 
@@ -40,6 +43,7 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
         private val bookView = itemView
         private val tbTitle: TextView = bookView.findViewById(R.id.text_book_title)
         private val tbAuthor: TextView = bookView.findViewById(R.id.text_book_author)
+        private val tbRating: RatingBar = itemView.findViewById(R.id.rating_bar)
         private val ivCover: ImageView = itemView.findViewById(R.id.image_cover)
         private val tbOwner: TextView = bookView.findViewById(R.id.text_book_owner)
         private val tbReturnDate: TextView = bookView.findViewById(R.id.text_book_return_date)
@@ -47,6 +51,7 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
             tbTitle.text = book.bbTitle
             tbAuthor.text = book.bbAuthor
             ivCover.setImageResource(book.bbPhoto)
+            tbRating.rating = book.rating
             tbOwner.text = book.owner
             tbReturnDate.text = book.returnDate.getString()
         }
@@ -57,12 +62,14 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
         private val tbTitle: TextView = bookView.findViewById(R.id.text_book_title)
         private val tbAuthor: TextView = bookView.findViewById(R.id.text_book_author)
         private val ivCover: ImageView = itemView.findViewById(R.id.image_cover)
+        private val tbRating: RatingBar = itemView.findViewById(R.id.rating_bar)
         private val tbRecipient: TextView = bookView.findViewById(R.id.text_book_recipient)
         private val tbReturnDate: TextView = bookView.findViewById(R.id.text_book_return_date)
         override fun bind(book: LendedBook) {
             tbTitle.text = book.lbTitle
             tbAuthor.text = book.lbAuthor
             ivCover.setImageResource(book.lbPhoto)
+            tbRating.rating = book.rating
             tbRecipient.text = book.recipient
             tbReturnDate.text = book.returnDate.getString()
         }
