@@ -33,12 +33,12 @@ class LendedBookDetailsFragment: Fragment() {
         val dpReturnDate: DatePicker = root.findViewById(R.id.return_date_picker)
 
         ivCover.setImageResource(book.photo)
-        etTitle.hint = getString(R.string.hint_title)
-        etAuthor.hint = getString(R.string.hint_author)
+        etTitle.hint = book.title
+        etAuthor.hint = book.author
         rbRating.rating = book.rating
-        switchIsEl.isChecked = false
-        etComment.hint = getString(R.string.hint_comment)
-        etRecipient.hint = getString(R.string.hint_recipient)
+        switchIsEl.isChecked = book.isDigital
+        etComment.hint = book.comments
+        etRecipient.hint = book.recipient
 
         // val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
         //libraryViewModel.libraryBooksList.observe(viewLifecycleOwner, Observer {

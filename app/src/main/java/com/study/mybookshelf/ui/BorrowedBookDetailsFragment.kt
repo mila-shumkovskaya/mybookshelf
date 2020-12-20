@@ -20,7 +20,7 @@ class BorrowedBookDetailsFragment: Fragment() {
     ): View? {
         //   libraryViewModel = ViewModelProviders.of(this).get(LibraryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_borrowed_book_details, container, false)
-        val book: Book = requireActivity().intent.getSerializableExtra("book") as BorrowedBook
+        val book: BorrowedBook = requireActivity().intent.getSerializableExtra("book") as BorrowedBook
 
         val ivCover: ImageView = root.findViewById(R.id.iv_book_cover)
         val etTitle: EditText = root.findViewById(R.id.et_title)
@@ -33,12 +33,12 @@ class BorrowedBookDetailsFragment: Fragment() {
         val dpReturnDate: DatePicker = root.findViewById(R.id.return_date_picker)
 
         ivCover.setImageResource(book.photo)
-        etTitle.hint = getString(R.string.hint_title)
-        etAuthor.hint = getString(R.string.hint_author)
+        etTitle.hint = book.title
+        etAuthor.hint = book.author
         rbRating.rating = book.rating
-        switchIsEl.isChecked = false
-        etComment.hint = getString(R.string.hint_comment)
-        etOwner.hint = getString(R.string.hint_owner)
+        switchIsEl.isChecked = book.isDigital
+        etComment.hint = book.comments
+        etOwner.hint = book.owner
 
         // val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
         //libraryViewModel.libraryBooksList.observe(viewLifecycleOwner, Observer {

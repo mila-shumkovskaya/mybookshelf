@@ -32,11 +32,11 @@ class LibraryBookDetailsFragment: Fragment() {
        val etComment: EditText = root.findViewById(R.id.et_comment)
 
        ivCover.setImageResource(book.photo)
-       etTitle.hint = getString(R.string.hint_title)
-       etAuthor.hint = getString(R.string.hint_author)
+       etTitle.hint = book.title
+       etAuthor.hint = book.author
        rbRating.rating = book.rating
-       switchIsEl.isChecked = false
-       etComment.hint = getString(R.string.hint_comment)
+       switchIsEl.isChecked = book.isDigital
+       etComment.hint = book.comments
 
        // val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
        //libraryViewModel.libraryBooksList.observe(viewLifecycleOwner, Observer {

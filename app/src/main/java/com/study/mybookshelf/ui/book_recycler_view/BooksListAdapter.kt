@@ -37,6 +37,7 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
             tbTitle.text = book.title
             tbAuthor.text = book.author
             ivCover.setImageResource(book.photo)
+            itemView.setOnClickListener { clickListener(book) }
         }
     }
 
@@ -59,7 +60,8 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
             tbRating.rating = book.rating
             tbOwner.text = book.owner
             tbReturnDate.text = book.returnDate
-        }
+            itemView.setOnClickListener { clickListener(book)}
+            }
     }
 
     inner class LendedBookViewHolder(itemView: View) : BookViewHolder<LendedBook>(itemView) {
