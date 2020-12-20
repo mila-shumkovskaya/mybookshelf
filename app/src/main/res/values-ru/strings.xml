@@ -19,4 +19,11 @@
     <string name="comment">Комментарий:</string>
 
     <string name="save">Сохранить изменения</string>
+    <string name="hint_title">Введите название</string>
+    <string name="hint_author">Введите автора</string>
+    <string name="hint_comment">Введите комментарий</string>
+    <string name="receive_date">Получена:</string>
+    <string name="transfer_date">Отдана:</string>
+    <string name="hint_owner">Укажите владельца</string>
+    <string name="hint_recipient">Укажите, кому отдали</string>
 </resources>

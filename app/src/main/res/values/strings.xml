@@ -19,6 +19,8 @@
     <string name="owner">Owner:</string>
     <string name="recipient">Recipient:</string>
     <string name="return_date">Return date:</string>
+    <string name="receive_date">Receive date:</string>
+    <string name="transfer_date">Transfer date:</string>
 
     <string name="title">Title:</string>
     <string name="author">Author:</string>
@@ -27,5 +29,11 @@
     <string name="comment">Comment:</string>
 
     <string name="save">Save changes</string>
+
+    <string name="hint_title">Enter book title</string>
+    <string name="hint_author">Enter author</string>
+    <string name="hint_comment">Enter you comment</string>
+    <string name="hint_owner">Enter owner name</string>
+    <string name="hint_recipient">Enter recipient name</string>
 
 </resources>

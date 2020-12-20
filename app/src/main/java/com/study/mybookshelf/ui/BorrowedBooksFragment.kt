@@ -36,8 +36,9 @@ class BorrowedBooksFragment : Fragment() {
         val fab: FloatingActionButton = root.findViewById(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent(context, DetailsActivity::class.java)
-            val book  = BorrowedBook("borrowed_1", "author_1", R.mipmap.ic_launcher, 5.0.toFloat(), true, "hi there i'm using whatsApp",
-                "Ted", LocalDate.of(2019, 12, 10).getString(), LocalDate.of(2020, 12, 20).getString())
+            val book  = BorrowedBook("borrowed", "author", R.mipmap.book_cover, 5.0.toFloat(), true, "comment",
+                "Owner", LocalDate.of(2019, 12, 10).getString(), LocalDate.of(2020, 12, 20).getString())
+            //val bundle = bundleOf( "book" to book)
             intent.putExtra("book", book)
             intent.putExtra("add", true)
             startActivity(intent)

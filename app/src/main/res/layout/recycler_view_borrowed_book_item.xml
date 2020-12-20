@@ -39,6 +39,18 @@
             android:textStyle="bold"
             android:maxLines="1"
             />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="@android:style/Widget.Material.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:progressBackgroundTint="@android:color/black"
+            android:numStars="5"
+            android:isIndicator="true"
+            android:stepSize="0.1" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

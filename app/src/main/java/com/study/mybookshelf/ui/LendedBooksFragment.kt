@@ -36,8 +36,8 @@ class LendedBooksFragment: Fragment() {
         val fab: FloatingActionButton = root.findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             val intent = Intent(context, DetailsActivity::class.java)
-            val book = LendedBook("lended_1", "author_1", R.mipmap.ic_launcher, 5.0.toFloat(), true, "interesting book",
-                    "Petya", LocalDate.of(2020, 12, 20).getString(), LocalDate.of(2021, 12, 20).getString())
+            val book = LendedBook("lended", "author", R.mipmap.book_cover, 5.0.toFloat(), true, "interesting book",
+                    "Recipient", LocalDate.of(2020, 12, 20).getString(), LocalDate.of(2021, 12, 20).getString())
             //val bundle = bundleOf( "book" to book)
             intent.putExtra("book", book)
             intent.putExtra("add", true)
