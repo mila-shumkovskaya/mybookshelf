@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui.BookRecyclerView
+package com.study.mybookshelf.ui.bookRecyclerView
 
 import android.content.Context
 import android.graphics.Rect

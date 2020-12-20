@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui.BookRecyclerView
+package com.study.mybookshelf.ui.bookRecyclerView
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.utils.BookType
-import com.study.mybookshelf.utils.getString
 
 
 class BooksListAdapter(private val context: Context): RecyclerView.Adapter<BooksListAdapter.BookViewHolder<*>>()  {

@@ -49,11 +49,4 @@ class LibraryViewModel : ViewModel() {
         repository.close()
     }
 
-/*private val repository: Repository = Repository()
-val libraryBooksList : MutableLiveData<List<Book>> by lazy {
-MutableLiveData<List<Book>>(). apply {
-    value = repository.getBooksList(BookType.BOOK)
-}
-}*/
-
 }

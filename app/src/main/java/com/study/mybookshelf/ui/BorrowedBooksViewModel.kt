@@ -49,10 +49,5 @@ class BorrowedBooksViewModel : ViewModel() {
     override fun onCleared() {
         repository.close()
     }
-    /*private val repository: Repository = Repository()
-    val borrowedBooksList : MutableLiveData<List<Book>> by lazy {
-        MutableLiveData<List<Book>>(). apply {
-            value = repository.getBooksList(BookType.BORROWED_BOOK)
-        }
-    }*/
+
 }
