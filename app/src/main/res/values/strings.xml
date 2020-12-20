@@ -26,4 +26,10 @@
     <string name="isEl">Is electronic:</string>
     <string name="comment">Comment:</string>
 
+    <!-- COVER -->
+    <string name="load_cover">Load cover</string>
+    <string name="from_camera">From Camera</string>
+    <string name="from_gallery">From Gallery</string>
+    <string name="from_internet">From Internet</string>
+
 </resources>

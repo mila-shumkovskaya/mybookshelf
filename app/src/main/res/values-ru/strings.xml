@@ -17,4 +17,10 @@
     <string name="rating">Рейтинг:</string>
     <string name="isEl">Электронная книга:</string>
     <string name="comment">Комментарий:</string>
+
+    <!-- COVER -->
+    <string name="load_cover">Загрузить обложку</string>
+    <string name="from_camera">Фото с камеры</string>
+    <string name="from_gallery">Фото из Галереи</string>
+    <string name="from_internet">Фото из интернета</string>
 </resources>

@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.ui.CoverDialogFragment
 import com.study.mybookshelf.utils.BookType
 
 
@@ -33,6 +35,14 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
             tbTitle.text = book.title
             tbAuthor.text = book.author
             ivCover.setImageResource(book.photo)
+        }
+
+        init {
+            bookView.setOnClickListener {
+                val myDialogFragment = CoverDialogFragment(context)
+                val manager = (context as AppCompatActivity).supportFragmentManager
+                myDialogFragment.show(manager, "myDialog")
+            }
         }
     }
 
