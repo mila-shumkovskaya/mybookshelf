@@ -11,7 +11,7 @@ open class LendedBook(
     override var isDigital: Boolean = false,
     override var comments: String = "",
 
-    var owner: String = "",
+    var recipient: String = "",
     var returnDate: String = "",
-    var receiveDate: String = ""
+    var transferDate: String = ""
 ) : Book, RealmObject()

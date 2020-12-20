@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.study.mybookshelf.R
-import com.study.mybookshelf.ui.bookRecyclerView.BooksRecyclerView
+import com.study.mybookshelf.ui.book_recycler_view.BooksRecyclerView
 
 class BorrowedBooksFragment : Fragment() {
 

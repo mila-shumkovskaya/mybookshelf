@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui.bookRecyclerView
+package com.study.mybookshelf.ui.book_recycler_view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.utils.BookType
+
 
 
 class BooksListAdapter(private val context: Context): RecyclerView.Adapter<BooksListAdapter.BookViewHolder<*>>()  {
@@ -40,13 +41,13 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
         private val tbTitle: TextView = bookView.findViewById(R.id.text_book_title)
         private val tbAuthor: TextView = bookView.findViewById(R.id.text_book_author)
         private val ivCover: ImageView = itemView.findViewById(R.id.image_cover)
-        private val tbRecipient: TextView = bookView.findViewById(R.id.text_book_recipient)
+        private val tbOwner: TextView = bookView.findViewById(R.id.text_book_owner)
         private val tbReturnDate: TextView = bookView.findViewById(R.id.text_book_return_date)
         override fun bind(book: BorrowedBook) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
             ivCover.setImageResource(book.photo)
-            tbRecipient.text = book.recipient
+            tbOwner.text = book.owner
             tbReturnDate.text = book.returnDate
         }
     }
@@ -56,13 +57,13 @@ class BooksListAdapter(private val context: Context): RecyclerView.Adapter<Books
         private val tbTitle: TextView = bookView.findViewById(R.id.text_book_title)
         private val tbAuthor: TextView = bookView.findViewById(R.id.text_book_author)
         private val ivCover: ImageView = itemView.findViewById(R.id.image_cover)
-        private val tbOwner: TextView = bookView.findViewById(R.id.text_book_owner)
+        private val tbRecipient: TextView = bookView.findViewById(R.id.text_book_recipient)
         private val tbReturnDate: TextView = bookView.findViewById(R.id.text_book_return_date)
         override fun bind(book: LendedBook) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
             ivCover.setImageResource(book.photo)
-            tbOwner.text = book.owner
+            tbRecipient.text = book.recipient
             tbReturnDate.text = book.returnDate
         }
     }
