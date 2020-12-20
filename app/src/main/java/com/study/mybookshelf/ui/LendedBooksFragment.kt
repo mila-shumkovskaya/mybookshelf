@@ -40,7 +40,7 @@ class LendedBooksFragment: Fragment() {
                     "Petya", LocalDate.of(2020, 12, 20).getString(), LocalDate.of(2021, 12, 20).getString())
             //val bundle = bundleOf( "book" to book)
             intent.putExtra("book", book)
-
+            intent.putExtra("add", true)
             startActivity(intent)
         }
 

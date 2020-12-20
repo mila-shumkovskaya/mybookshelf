@@ -54,7 +54,7 @@ class BooksRecyclerView @JvmOverloads constructor(
         }
         if(book is BorrowedBook)
         {
-            val actBook: LendedBook= LendedBook(book.title, book.author, book.photo, book.rating, book.isDigital,
+            val actBook: BorrowedBook= BorrowedBook(book.title, book.author, book.photo, book.rating, book.isDigital,
                 book.comments, book.owner, book.returnDate, book.receiveDate)
             intent.putExtra("book", actBook)
         }
@@ -63,6 +63,7 @@ class BooksRecyclerView @JvmOverloads constructor(
             val actBook = LibraryBook(book.title, book.author, book.photo, book.rating, book.isDigital, book.comments)
             intent.putExtra("book", actBook)
         }
+        intent.putExtra("add", false)
         //Toast.makeText(context, "Its toast from book "+book.title, Toast.LENGTH_SHORT).show()
         context.startActivity(intent)
     }

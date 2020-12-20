@@ -26,4 +26,6 @@
     <string name="isEl">Is electronic:</string>
     <string name="comment">Comment:</string>
 
+    <string name="save">Save changes</string>
+
 </resources>

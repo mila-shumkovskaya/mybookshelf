@@ -36,7 +36,7 @@ class LibraryFragment: Fragment() {
             val book = LibraryBook("title_1", "author_1", R.mipmap.ic_launcher, 5.0.toFloat(), true, "useful comments")
             //val bundle = bundleOf( "book" to book)
            intent.putExtra("book", book)
-
+            intent.putExtra("add", true)
             startActivity(intent)
         }
         return root

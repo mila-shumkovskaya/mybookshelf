@@ -39,6 +39,7 @@ class BorrowedBooksFragment : Fragment() {
             val book  = BorrowedBook("borrowed_1", "author_1", R.mipmap.ic_launcher, 5.0.toFloat(), true, "hi there i'm using whatsApp",
                 "Ted", LocalDate.of(2019, 12, 10).getString(), LocalDate.of(2020, 12, 20).getString())
             intent.putExtra("book", book)
+            intent.putExtra("add", true)
             startActivity(intent)
         }
         return root
