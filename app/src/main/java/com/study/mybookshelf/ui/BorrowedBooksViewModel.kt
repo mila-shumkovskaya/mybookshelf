@@ -15,17 +15,17 @@ class BorrowedBooksViewModel : ViewModel() {
 
     init {
 
-        val borrowed1 = BorrowedBook("borrowed_1", "author_1", R.mipmap.ic_launcher, 5.0.toFloat(), true, "hi there i'm using whatsApp",
+        val borrowed1 = BorrowedBook("borrowed_1", "author_1", R.mipmap.book_cover, 5.0.toFloat(), true, "hi there i'm using whatsApp",
             "Ted", LocalDate.of(2019, 12, 10).getString(), LocalDate.of(2020, 12, 20).getString())
-        val borrowed2 = BorrowedBook("borrowed_2", "author_2", R.mipmap.ic_launcher, 3.0.toFloat(), false, "boRRRRRowed BOOOOOk",
+        val borrowed2 = BorrowedBook("borrowed_2", "author_2", R.mipmap.book_cover, 3.6.toFloat(), false, "boRRRRRowed BOOOOOk",
             "Mya", LocalDate.of(2018, 12, 10).getString(), LocalDate.of(2022, 12, 20).getString())
-        val borrowed3 = (BorrowedBook("HarryPotter1", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
-        val borrowed4 = (BorrowedBook("HarryPotter2", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
-        val borrowed5 = (BorrowedBook("HarryPotter3", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
-        val borrowed6 = (BorrowedBook("HarryPotter4", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
-        val borrowed7 = (BorrowedBook("HarryPotter5", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
-        val borrowed8 = (BorrowedBook("HarryPotter6", "J.K.Rowling", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
-        val borrowed9 = (BorrowedBook("HarryPotter2", "edited", R.mipmap.ic_launcher, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
+        val borrowed3 = (BorrowedBook("HarryPotter1", "J.K.Rowling", R.mipmap.book_cover, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
+        val borrowed4 = (BorrowedBook("HarryPotter2", "J.K.Rowling", R.mipmap.book_cover, 4.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
+        val borrowed5 = (BorrowedBook("HarryPotter3", "J.K.Rowling", R.mipmap.book_cover, 3.8.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
+        val borrowed6 = (BorrowedBook("HarryPotter4", "J.K.Rowling", R.mipmap.book_cover, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
+        val borrowed7 = (BorrowedBook("HarryPotter5", "J.K.Rowling", R.mipmap.book_cover, 4.5.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
+        val borrowed8 = (BorrowedBook("HarryPotter6", "J.K.Rowling", R.mipmap.book_cover, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
+        val borrowed9 = (BorrowedBook("HarryPotter2", "edited", R.mipmap.book_cover, 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
         createOrUpdateBook(borrowed1)
         createOrUpdateBook(borrowed2)
         createOrUpdateBook(borrowed3)
