@@ -68,14 +68,15 @@ class LibraryBookDetailsFragment: Fragment() {
        val delete: ImageButton = root.findViewById(R.id.bt_delete)
        val save: Button =root.findViewById(R.id.bt_save4)
        val edit: ImageButton = root.findViewById(R.id.bt_edit)
-       if(!add)
-       {
-           val params=save.layoutParams
-           params.height=0
-           save.layoutParams=params
-           etAuthor.isEnabled=false
-           etComment.isEnabled=false
-           etTitle.isEnabled=false
+       if(!add) {
+           val params = save.layoutParams
+           params.height = 0
+           save.layoutParams = params
+           etAuthor.isEnabled = false
+           etComment.isEnabled = false
+           etTitle.isEnabled = false
+           rbRating.isEnabled = false
+           switchIsEl.isEnabled=false
        }
        else
        {
@@ -113,7 +114,8 @@ class LibraryBookDetailsFragment: Fragment() {
            etAuthor.isEnabled=true
            etComment.isEnabled=true
            etTitle.isEnabled=true
-           //make fields editable
+           rbRating.isEnabled = true
+           switchIsEl.isEnabled=true
        }
 
        save.setOnClickListener {
