@@ -17,6 +17,8 @@
     <string name="rating">Рейтинг:</string>
     <string name="isEl">Электронная книга:</string>
     <string name="comment">Комментарий:</string>
+
+    <string name="save">Сохранить изменения</string>
     <string name="hint_title">Введите название</string>
     <string name="hint_author">Введите автора</string>
     <string name="hint_comment">Введите комментарий</string>

@@ -28,6 +28,8 @@
     <string name="isEl">Is electronic:</string>
     <string name="comment">Comment:</string>
 
+    <string name="save">Save changes</string>
+
     <string name="hint_title">Enter book title</string>
     <string name="hint_author">Enter author</string>
     <string name="hint_comment">Enter you comment</string>

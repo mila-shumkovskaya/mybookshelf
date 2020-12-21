@@ -4,9 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bb_details"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/default_padding" >
+    android:padding="@dimen/default_padding">
+
+    <Button
+        android:id="@+id/bt_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/bt_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+
+        <ImageButton
+            android:id="@+id/bt_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -45,7 +72,7 @@
                     android:id="@+id/et_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"/>
+                    android:ems="10" />
 
             </LinearLayout>
 
@@ -87,9 +114,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:progressBackgroundTint="@android:color/black"
-                    android:numStars="5"
                     android:isIndicator="false"
+                    android:numStars="5"
+                    android:progressBackgroundTint="@android:color/black"
                     android:stepSize="0.1" />
             </LinearLayout>
 
@@ -130,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="textCapSentences|textNoSuggestions|textMultiLine"/>
+                    android:inputType="textCapSentences|textNoSuggestions|textMultiLine" />
             </LinearLayout>
 
             <LinearLayout
@@ -149,7 +176,7 @@
                     android:id="@+id/et_owner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"/>
+                    android:ems="10" />
 
             </LinearLayout>
 
@@ -169,8 +196,8 @@
                     android:id="@+id/receive_date_picker"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
-                    android:datePickerMode="spinner"
-                    android:calendarViewShown="false" />
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner" />
             </LinearLayout>
 
             <LinearLayout
@@ -189,11 +216,12 @@
                     android:id="@+id/return_date_picker"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
-                    android:datePickerMode="spinner"
-                    android:calendarViewShown="false" />
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner" />
 
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
