@@ -117,6 +117,10 @@ class BorrowedBookDetailsFragment: Fragment() {
             etComment.isEnabled=false
             etOwner.isEnabled=false
             etTitle.isEnabled=false
+            rbRating.isEnabled = false
+            switchIsEl.isEnabled=false
+            dpReturnDate.isEnabled=false
+            dpReceiveDate.isEnabled=false
         }
         else
         {
@@ -142,6 +146,12 @@ class BorrowedBookDetailsFragment: Fragment() {
 
 
         edit.setOnClickListener {
+            val params1=edit.layoutParams
+            params1.height=0
+            edit.layoutParams=params1
+            val params2=delete.layoutParams
+            params2.height=0
+            delete.layoutParams=params2
             val params=save.layoutParams
             params.height= ActionBar.LayoutParams.WRAP_CONTENT
             save.layoutParams=params
@@ -149,7 +159,10 @@ class BorrowedBookDetailsFragment: Fragment() {
             etComment.isEnabled=true
             etOwner.isEnabled=true
             etTitle.isEnabled=true
-            //make fields editable
+            rbRating.isEnabled = true
+            switchIsEl.isEnabled= true
+            dpReturnDate.isEnabled=true
+            dpReceiveDate.isEnabled=true
         }
 
         save.setOnClickListener {
