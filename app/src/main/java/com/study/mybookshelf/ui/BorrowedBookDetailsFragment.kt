@@ -201,8 +201,8 @@ class BorrowedBookDetailsFragment: Fragment() {
 
         modifiedBook.owner = etOwner.text.toString()
 
-        val dateFormat = "yyyy-mm-dd"
-        val sdf = SimpleDateFormat(dateFormat, Locale.US)
+        val dateFormat = "dd.MM.yyyy"
+        val sdf = SimpleDateFormat(dateFormat, Locale.getDefault())
         modifiedBook.receiveDate = sdf.format(receiveDate.time)
 
         modifiedBook.returnDate = sdf.format(returnDate.time)
