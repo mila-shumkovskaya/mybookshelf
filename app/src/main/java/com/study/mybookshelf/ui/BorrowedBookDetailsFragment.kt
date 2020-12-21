@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
@@ -55,6 +56,14 @@ class BorrowedBookDetailsFragment: Fragment() {
         etOwner = root.findViewById(R.id.et_owner)
         dpReceiveDate = root.findViewById(R.id.receive_date_picker)
         dpReturnDate = root.findViewById(R.id.return_date_picker)
+
+        ivCover.setOnClickListener {
+            if (etAuthor.isEnabled == true) {
+                val myDialogFragment = CoverDialogFragment(requireContext())
+                val manager = (context as AppCompatActivity).supportFragmentManager
+                myDialogFragment.show(manager, "myDialog")
+            }
+        }
 
         if(!add){
             ivCover.setImageResource(book.photo)

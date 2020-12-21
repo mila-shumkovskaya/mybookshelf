@@ -36,6 +36,7 @@
     <string name="language_russian">Русский</string>
     <string name="language_english">Английский</string>
 
+    <string name="permission_denied">Нет доступа</string>
 
     <!-- COVER -->
     <string name="load_cover">Загрузить обложку</string>

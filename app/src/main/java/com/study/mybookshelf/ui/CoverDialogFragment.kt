@@ -64,7 +64,7 @@ class CoverDialogFragment(context: Context) : DialogFragment() {
     }
 
     private fun getFromInternet() {
-        Toast.makeText(activity, "Выбранный кот: интернет", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
     }
 
     private fun openCamera() {
@@ -85,14 +85,14 @@ class CoverDialogFragment(context: Context) : DialogFragment() {
             REQUEST_CODE_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCamera()
-                } else { Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show() }
+                } else { Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show() }
             }
             PERMISSION_CODE_GALLERY -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openGallery()
-                } else { Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show() }
+                } else { Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show() }
             }
-            else -> { Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show() }
+            else -> { Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show() }
         }
     }
 

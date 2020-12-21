@@ -41,14 +41,6 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
             ivCover.setImageResource(book.photo)
             itemView.setOnClickListener { clickListener(book) }
         }
-
-        init {
-            bookView.setOnClickListener {
-                val myDialogFragment = CoverDialogFragment(context)
-                val manager = (context as AppCompatActivity).supportFragmentManager
-                myDialogFragment.show(manager, "myDialog")
-            }
-        }
     }
 
     inner class BorrowedBookViewHolder(itemView: View) : BookViewHolder<BorrowedBook>(itemView) {

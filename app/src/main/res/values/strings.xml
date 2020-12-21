@@ -50,4 +50,6 @@
     <string name="language_russian">Russian</string>
     <string name="language_english">English</string>
 
+    <string name="permission_denied">Permission denied</string>
+
 </resources>
