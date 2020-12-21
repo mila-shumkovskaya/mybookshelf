@@ -15,6 +15,7 @@ import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.model.LibraryBook
 import com.study.mybookshelf.utils.BookType
 
 
@@ -27,16 +28,18 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
         abstract fun bind(book: T, clickListener: (T) -> Unit)
     }
 
-    inner class LibraryBookViewHolder(itemView: View) : BookViewHolder<Book>(itemView) {
+    inner class LibraryBookViewHolder(itemView: View) : BookViewHolder<LibraryBook>(itemView) {
         private val bookView = itemView
         private val tbTitle: TextView = bookView.findViewById(R.id.text_book_title)
         private val tbAuthor: TextView = bookView.findViewById(R.id.text_book_author)
         private val ivCover: ImageView = itemView.findViewById(R.id.image_cover)
+        private val tbRating: RatingBar = itemView.findViewById(R.id.rating_bar)
 
-        override fun bind(book: Book, clickListener: (Book) -> Unit) {
+        override fun bind(book: LibraryBook, clickListener: (LibraryBook) -> Unit) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
             ivCover.setImageResource(book.photo)
+            tbRating.rating = book.rating
             itemView.setOnClickListener { clickListener(book) }
         }
     }
@@ -108,7 +111,7 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
         when (viewHolder) {
             is BorrowedBookViewHolder -> viewHolder.bind(book as BorrowedBook, clickListener)
             is LendedBookViewHolder -> viewHolder.bind(book as LendedBook, clickListener)
-            is LibraryBookViewHolder -> viewHolder.bind(book, clickListener)
+            is LibraryBookViewHolder -> viewHolder.bind(book as LibraryBook, clickListener)
             else -> throw IllegalArgumentException()
         }
     }

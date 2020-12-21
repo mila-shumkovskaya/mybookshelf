@@ -45,7 +45,7 @@ class DetailsActivity : AppCompatActivity() {
             fragmentTransaction.commit()
         }
         else
-        if(book is Book)
+        if(book is LibraryBook)
         {
             val myFragment = LibraryBookDetailsFragment()
             fragmentTransaction.add(R.id.container, myFragment)
