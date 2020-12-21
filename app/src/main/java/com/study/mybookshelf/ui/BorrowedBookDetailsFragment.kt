@@ -1,5 +1,6 @@
 package com.study.mybookshelf.ui
 
+import android.app.ActionBar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,9 @@ import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
+import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.model.LibraryBook
+import io.realm.Realm
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,8 +42,9 @@ class BorrowedBookDetailsFragment: Fragment() {
     ): View? {
         //   libraryViewModel = ViewModelProviders.of(this).get(LibraryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_borrowed_book_details, container, false)
-        val book: BorrowedBook = requireActivity().intent.getSerializableExtra("book") as BorrowedBook
+     //   val book: BorrowedBook = requireActivity().intent.getSerializableExtra("book") as BorrowedBook
         book = requireActivity().intent.getSerializableExtra("book") as BorrowedBook
+        val add=requireActivity().intent.getBooleanExtra("add", false)
 
         ivCover = root.findViewById(R.id.iv_book_cover)
         etTitle = root.findViewById(R.id.et_title)
@@ -52,13 +56,24 @@ class BorrowedBookDetailsFragment: Fragment() {
         dpReceiveDate = root.findViewById(R.id.receive_date_picker)
         dpReturnDate = root.findViewById(R.id.return_date_picker)
 
-        ivCover.setImageResource(book.photo)
-        etTitle.hint = book.title
-        etAuthor.hint = book.author
-        rbRating.rating = book.rating
-        switchIsEl.isChecked = book.isDigital
-        etComment.hint = book.comments
-        etOwner.hint = book.owner
+        if(!add){
+            ivCover.setImageResource(book.photo)
+            etTitle.setText(book.title)
+            etAuthor.setText(book.author)
+            rbRating.rating = book.rating
+            switchIsEl.isChecked = book.isDigital
+            etComment.setText(book.comments)
+            etOwner.setText(book.owner)
+        }
+        else {
+            ivCover.setImageResource(book.photo)
+            etTitle.hint=book.title
+            etAuthor.hint=book.author
+            rbRating.rating = book.rating
+            switchIsEl.isChecked = book.isDigital
+            etComment.hint=book.comments
+            etOwner.hint=book.owner
+        }
 
         // val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
         //libraryViewModel.libraryBooksList.observe(viewLifecycleOwner, Observer {
@@ -90,21 +105,79 @@ class BorrowedBookDetailsFragment: Fragment() {
                            today.get(Calendar.DAY_OF_MONTH),
                            returnDateChangedListener)
 
+        val delete: ImageButton = root.findViewById(R.id.bt_delete)
+        val save: Button =root.findViewById(R.id.bt_save)
+        val edit: ImageButton = root.findViewById(R.id.bt_edit)
+        if(!add)
+        {
+            val params=save.layoutParams
+            params.height=0
+            save.layoutParams=params
+            etAuthor.isEnabled=false
+            etComment.isEnabled=false
+            etOwner.isEnabled=false
+            etTitle.isEnabled=false
+        }
+        else
+        {
+            val params1=edit.layoutParams
+            params1.height=0
+            edit.layoutParams=params1
+            val params2=delete.layoutParams
+            params2.height=0
+            delete.layoutParams=params2
+        }
+        delete.setOnClickListener {
+            val realm: Realm = Realm.getDefaultInstance()
+            book as Book
+            realm.executeTransaction { realm ->
+
+                    val delbook = realm.where(BorrowedBook::class.java).equalTo("title", book.title).findFirst()
+                    delbook?.deleteFromRealm()
+
+
+            }
+            requireActivity().onBackPressed()
+        }
+
+
+        edit.setOnClickListener {
+            val params=save.layoutParams
+            params.height= ActionBar.LayoutParams.WRAP_CONTENT
+            save.layoutParams=params
+            etAuthor.isEnabled=true
+            etComment.isEnabled=true
+            etOwner.isEnabled=true
+            etTitle.isEnabled=true
+            //make fields editable
+        }
+
+        save.setOnClickListener {
+            //get data and save to realm
+            book=getInfoFromFields()
+            val realm: Realm = Realm.getDefaultInstance()
+            realm.executeTransaction { realm ->
+                realm.insertOrUpdate(book)
+            }
+            requireActivity().onBackPressed()
+        }
+
+
         return root
     }
 
     fun getInfoFromFields(): BorrowedBook {
         val modifiedBook = BorrowedBook()
 
-        modifiedBook.title = etTitle.toString()
-        modifiedBook.author = etAuthor.toString()
+        modifiedBook.title = etTitle.text.toString()
+        modifiedBook.author = etAuthor.text.toString()
         //book.photo = ivCover.getDrawable() -- need conversion to byte[]
         modifiedBook.photo = this.book.photo
         modifiedBook.rating = rbRating.rating
         modifiedBook.isDigital = switchIsEl.isChecked
-        modifiedBook.comments = etComment.toString()
+        modifiedBook.comments = etComment.text.toString()
 
-        modifiedBook.owner = etOwner.toString()
+        modifiedBook.owner = etOwner.text.toString()
 
         val dateFormat = "yyyy-mm-dd"
         val sdf = SimpleDateFormat(dateFormat, Locale.US)

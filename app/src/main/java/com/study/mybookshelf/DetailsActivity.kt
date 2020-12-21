@@ -29,25 +29,8 @@ class DetailsActivity : AppCompatActivity() {
                 .beginTransaction()
 
         val book= intent.getSerializableExtra("book")
-        val add = intent.getBooleanExtra("add", false)
-        val delete: ImageButton = findViewById(R.id.bt_delete)
-        val save: Button =findViewById(R.id.bt_save)
-        val edit: ImageButton = findViewById(R.id.bt_edit)
-        if(!add)
-        {
-            val params=save.layoutParams
-            params.height=0
-            save.layoutParams=params
-        }
-        else
-        {
-            val params1=edit.layoutParams
-            params1.height=0
-            edit.layoutParams=params1
-            val params2=delete.layoutParams
-            params2.height=0
-            delete.layoutParams=params2
-        }
+      //  val add = intent.getBooleanExtra("add", false)
+
 
         if(book is LendedBook)
         {
@@ -69,38 +52,6 @@ class DetailsActivity : AppCompatActivity() {
             fragmentTransaction.commit()
         }
 
-        delete.setOnClickListener {
-            val realm: Realm = Realm.getDefaultInstance()
-            book as Book
-            realm.executeTransaction { realm ->
-                if (book is LibraryBook){
-                val delbook = realm.where(LibraryBook::class.java).equalTo("title", book.title).findFirst()
-                delbook?.deleteFromRealm()
-                }
-                if (book is LendedBook){
-                    val delbook = realm.where(LendedBook::class.java).equalTo("title", book.title).findFirst()
-                    delbook?.deleteFromRealm()
-                }
-                if (book is BorrowedBook){
-                    val delbook = realm.where(BorrowedBook::class.java).equalTo("title", book.title).findFirst()
-                    delbook?.deleteFromRealm()
-                }
 
-            }
-            onBackPressed()
-        }
-
-
-        edit.setOnClickListener {
-            val params=save.layoutParams
-            params.height= ActionBar.LayoutParams.WRAP_CONTENT
-            save.layoutParams=params
-            //make fields editable
-        }
-
-        save.setOnClickListener {
-            //get data and save to realm
-            onBackPressed()
-        }
     }
 }
