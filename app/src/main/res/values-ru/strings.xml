@@ -18,6 +18,25 @@
     <string name="isEl">Электронная книга:</string>
     <string name="comment">Комментарий:</string>
 
+    <string name="save">Сохранить изменения</string>
+    <string name="hint_title">Введите название</string>
+    <string name="hint_author">Введите автора</string>
+    <string name="hint_comment">Введите комментарий</string>
+    <string name="receive_date">Получена:</string>
+    <string name="transfer_date">Отдана:</string>
+    <string name="hint_owner">Укажите владельца</string>
+    <string name="hint_recipient">Укажите, кому отдали</string>
+
+    <string name="notif_switch">Включить уведомления</string>
+    <string name="notif_label">Установить время уведомлений</string>
+    <string name="notif_title">Уведомления</string>
+
+    <string name="language_label">Язык приложения</string>
+    <string name="language_title">Выбрать язык</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_english">Английский</string>
+
+
     <!-- COVER -->
     <string name="load_cover">Загрузить обложку</string>
     <string name="from_camera">Фото с камеры</string>

@@ -38,6 +38,16 @@
             android:textAlignment="center"
             android:textSize="@dimen/default_text_size"
             android:textStyle="bold" />
-        <!-- сюда ratingbar -->
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="@android:style/Widget.Material.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:progressBackgroundTint="@android:color/black"
+            android:numStars="5"
+            android:isIndicator="true"
+            android:stepSize="0.1" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

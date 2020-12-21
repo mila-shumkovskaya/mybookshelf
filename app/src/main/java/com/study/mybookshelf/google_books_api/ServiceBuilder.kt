@@ -1,6 +1,6 @@
 package com.study.mybookshelf.google_books_api
 
-import okhttp3.OkHttpClient
+/*import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -18,4 +18,4 @@ object ServiceBuilder {
     fun<T> buildService(service: Class<T>): T{
         return retrofit.create(service)
     }
-}
+}*/

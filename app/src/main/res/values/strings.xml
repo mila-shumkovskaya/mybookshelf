@@ -19,6 +19,8 @@
     <string name="owner">Owner:</string>
     <string name="recipient">Recipient:</string>
     <string name="return_date">Return date:</string>
+    <string name="receive_date">Receive date:</string>
+    <string name="transfer_date">Transfer date:</string>
 
     <string name="title">Title:</string>
     <string name="author">Author:</string>
@@ -31,5 +33,21 @@
     <string name="from_camera">From Camera</string>
     <string name="from_gallery">From Gallery</string>
     <string name="from_internet">From Internet</string>
+
+    <string name="save">Save changes</string>
+
+    <string name="hint_title">Enter book title</string>
+    <string name="hint_author">Enter author</string>
+    <string name="hint_comment">Enter you comment</string>
+    <string name="hint_owner">Enter owner name</string>
+    <string name="hint_recipient">Enter recipient name</string>
+
+    <string name="notif_switch">Enable notifications</string>
+    <string name="notif_label">Time for notification</string>
+    <string name="notif_title">Notifications</string>
+    <string name="language_label">Language</string>
+    <string name="language_title">Choose language</string>
+    <string name="language_russian">Russian</string>
+    <string name="language_english">English</string>
 
 </resources>

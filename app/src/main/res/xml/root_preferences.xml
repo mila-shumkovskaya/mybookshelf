@@ -1,0 +1,28 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/notif_title">
+
+        <SwitchPreferenceCompat
+            app:key="enable_notifications"
+            app:title="@string/notif_switch" />
+
+        <com.study.mybookshelf.ui.TimePreference
+            app:key="pick_time"
+            app:title="@string/notif_label" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/language_label">
+
+        <ListPreference
+            app:defaultValue="@string/language_russian"
+            app:entries="@array/language_array"
+            app:entryValues="@array/language_values_array"
+            app:key="pick_language"
+            app:title="@string/language_title" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
