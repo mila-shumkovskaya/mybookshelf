@@ -1,7 +1,7 @@
 package com.study.mybookshelf.utils
 
-enum class BookType {
-    BOOK,
-    LENDED_BOOK,
-    BORROWED_BOOK
+enum class BookType(val id: Int) {
+    BOOK(0),
+    LENDED_BOOK(1),
+    BORROWED_BOOK(2)
 }

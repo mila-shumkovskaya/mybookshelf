@@ -1,18 +1,23 @@
 package com.study.mybookshelf.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.study.mybookshelf.DetailsActivity
 import com.study.mybookshelf.R
-import com.study.mybookshelf.ui.home.HomeViewModel
-
+import com.study.mybookshelf.model.BorrowedBook
+import com.study.mybookshelf.ui.book_recycler_view.BooksRecyclerView
+import com.study.mybookshelf.utils.getString
+import java.time.LocalDate
 
 class BorrowedBooksFragment : Fragment() {
+
     private lateinit var borrowedBooksViewModel: BorrowedBooksViewModel
 
     override fun onCreateView(
@@ -20,14 +25,23 @@ class BorrowedBooksFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        borrowedBooksViewModel =
-                ViewModelProviders.of(this).get(BorrowedBooksViewModel::class.java)
+        borrowedBooksViewModel = ViewModelProviders.of(this).get(BorrowedBooksViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_borrowed_books, container, false)
-        val textView: TextView = root.findViewById(R.id.textView3)
-        borrowedBooksViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+
+        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
+        borrowedBooksViewModel.borrowedBooksList.observe(viewLifecycleOwner, Observer {
+            rvBooks.adapter.refreshBooks(it)
         })
+        val fab: FloatingActionButton = root.findViewById(R.id.fab)
+        fab.setOnClickListener { view ->
+            val intent = Intent(context, DetailsActivity::class.java)
+            val book  = BorrowedBook("borrowed", "author", R.mipmap.book_cover, 5.0.toFloat(), true, "comment",
+                "Owner", LocalDate.of(2019, 12, 10).getString(), LocalDate.of(2020, 12, 20).getString())
+            //val bundle = bundleOf( "book" to book)
+            intent.putExtra("book", book)
+
+            startActivity(intent)
+        }
         return root
     }
 }

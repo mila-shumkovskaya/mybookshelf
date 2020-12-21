@@ -16,7 +16,6 @@ import com.study.mybookshelf.ui.TabPagerAdapter
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager2? = null
 
@@ -25,22 +24,16 @@ class HomeFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
         tabLayout= root.findViewById<TabLayout>(R.id.tab_layout)
         viewPager = root.findViewById<ViewPager2>(R.id.pager)
 
         viewPager!!.setAdapter(TabPagerAdapter(childFragmentManager, lifecycle))
         TabLayoutMediator(tabLayout!!, viewPager!!, TabLayoutMediator.TabConfigurationStrategy{ tab, position ->
             when (position) {
-                0 -> tab.text = "Library"
-                1 -> tab.text = "Borrowed Books"
-                2 -> tab.text = "Lended Books"
+                0 -> tab.text = getString(R.string.tab1_library)
+                1 -> tab.text = getString(R.string.tab2_borrowed_books)
+                2 -> tab.text = getString(R.string.tab3_lended_books)
             }
         }).attach()
         return root

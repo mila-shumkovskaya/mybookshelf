@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/default_padding"
+    android:layout_gravity="center_horizontal"
+    android:clickable="true"
+    android:focusable="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/default_padding"
+        android:background="?android:selectableItemBackground">
+        <ImageView
+            android:id="@+id/image_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/text_book_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textSize="@dimen/default_text_size"
+            android:textStyle="bold"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/text_book_author"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textSize="@dimen/default_text_size"
+            android:textStyle="bold"
+            android:maxLines="1"
+            />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="@android:style/Widget.Material.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:progressBackgroundTint="@android:color/black"
+            android:numStars="5"
+            android:isIndicator="true"
+            android:stepSize="0.1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:text="@string/owner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/default_text_size"/>
+
+            <TextView
+                android:id="@+id/text_book_owner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/default_text_size"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:text="@string/return_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/default_text_size"/>
+
+            <TextView
+                android:id="@+id/text_book_return_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:textSize="@dimen/default_text_size"
+                android:textStyle="bold"
+                android:textAlignment="center"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

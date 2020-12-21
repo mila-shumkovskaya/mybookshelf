@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/default_padding"
+    android:layout_gravity="center_horizontal"
+    android:clickable="true"
+    android:focusable="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/default_padding"
+        android:background="?android:selectableItemBackground">
+        <ImageView
+            android:id="@+id/image_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/text_book_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/default_text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_book_author"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/default_text_size"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="@android:style/Widget.Material.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:progressBackgroundTint="@android:color/black"
+            android:numStars="5"
+            android:isIndicator="true"
+            android:stepSize="0.1" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
