@@ -60,7 +60,7 @@ class BooksRecyclerView @JvmOverloads constructor(
         }
         if(book is LibraryBook)
         {
-            val actBook = LibraryBook(book.title, book.author, book.photo, book.rating, book.isDigital, book.comments)
+            val actBook: LibraryBook = LibraryBook(book.title, book.author, book.photo, book.rating, book.isDigital, book.comments)
             intent.putExtra("book", actBook)
         }
         intent.putExtra("add", false)
