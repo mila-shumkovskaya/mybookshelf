@@ -101,7 +101,7 @@ class LibraryBookDetailsFragment: Fragment() {
            book as Book
            realm.executeTransaction { realm ->
 
-               val delbook = realm.where(LibraryBook::class.java).equalTo("title", book.title).findFirst()
+               val delbook = realm.where(LibraryBook::class.java).equalTo("id", book.id).findFirst()
                delbook?.deleteFromRealm()
 
 
@@ -129,7 +129,9 @@ class LibraryBookDetailsFragment: Fragment() {
 
        save.setOnClickListener {
            //get data and save to realm
+           val id=book.id
            book=getInfoFromFields()
+           book.id=id
            val realm: Realm = Realm.getDefaultInstance()
            realm.executeTransaction { realm ->
                realm.insertOrUpdate(book)
