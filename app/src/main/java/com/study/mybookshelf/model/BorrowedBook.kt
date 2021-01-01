@@ -6,7 +6,8 @@ import java.io.Serializable
 import io.realm.RealmObject as RealmObject1
 
 open class BorrowedBook (
-    @PrimaryKey override var title: String = "",
+    @PrimaryKey override var id: Int = 0,
+    override var title: String = "",
     override var author: String = "",
     override var photo: Int = 0,
     override var rating: Float = 0.0.toFloat(),

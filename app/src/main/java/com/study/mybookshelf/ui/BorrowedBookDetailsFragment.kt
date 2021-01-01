@@ -58,7 +58,7 @@ class BorrowedBookDetailsFragment: Fragment() {
         dpReturnDate = root.findViewById(R.id.return_date_picker)
 
         ivCover.setOnClickListener {
-            if (etAuthor.isEnabled == true) {
+            if (etAuthor.isEnabled) {
                 val myDialogFragment = CoverDialogFragment(requireContext())
                 val manager = (context as AppCompatActivity).supportFragmentManager
                 myDialogFragment.show(manager, "myDialog")
@@ -75,6 +75,8 @@ class BorrowedBookDetailsFragment: Fragment() {
             etOwner.setText(book.owner)
         }
         else {
+            //book.id=readfromshared
+            //sharedid
             ivCover.setImageResource(book.photo)
             etTitle.hint=book.title
             etAuthor.hint=book.author
@@ -145,7 +147,7 @@ class BorrowedBookDetailsFragment: Fragment() {
             book as Book
             realm.executeTransaction { realm ->
 
-                    val delbook = realm.where(BorrowedBook::class.java).equalTo("title", book.title).findFirst()
+                    val delbook = realm.where(BorrowedBook::class.java).equalTo("id", book.id).findFirst()
                     delbook?.deleteFromRealm()
 
 
@@ -176,7 +178,9 @@ class BorrowedBookDetailsFragment: Fragment() {
 
         save.setOnClickListener {
             //get data and save to realm
+            val id=book.id
             book=getInfoFromFields()
+            book.id=id
             val realm: Realm = Realm.getDefaultInstance()
             realm.executeTransaction { realm ->
                 realm.insertOrUpdate(book)

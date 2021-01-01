@@ -48,19 +48,19 @@ class BooksRecyclerView @JvmOverloads constructor(
         val intent = Intent(context, DetailsActivity::class.java)
         if(book is LendedBook)
         {
-            val actBook: LendedBook= LendedBook(book.title, book.author, book.photo, book.rating, book.isDigital,
+            val actBook: LendedBook= LendedBook(book.id, book.title, book.author, book.photo, book.rating, book.isDigital,
             book.comments, book.recipient, book.returnDate, book.transferDate)
             intent.putExtra("book", actBook)
         }
         if(book is BorrowedBook)
         {
-            val actBook: BorrowedBook= BorrowedBook(book.title, book.author, book.photo, book.rating, book.isDigital,
+            val actBook: BorrowedBook= BorrowedBook(book.id,book.title, book.author, book.photo, book.rating, book.isDigital,
                 book.comments, book.owner, book.returnDate, book.receiveDate)
             intent.putExtra("book", actBook)
         }
         if(book is LibraryBook)
         {
-            val actBook: LibraryBook = LibraryBook(book.title, book.author, book.photo, book.rating, book.isDigital, book.comments)
+            val actBook: LibraryBook = LibraryBook(book.id, book.title, book.author, book.photo, book.rating, book.isDigital, book.comments)
             intent.putExtra("book", actBook)
         }
         intent.putExtra("add", false)
