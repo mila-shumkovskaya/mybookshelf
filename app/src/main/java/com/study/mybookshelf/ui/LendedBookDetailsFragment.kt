@@ -141,16 +141,9 @@ class LendedBookDetailsFragment: Fragment() {
             delete.layoutParams=params2
         }
         delete.setOnClickListener {
-            val realm: Realm = Realm.getDefaultInstance()
-            book as Book
-            realm.executeTransaction { realm ->
-
-                val delbook = realm.where(LendedBook::class.java).equalTo("id", book.id).findFirst()
-                delbook?.deleteFromRealm()
-
-
-            }
-            requireActivity().onBackPressed()
+            val myDialogFragment = DeleteDialogFragment(book)
+            val manager = (context as AppCompatActivity).supportFragmentManager
+            myDialogFragment.show(manager, "myDialog")
         }
 
 

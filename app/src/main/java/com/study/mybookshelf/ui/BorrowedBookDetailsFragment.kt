@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
@@ -143,16 +144,32 @@ class BorrowedBookDetailsFragment: Fragment() {
             delete.layoutParams=params2
         }
         delete.setOnClickListener {
-            val realm: Realm = Realm.getDefaultInstance()
-            book as Book
-            realm.executeTransaction { realm ->
+            /*val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Message")
+            builder.setMessage("Do you really want to delete this book?")
+
+            builder.setPositiveButton("Yes") { dialog, which ->
+                Toast.makeText(context,
+                        "Yes", Toast.LENGTH_SHORT).show()
+                val realm: Realm = Realm.getDefaultInstance()
+                realm.executeTransaction { realm ->
 
                     val delbook = realm.where(BorrowedBook::class.java).equalTo("id", book.id).findFirst()
                     delbook?.deleteFromRealm()
-
-
+                }
+                requireActivity().onBackPressed()
             }
-            requireActivity().onBackPressed()
+
+            builder.setNegativeButton("No") { dialog, which ->
+                Toast.makeText(context,
+                        "no", Toast.LENGTH_SHORT).show()
+            }
+
+            builder.show()*/
+
+            val myDialogFragment = DeleteDialogFragment(book)
+            val manager = (context as AppCompatActivity).supportFragmentManager
+            myDialogFragment.show(manager, "myDialog")
         }
 
 
