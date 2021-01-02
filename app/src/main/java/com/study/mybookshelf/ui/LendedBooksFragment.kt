@@ -1,10 +1,12 @@
 package com.study.mybookshelf.ui
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -37,7 +39,8 @@ class LendedBooksFragment: Fragment() {
         fab.setOnClickListener { view ->
             val intent = Intent(context, DetailsActivity::class.java)
             //read from shared
-            val id :Int = 0
+            val id = SharedPreferencesId(requireContext()).getId()+1
+            Toast.makeText(requireContext(), "new book id "+id.toString(), Toast.LENGTH_SHORT).show()
             val book = LendedBook(id, getString(R.string.hint_title), getString(R.string.hint_author), R.mipmap.book_cover, 5.0.toFloat(), true, getString(R.string.hint_comment),
                 getString(R.string.hint_recipient), LocalDate.of(2020, 12, 20).getString(), LocalDate.of(2021, 12, 20).getString())
             //val bundle = bundleOf( "book" to book)

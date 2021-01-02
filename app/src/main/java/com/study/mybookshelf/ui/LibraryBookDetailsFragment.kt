@@ -97,6 +97,7 @@ class LibraryBookDetailsFragment: Fragment() {
            delete.layoutParams=params2
        }
        delete.setOnClickListener {
+           Toast.makeText(requireContext(), "deleted book id "+book.id.toString(), Toast.LENGTH_SHORT).show()
            val myDialogFragment = DeleteDialogFragment(book)
            val manager = (context as AppCompatActivity).supportFragmentManager
            myDialogFragment.show(manager, "myDialog")
@@ -125,6 +126,11 @@ class LibraryBookDetailsFragment: Fragment() {
            val id=book.id
            book=getInfoFromFields()
            book.id=id
+           if(add)
+           {
+               SharedPreferencesId(requireContext()).saveId(id)
+           }
+           Toast.makeText(requireContext(), "saved book id "+book.id.toString(), Toast.LENGTH_SHORT).show()
            val realm: Realm = Realm.getDefaultInstance()
            realm.executeTransaction { realm ->
                realm.insertOrUpdate(book)
