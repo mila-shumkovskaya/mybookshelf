@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
-import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LibraryBook
+import com.study.mybookshelf.utils.toBitmap
+import com.study.mybookshelf.utils.toByteArray
 import io.realm.Realm
 
 class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelected {
@@ -55,15 +57,23 @@ class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelecte
 
        if(!add)
        {
-           ivCover.setImageResource(book.photo)
+           if (book.photo.isEmpty()) {
+               ivCover.setImageResource(R.mipmap.book_cover)
+           } else {
+               ivCover.setImageBitmap(book.photo.toBitmap())
+           }
            etTitle.setText(book.title)
            etAuthor.setText(book.author)
            rbRating.rating = book.rating
            switchIsEl.isChecked = book.isDigital
            etComment.setText(book.comments)
-       }else
+       } else
        {
-           ivCover.setImageResource(book.photo)
+           if (book.photo.isEmpty()) {
+               ivCover.setImageResource(R.mipmap.book_cover)
+           } else {
+               ivCover.setImageBitmap(book.photo.toBitmap())
+           }
            etTitle.hint=book.title
            etAuthor.hint=book.author
            rbRating.rating = book.rating
@@ -143,13 +153,13 @@ class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelecte
        return root
     }
 
-    fun getInfoFromFields(): LibraryBook {
+    private fun getInfoFromFields(): LibraryBook {
         val modifiedBook = LibraryBook()
 
         modifiedBook.title = etTitle.text.toString()
         modifiedBook.author = etAuthor.text.toString()
         //book.photo = ivCover.getDrawable() -- need conversion to byte[]
-        modifiedBook.photo = this.book.photo
+        modifiedBook.photo = ivCover.drawable.toBitmap().toByteArray()
         modifiedBook.rating = rbRating.rating
         modifiedBook.isDigital = switchIsEl.isChecked
         modifiedBook.comments = etComment.text.toString()
@@ -158,7 +168,7 @@ class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelecte
     }
 
     override fun selectedCover(bitmap: Bitmap) {
-        Log.i("BITMAP", "bitmap selected")
+        Log.i("bitmap", "bitmap selected")
         ivCover.setImageBitmap(bitmap)
     }
 }

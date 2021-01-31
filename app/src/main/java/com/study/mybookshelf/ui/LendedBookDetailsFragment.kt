@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
-import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.utils.toBitmap
+import com.study.mybookshelf.utils.toByteArray
 import io.realm.Realm
 import java.text.SimpleDateFormat
 import java.util.*
@@ -66,7 +68,11 @@ class LendedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelected
         }
 
         if(!add){
-            ivCover.setImageResource(book.photo)
+            if (book.photo.isEmpty()) {
+                ivCover.setImageResource(R.mipmap.book_cover)
+            } else {
+                ivCover.setImageBitmap(book.photo.toBitmap())
+            }
             etTitle.setText(book.title)
             etAuthor.setText(book.author)
             rbRating.rating = book.rating
@@ -76,7 +82,11 @@ class LendedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelected
         }
         else
         {
-            ivCover.setImageResource(book.photo)
+            if (book.photo.isEmpty()) {
+                ivCover.setImageResource(R.mipmap.book_cover)
+            } else {
+                ivCover.setImageBitmap(book.photo.toBitmap())
+            }
             etTitle.hint=book.title
             etAuthor.hint=book.author
             rbRating.rating = book.rating
@@ -190,13 +200,13 @@ class LendedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelected
         return root
     }
 
-    fun getInfoFromFields(): LendedBook {
+    private fun getInfoFromFields(): LendedBook {
         val modifiedBook = LendedBook()
 
         modifiedBook.title = etTitle.text.toString()
         modifiedBook.author = etAuthor.text.toString()
         //book.photo = ivCover.getDrawable() -- need conversion to byte[]
-        modifiedBook.photo = this.book.photo
+        modifiedBook.photo = ivCover.drawable.toBitmap().toByteArray()
         modifiedBook.rating = rbRating.rating
         modifiedBook.isDigital = switchIsEl.isChecked
         modifiedBook.comments = etComment.text.toString()

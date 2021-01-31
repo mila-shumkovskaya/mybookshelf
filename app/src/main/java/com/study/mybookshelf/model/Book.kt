@@ -6,7 +6,7 @@ import java.io.Serializable
 interface Book: RealmModel, Serializable {
     var title: String
     var author: String
-    var photo: Int
+    var photo: ByteArray
     var rating: Float
     var isDigital: Boolean
     var comments: String

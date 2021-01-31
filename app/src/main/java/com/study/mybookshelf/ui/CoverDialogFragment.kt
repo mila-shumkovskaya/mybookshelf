@@ -2,14 +2,17 @@ package com.study.mybookshelf.ui
 
 
 import android.Manifest
+import android.R.attr.thumbnail
 import android.app.Activity
 import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.checkSelfPermission
@@ -17,10 +20,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import com.study.mybookshelf.R
 import com.study.mybookshelf.google_books_api.GetCoverClass
-import kotlinx.android.synthetic.main.nav_header_main.*
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 
-class CoverDialogFragment(val onCoverSelected: OnCoverSelected, context: Context, val title: String, val author: String) : DialogFragment() {
+
+class CoverDialogFragment(private val onCoverSelected: OnCoverSelected, context: Context, val title: String, val author: String) : DialogFragment() {
 
     private val items = arrayOf(context.getString(R.string.from_camera), context.getString(R.string.from_gallery), context.getString(R.string.from_internet))
     private var bitmapList: ArrayList<Bitmap> = arrayListOf()
@@ -28,9 +32,12 @@ class CoverDialogFragment(val onCoverSelected: OnCoverSelected, context: Context
     private val REQUEST_CODE_CAMERA = 100
     private val REQUEST_CODE_GALLERY = 200
     //private val REQUEST_CODE_INTERNET = 300
-    private val PERMISSION_CODE_СAMERA = 1001
+    private val PERMISSION_CODE_CAMERA = 1001
     private val PERMISSION_CODE_GALLERY = 1002
     //private val PERMISSION_CODE_INTERNET = 1003
+
+    private val coverWidth = 192
+    private val coverHeight = 192
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -53,7 +60,7 @@ class CoverDialogFragment(val onCoverSelected: OnCoverSelected, context: Context
             //permission was not enabled
             val permission = arrayOf(Manifest.permission.CAMERA)
             //show popup to request permission
-            requestPermissions(permission, PERMISSION_CODE_СAMERA)
+            requestPermissions(permission, PERMISSION_CODE_CAMERA)
         } else{
             openCamera()
         }
@@ -85,13 +92,17 @@ class CoverDialogFragment(val onCoverSelected: OnCoverSelected, context: Context
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, REQUEST_CODE_CAMERA)
+        try { startActivityForResult(intent, REQUEST_CODE_CAMERA) } catch (e: ActivityNotFoundException) {
+            // display error state to the user
+        }
     }
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_CODE_GALLERY)
+        try { startActivityForResult(intent, REQUEST_CODE_GALLERY) } catch (e: ActivityNotFoundException) {
+            // display error state to the user
+        }
     }
 
     private fun openInternetCoversDialog() {
@@ -122,15 +133,18 @@ class CoverDialogFragment(val onCoverSelected: OnCoverSelected, context: Context
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        Log.i("bitmap", "onRequestPermissionsResult")
         //called when user presses ALLOW or DENY from Permission Request Popup
         when(requestCode){
-            REQUEST_CODE_CAMERA -> {
+            PERMISSION_CODE_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i("bitmap", "openCamera")
                     openCamera()
                 } else { Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show() }
             }
-            REQUEST_CODE_GALLERY -> {
+            PERMISSION_CODE_GALLERY -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i("bitmap", "openGallery")
                     openGallery()
                 } else { Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show() }
             }
@@ -145,10 +159,13 @@ class CoverDialogFragment(val onCoverSelected: OnCoverSelected, context: Context
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.i("bitmap", "onActivityresult")
         if (resultCode == Activity.RESULT_OK && (requestCode == REQUEST_CODE_CAMERA || requestCode == REQUEST_CODE_GALLERY) && data != null){
             chosenCover = data.extras?.get("data") as Bitmap
+            Log.i("bitmap", "Cover is extracted")
             if (chosenCover != null) {
                 onCoverSelected.selectedCover(chosenCover!!)
+                Log.i("bitmap", "Cover is selected")
             }
             dialog?.dismiss()
         }

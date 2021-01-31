@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val config = RealmConfiguration.Builder()
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
+            .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(config)
 

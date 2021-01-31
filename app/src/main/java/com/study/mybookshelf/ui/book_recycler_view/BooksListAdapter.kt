@@ -19,7 +19,7 @@ import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.model.LibraryBook
 import com.study.mybookshelf.ui.CoverDialogFragment
 import com.study.mybookshelf.utils.BookType
-
+import com.study.mybookshelf.utils.toBitmap
 
 
 class BooksListAdapter(private val context: Context, private val clickListener: (Book) -> Unit): RecyclerView.Adapter<BooksListAdapter.BookViewHolder<*>>()  {
@@ -40,7 +40,11 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
         override fun bind(book: LibraryBook, clickListener: (LibraryBook) -> Unit) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
-            ivCover.setImageResource(book.photo)
+            if (book.photo.isEmpty()) {
+                ivCover.setImageResource(R.mipmap.book_cover)
+            } else {
+                ivCover.setImageBitmap(book.photo.toBitmap())
+            }
             tbRating.rating = book.rating
             itemView.setOnClickListener { clickListener(book) }
         }
@@ -57,11 +61,11 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
         override fun bind(book: BorrowedBook, clickListener: (BorrowedBook) -> Unit) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
-            ivCover.setImageResource(book.photo)
-            tbRating.rating = book.rating
-            tbTitle.text = book.title
-            tbAuthor.text = book.author
-            ivCover.setImageResource(book.photo)
+            if (book.photo.isEmpty()) {
+                ivCover.setImageResource(R.mipmap.book_cover)
+            } else {
+                ivCover.setImageBitmap(book.photo.toBitmap())
+            }
             tbRating.rating = book.rating
             tbOwner.text = book.owner
             tbReturnDate.text = book.returnDate
@@ -80,7 +84,11 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
         override fun bind(book: LendedBook, clickListener: (LendedBook) -> Unit) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
-            ivCover.setImageResource(book.photo)
+            if (book.photo.isEmpty()) {
+                ivCover.setImageResource(R.mipmap.book_cover)
+            } else {
+                ivCover.setImageBitmap(book.photo.toBitmap())
+            }
             tbRating.rating = book.rating
             tbRecipient.text = book.recipient
             tbReturnDate.text = book.returnDate
