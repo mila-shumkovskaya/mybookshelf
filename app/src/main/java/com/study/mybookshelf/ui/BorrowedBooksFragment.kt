@@ -40,7 +40,6 @@ class BorrowedBooksFragment : Fragment() {
             val intent = Intent(context, DetailsActivity::class.java)
             //read from shared
             val id = SharedPreferencesId(requireContext()).getId()+1
-            Toast.makeText(requireContext(), "new book id "+id.toString(), Toast.LENGTH_SHORT).show()
             val book  = BorrowedBook(id, getString(R.string.hint_title), getString(R.string.hint_author), R.mipmap.book_cover, 5.0.toFloat(), true, getString(R.string.hint_comment),
                 getString(R.string.hint_owner), LocalDate.of(2019, 12, 10).getString(), LocalDate.of(2020, 12, 20).getString())
             intent.putExtra("book", book)

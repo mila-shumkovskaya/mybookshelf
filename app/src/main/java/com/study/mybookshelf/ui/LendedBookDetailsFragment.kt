@@ -141,7 +141,6 @@ class LendedBookDetailsFragment: Fragment() {
             delete.layoutParams=params2
         }
         delete.setOnClickListener {
-            Toast.makeText(requireContext(), "deleted book id "+book.id.toString(), Toast.LENGTH_SHORT).show()
             val myDialogFragment = DeleteDialogFragment(book)
             val manager = (context as AppCompatActivity).supportFragmentManager
             myDialogFragment.show(manager, "myDialog")
@@ -177,7 +176,6 @@ class LendedBookDetailsFragment: Fragment() {
             {
                 SharedPreferencesId(requireContext()).saveId(id)
             }
-            Toast.makeText(requireContext(), "saved book id "+book.id.toString(), Toast.LENGTH_SHORT).show()
             val realm: Realm = Realm.getDefaultInstance()
             realm.executeTransaction { realm ->
                 realm.insertOrUpdate(book)
