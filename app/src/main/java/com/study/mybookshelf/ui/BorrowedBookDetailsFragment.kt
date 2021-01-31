@@ -1,7 +1,9 @@
 package com.study.mybookshelf.ui
 
 import android.app.ActionBar
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +19,7 @@ import io.realm.Realm
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BorrowedBookDetailsFragment: Fragment() {
+class BorrowedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelected {
 
     lateinit var ivCover: ImageView
     lateinit var etTitle: EditText
@@ -59,7 +61,7 @@ class BorrowedBookDetailsFragment: Fragment() {
 
         ivCover.setOnClickListener {
             if (etAuthor.isEnabled == true) {
-                val myDialogFragment = CoverDialogFragment(requireContext())
+                val myDialogFragment = CoverDialogFragment(this, requireContext(), etTitle.text.toString(), etAuthor.text.toString())
                 val manager = (context as AppCompatActivity).supportFragmentManager
                 myDialogFragment.show(manager, "myDialog")
             }
@@ -208,5 +210,10 @@ class BorrowedBookDetailsFragment: Fragment() {
         modifiedBook.returnDate = sdf.format(returnDate.time)
 
         return modifiedBook
+    }
+
+    override fun selectedCover(bitmap: Bitmap) {
+        Log.i("BITMAP", "bitmap selected")
+        ivCover.setImageBitmap(bitmap)
     }
 }

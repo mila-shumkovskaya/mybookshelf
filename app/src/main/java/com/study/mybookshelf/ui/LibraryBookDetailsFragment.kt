@@ -1,7 +1,9 @@
 package com.study.mybookshelf.ui
 
 import android.app.ActionBar
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +16,7 @@ import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LibraryBook
 import io.realm.Realm
 
-class LibraryBookDetailsFragment: Fragment() {
+class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelected {
 
     lateinit var ivCover: ImageView
     lateinit var etTitle: EditText
@@ -45,7 +47,7 @@ class LibraryBookDetailsFragment: Fragment() {
 
        ivCover.setOnClickListener {
            if (etAuthor.isEnabled == true) {
-               val myDialogFragment = CoverDialogFragment(requireContext())
+               val myDialogFragment = CoverDialogFragment(this, requireContext(), etTitle.text.toString(), etAuthor.text.toString())
                val manager = (context as AppCompatActivity).supportFragmentManager
                myDialogFragment.show(manager, "myDialog")
            }
@@ -153,5 +155,10 @@ class LibraryBookDetailsFragment: Fragment() {
         modifiedBook.comments = etComment.text.toString()
 
         return modifiedBook
+    }
+
+    override fun selectedCover(bitmap: Bitmap) {
+        Log.i("BITMAP", "bitmap selected")
+        ivCover.setImageBitmap(bitmap)
     }
 }
