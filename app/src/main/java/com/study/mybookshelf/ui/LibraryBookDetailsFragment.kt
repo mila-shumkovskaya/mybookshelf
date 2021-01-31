@@ -1,7 +1,8 @@
 package com.study.mybookshelf.ui
 
 import android.app.ActionBar
-import android.graphics.Bitmap
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,30 +13,32 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
+import com.study.mybookshelf.REQUEST_CODE_IMAGE
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.LibraryBook
 import com.study.mybookshelf.utils.toBitmap
 import com.study.mybookshelf.utils.toByteArray
 import io.realm.Realm
+import java.io.File
 
-class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelected {
 
-    lateinit var ivCover: ImageView
-    lateinit var etTitle: EditText
-    lateinit var etAuthor: EditText
-    lateinit var rbRating: RatingBar
-    lateinit var switchIsEl: Switch
-    lateinit var etComment: EditText
+class LibraryBookDetailsFragment: Fragment() {
+
+    private lateinit var ivCover: ImageView
+    private lateinit var etTitle: EditText
+    private lateinit var etAuthor: EditText
+    private lateinit var rbRating: RatingBar
+    private lateinit var switchIsEl: Switch
+    private lateinit var etComment: EditText
 
     lateinit var book: Book
+    private var mPath: String? = null
 
-   // lateinit var libraryViewModel:LibraryViewModel
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-     //   libraryViewModel = ViewModelProviders.of(this).get(LibraryViewModel::class.java)
        val root = inflater.inflate(R.layout.fragment_library_book_details, container, false)
        book = requireActivity().intent.getSerializableExtra("book") as Book
        val add=requireActivity().intent.getBooleanExtra("add", false)
@@ -48,10 +51,15 @@ class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelecte
        etComment = root.findViewById(R.id.et_comment)
 
        ivCover.setOnClickListener {
-           if (etAuthor.isEnabled == true) {
-               val myDialogFragment = CoverDialogFragment(this, requireContext(), etTitle.text.toString(), etAuthor.text.toString())
+           if (etAuthor.isEnabled) {
+                // TODO: fix or remove tempFile
+               val tempFile: File = File.createTempFile("camera", ".png", requireActivity().externalCacheDir)
+               mPath = tempFile.absolutePath
+
+               val coverDialogFragment = CoverDialogFragment(tempFile, requireContext(), etTitle.text.toString(), etAuthor.text.toString())
                val manager = (context as AppCompatActivity).supportFragmentManager
-               myDialogFragment.show(manager, "myDialog")
+               coverDialogFragment.setTargetFragment(this, REQUEST_CODE_IMAGE)
+               coverDialogFragment.show(manager, "coverDialogFragment")
            }
        }
 
@@ -81,11 +89,6 @@ class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelecte
            etComment.hint=book.comments
        }
 
-
-       // val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
-       //libraryViewModel.libraryBooksList.observe(viewLifecycleOwner, Observer {
-       //    rvBooks.adapter.refreshBooks(it)
-       // })
        val delete: ImageButton = root.findViewById(R.id.bt_delete)
        val save: Button =root.findViewById(R.id.bt_save4)
        val edit: ImageButton = root.findViewById(R.id.bt_edit)
@@ -108,15 +111,12 @@ class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelecte
            params2.height=0
            delete.layoutParams=params2
        }
+
        delete.setOnClickListener {
            val realm: Realm = Realm.getDefaultInstance()
-           book as Book
-           realm.executeTransaction { realm ->
-
-               val delbook = realm.where(LibraryBook::class.java).equalTo("title", book.title).findFirst()
-               delbook?.deleteFromRealm()
-
-
+           realm.executeTransaction { realmDB ->
+               val bookToDelete = realmDB.where(LibraryBook::class.java).equalTo("title", book.title).findFirst()
+               bookToDelete?.deleteFromRealm()
            }
            requireActivity().onBackPressed()
        }
@@ -143,8 +143,8 @@ class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelecte
            //get data and save to realm
            book=getInfoFromFields()
            val realm: Realm = Realm.getDefaultInstance()
-           realm.executeTransaction { realm ->
-               realm.insertOrUpdate(book)
+           realm.executeTransaction { realmDB ->
+               realmDB.insertOrUpdate(book)
            }
            requireActivity().onBackPressed()
        }
@@ -167,8 +167,21 @@ class LibraryBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelecte
         return modifiedBook
     }
 
-    override fun selectedCover(bitmap: Bitmap) {
-        Log.i("bitmap", "bitmap selected")
-        ivCover.setImageBitmap(bitmap)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.i(this.tag, "onActivityResult")
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && (requestCode == REQUEST_CODE_IMAGE) && data != null && data.extras != null) {
+            // TODO: get cover and set to ImageView
+            /*val options = BitmapFactory.Options()
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888
+            val chosenCover = BitmapFactory.decodeFile(mPath, options)
+            //val chosenCover: Bitmap =  MediaStore.Images.Media.getBitmap(activity?.contentResolver, imageUri);
+            Log.i("bitmap", "Cover is extracted")
+            if (chosenCover != null) {
+                Log.i("bitmap", "Cover is selected")
+                ivCover.setImageBitmap(chosenCover)
+
+            }*/
+        }
     }
 }

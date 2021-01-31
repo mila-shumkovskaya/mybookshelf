@@ -21,8 +21,7 @@ import com.study.mybookshelf.utils.toByteArray
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
-val REQUEST_CODE_CAMERA = 123
-val REQUEST_CODE_GALLERY = 124
+const val REQUEST_CODE_IMAGE = 100
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,23 +65,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
-        Log.i("bitmap", "onActivityresultMain")
-        super.onActivityResult(requestCode, resultCode, data)
-        var chosenCover: Bitmap? = null
-        if (resultCode == Activity.RESULT_OK && (requestCode == REQUEST_CODE_CAMERA || requestCode == REQUEST_CODE_GALLERY) && data != null){
-            chosenCover = data.extras?.get("data") as Bitmap
-            Log.i("bitmap", "Cover is extracted")
-        }
-
-        val intent = Intent("onActivityResult")
-        if (chosenCover != null) {
-            intent.putExtra("chosen_cover", chosenCover.toByteArray())
-        }
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-    }
 }

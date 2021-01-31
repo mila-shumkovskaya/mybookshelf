@@ -2,6 +2,7 @@ package com.study.mybookshelf.ui.book_recycler_view
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,13 +35,13 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
         private val bookView = itemView
         private val tbTitle: TextView = bookView.findViewById(R.id.text_book_title)
         private val tbAuthor: TextView = bookView.findViewById(R.id.text_book_author)
-        private val ivCover: ImageView = itemView.findViewById(R.id.image_cover)
-        private val tbRating: RatingBar = itemView.findViewById(R.id.rating_bar)
+        private val ivCover: ImageView = bookView.findViewById(R.id.image_cover)
+        private val tbRating: RatingBar = bookView.findViewById(R.id.rating_bar)
 
         override fun bind(book: LibraryBook, clickListener: (LibraryBook) -> Unit) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
-            if (book.photo.isEmpty()) {
+            if (book.photo.isEmpty() || book.photo.toBitmap() == null) {
                 ivCover.setImageResource(R.mipmap.book_cover)
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())

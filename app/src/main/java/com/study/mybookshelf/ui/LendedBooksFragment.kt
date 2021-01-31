@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,7 +14,6 @@ import com.study.mybookshelf.R
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.ui.book_recycler_view.BooksRecyclerView
 import com.study.mybookshelf.utils.getString
-import com.study.mybookshelf.utils.toByteArray
 import java.time.LocalDate
 
 class LendedBooksFragment: Fragment() {

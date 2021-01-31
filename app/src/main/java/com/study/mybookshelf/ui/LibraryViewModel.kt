@@ -40,11 +40,11 @@ class LibraryViewModel : ViewModel() {
         deleteBook(book4)
     }
 
-    fun createOrUpdateBook(book: LibraryBook) {
+    private fun createOrUpdateBook(book: LibraryBook) {
         repository.insertOrUpdateBook(book)
     }
 
-    fun deleteBook(book: LibraryBook) {
+    private fun deleteBook(book: LibraryBook) {
         repository.deleteBook(book.title)
     }
 

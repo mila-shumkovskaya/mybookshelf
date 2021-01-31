@@ -1,7 +1,8 @@
 package com.study.mybookshelf.ui
 
 import android.app.ActionBar
-import android.graphics.Bitmap
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,43 +11,44 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
-import com.study.mybookshelf.model.Book
+import com.study.mybookshelf.REQUEST_CODE_IMAGE
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.utils.toBitmap
 import com.study.mybookshelf.utils.toByteArray
 import io.realm.Realm
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BorrowedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelected {
 
-    lateinit var ivCover: ImageView
-    lateinit var etTitle: EditText
-    lateinit var etAuthor: EditText
-    lateinit var rbRating: RatingBar
-    lateinit var switchIsEl: Switch
-    lateinit var etComment: EditText
-    lateinit var etOwner: EditText
-    lateinit var dpReceiveDate: DatePicker
-    lateinit var dpReturnDate: DatePicker
+class BorrowedBookDetailsFragment: Fragment() {
 
-    var receiveDate = Calendar.getInstance()
-    var returnDate = Calendar.getInstance()
-    var today = Calendar.getInstance()
+    private lateinit var ivCover: ImageView
+    private lateinit var etTitle: EditText
+    private lateinit var etAuthor: EditText
+    private lateinit var rbRating: RatingBar
+    private lateinit var switchIsEl: Switch
+    private lateinit var etComment: EditText
+    private lateinit var etOwner: EditText
+    private lateinit var dpReceiveDate: DatePicker
+    private lateinit var dpReturnDate: DatePicker
+
+    private var receiveDate: Calendar = Calendar.getInstance()
+    private var returnDate: Calendar = Calendar.getInstance()
+    private var today: Calendar = Calendar.getInstance()
 
     lateinit var book: BorrowedBook
+    private var mPath: String? = null
 
-    // lateinit var libraryViewModel:LibraryViewModel
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        //   libraryViewModel = ViewModelProviders.of(this).get(LibraryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_borrowed_book_details, container, false)
-     //   val book: BorrowedBook = requireActivity().intent.getSerializableExtra("book") as BorrowedBook
         book = requireActivity().intent.getSerializableExtra("book") as BorrowedBook
         val add=requireActivity().intent.getBooleanExtra("add", false)
 
@@ -61,10 +63,15 @@ class BorrowedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelect
         dpReturnDate = root.findViewById(R.id.return_date_picker)
 
         ivCover.setOnClickListener {
-            if (etAuthor.isEnabled == true) {
-                val myDialogFragment = CoverDialogFragment(this, requireContext(), etTitle.text.toString(), etAuthor.text.toString())
+            if (etAuthor.isEnabled) {
+                // TODO: fix or remove tempFile
+                val tempFile: File = File.createTempFile("camera", ".png", requireActivity().externalCacheDir)
+                mPath = tempFile.absolutePath
+
+                val coverDialogFragment = CoverDialogFragment(tempFile, requireContext(), etTitle.text.toString(), etAuthor.text.toString())
                 val manager = (context as AppCompatActivity).supportFragmentManager
-                myDialogFragment.show(manager, "myDialog")
+                coverDialogFragment.setTargetFragment(this, REQUEST_CODE_IMAGE)
+                coverDialogFragment.show(manager, "coverDialogFragment")
             }
         }
 
@@ -94,11 +101,6 @@ class BorrowedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelect
             etComment.hint=book.comments
             etOwner.hint=book.owner
         }
-
-        // val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
-        //libraryViewModel.libraryBooksList.observe(viewLifecycleOwner, Observer {
-        //    rvBooks.adapter.refreshBooks(it)
-        // })
 
         // create an OnDateChangedListeners
         val receiveDateChangedListener = DatePicker.OnDateChangedListener {
@@ -153,17 +155,12 @@ class BorrowedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelect
         }
         delete.setOnClickListener {
             val realm: Realm = Realm.getDefaultInstance()
-            book as Book
-            realm.executeTransaction { realm ->
-
-                    val delbook = realm.where(BorrowedBook::class.java).equalTo("title", book.title).findFirst()
-                    delbook?.deleteFromRealm()
-
-
+            realm.executeTransaction { realmDB ->
+                    val bookToDelete = realmDB.where(BorrowedBook::class.java).equalTo("title", book.title).findFirst()
+                    bookToDelete?.deleteFromRealm()
             }
             requireActivity().onBackPressed()
         }
-
 
         edit.setOnClickListener {
             val params1=edit.layoutParams
@@ -189,8 +186,8 @@ class BorrowedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelect
             //get data and save to realm
             book=getInfoFromFields()
             val realm: Realm = Realm.getDefaultInstance()
-            realm.executeTransaction { realm ->
-                realm.insertOrUpdate(book)
+            realm.executeTransaction { realmDB ->
+                realmDB.insertOrUpdate(book)
             }
             requireActivity().onBackPressed()
         }
@@ -204,7 +201,6 @@ class BorrowedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelect
 
         modifiedBook.title = etTitle.text.toString()
         modifiedBook.author = etAuthor.text.toString()
-        //book.photo = ivCover.getDrawable() -- need conversion to byte[]
         modifiedBook.photo = ivCover.drawable.toBitmap().toByteArray()
         modifiedBook.rating = rbRating.rating
         modifiedBook.isDigital = switchIsEl.isChecked
@@ -221,8 +217,18 @@ class BorrowedBookDetailsFragment: Fragment(), CoverDialogFragment.OnCoverSelect
         return modifiedBook
     }
 
-    override fun selectedCover(bitmap: Bitmap) {
-        Log.i("BITMAP", "bitmap selected")
-        ivCover.setImageBitmap(bitmap)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.i(this.tag, "onActivityResult")
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && (requestCode == REQUEST_CODE_IMAGE) && data != null){
+            // TODO: get cover and set to ImageView
+            /*val imageUri: Uri = data.data!!
+            val chosenCover: Bitmap =  MediaStore.Images.Media.getBitmap(activity?.contentResolver, imageUri);
+            Log.i("bitmap", "Cover is extracted")
+            if (chosenCover != null) {
+                ivCover.setImageBitmap(chosenCover!!)
+                Log.i("bitmap", "Cover is selected")
+            }*/
+        }
     }
 }
