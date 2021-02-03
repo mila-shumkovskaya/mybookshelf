@@ -1,20 +1,28 @@
 package com.study.mybookshelf
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
+import com.study.mybookshelf.ui.CoverDialogFragment
+import com.study.mybookshelf.utils.toByteArray
 import io.realm.Realm
 import io.realm.RealmConfiguration
+
+val REQUEST_CODE_CAMERA = 123
+val REQUEST_CODE_GALLERY = 124
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,4 +66,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        Log.i("bitmap", "onActivityresultMain")
+        super.onActivityResult(requestCode, resultCode, data)
+        var chosenCover: Bitmap? = null
+        if (resultCode == Activity.RESULT_OK && (requestCode == REQUEST_CODE_CAMERA || requestCode == REQUEST_CODE_GALLERY) && data != null){
+            chosenCover = data.extras?.get("data") as Bitmap
+            Log.i("bitmap", "Cover is extracted")
+        }
+
+        val intent = Intent("onActivityResult")
+        if (chosenCover != null) {
+            intent.putExtra("chosen_cover", chosenCover.toByteArray())
+        }
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
 }

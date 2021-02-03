@@ -2,12 +2,8 @@ package com.study.mybookshelf.ui
 
 
 import android.Manifest
-import android.R.attr.thumbnail
-import android.app.Activity
 import android.app.Dialog
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -18,9 +14,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.study.mybookshelf.R
+import com.study.mybookshelf.REQUEST_CODE_CAMERA
+import com.study.mybookshelf.REQUEST_CODE_GALLERY
 import com.study.mybookshelf.google_books_api.GetCoverClass
-import java.io.ByteArrayOutputStream
+import com.study.mybookshelf.utils.toBitmap
 import java.io.IOException
 
 
@@ -29,8 +28,8 @@ class CoverDialogFragment(private val onCoverSelected: OnCoverSelected, context:
     private val items = arrayOf(context.getString(R.string.from_camera), context.getString(R.string.from_gallery), context.getString(R.string.from_internet))
     private var bitmapList: ArrayList<Bitmap> = arrayListOf()
     private var chosenCover: Bitmap? = null
-    private val REQUEST_CODE_CAMERA = 100
-    private val REQUEST_CODE_GALLERY = 200
+
+
     //private val REQUEST_CODE_INTERNET = 300
     private val PERMISSION_CODE_CAMERA = 1001
     private val PERMISSION_CODE_GALLERY = 1002
@@ -39,8 +38,25 @@ class CoverDialogFragment(private val onCoverSelected: OnCoverSelected, context:
     private val coverWidth = 192
     private val coverHeight = 192
 
+    private val onActivityResultReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            Log.i("bitmap", "onActivityResult")
+            val chosenCover: ByteArray? = intent.getByteArrayExtra("chosen_cover")
+            if (chosenCover != null) {
+                onCoverSelected.selectedCover(chosenCover!!.toBitmap())
+                Log.i("bitmap", "Cover is selected")
+            }
+            dialog?.dismiss()
+        }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
+            context?.let { it1 ->
+                LocalBroadcastManager.getInstance(it1).registerReceiver(onActivityResultReceiver,
+                    IntentFilter("onActivityResult")
+                )
+            };
             val builder = AlertDialog.Builder(it)
             builder.setTitle(R.string.load_cover)
                 .setItems(items) { _, which ->
@@ -92,7 +108,10 @@ class CoverDialogFragment(private val onCoverSelected: OnCoverSelected, context:
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        try { startActivityForResult(intent, REQUEST_CODE_CAMERA) } catch (e: ActivityNotFoundException) {
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        try {
+            startActivityForResult(intent, REQUEST_CODE_CAMERA)
+        } catch (e: ActivityNotFoundException) {
             // display error state to the user
         }
     }
@@ -100,7 +119,9 @@ class CoverDialogFragment(private val onCoverSelected: OnCoverSelected, context:
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        try { startActivityForResult(intent, REQUEST_CODE_GALLERY) } catch (e: ActivityNotFoundException) {
+        try {
+            startActivityForResult(intent, REQUEST_CODE_GALLERY)
+        } catch (e: ActivityNotFoundException) {
             // display error state to the user
         }
     }
@@ -157,19 +178,11 @@ class CoverDialogFragment(private val onCoverSelected: OnCoverSelected, context:
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.i("bitmap", "onActivityresult")
-        if (resultCode == Activity.RESULT_OK && (requestCode == REQUEST_CODE_CAMERA || requestCode == REQUEST_CODE_GALLERY) && data != null){
-            chosenCover = data.extras?.get("data") as Bitmap
-            Log.i("bitmap", "Cover is extracted")
-            if (chosenCover != null) {
-                onCoverSelected.selectedCover(chosenCover!!)
-                Log.i("bitmap", "Cover is selected")
-            }
-            dialog?.dismiss()
-        }
+    override fun dismiss() {
+        super.dismiss()
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(onActivityResultReceiver)
     }
+
 
     interface OnCoverSelected{
         fun selectedCover(bitmap: Bitmap)
