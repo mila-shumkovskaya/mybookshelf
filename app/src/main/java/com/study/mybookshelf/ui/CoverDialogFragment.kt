@@ -33,25 +33,8 @@ class CoverDialogFragment(var tempFile: File, context: Context, val title: Strin
     private val items = arrayOf(context.getString(R.string.from_camera), context.getString(R.string.from_gallery), context.getString(R.string.from_internet))
     private var bitmapList: ArrayList<Bitmap> = arrayListOf()
 
-    private val onActivityResultReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            Log.i("bitmap", "onActivityResult")
-            val chosenCover: ByteArray? = intent.getByteArrayExtra("chosen_cover")
-            if (chosenCover != null) {
-                onCoverSelected.selectedCover(chosenCover!!.toBitmap())
-                Log.i("bitmap", "Cover is selected")
-            }
-            dialog?.dismiss()
-        }
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
-            context?.let { it1 ->
-                LocalBroadcastManager.getInstance(it1).registerReceiver(onActivityResultReceiver,
-                    IntentFilter("onActivityResult")
-                )
-            };
             val builder = AlertDialog.Builder(it)
             builder.setTitle(R.string.load_cover)
                 .setItems(items) { _, which ->
@@ -109,11 +92,12 @@ class CoverDialogFragment(var tempFile: File, context: Context, val title: Strin
         val uri = getApplicationContext()?.let { FileProvider.getUriForFile(it, requireActivity().packageName + ".provider", tempFile) }
 
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        try {
-            startActivityForResult(intent, REQUEST_CODE_CAMERA)
-        } catch (e: ActivityNotFoundException) {
-            // display error state to the user
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        intent.type = "image/*"
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+        try { startActivityForResult(intent, REQUEST_CODE_IMAGE) } catch (e: ActivityNotFoundException) {
+            Log.i(this.tag, "Cannot open Camera")
         }
     }
 
@@ -122,10 +106,11 @@ class CoverDialogFragment(var tempFile: File, context: Context, val title: Strin
 
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        try {
-            startActivityForResult(intent, REQUEST_CODE_GALLERY)
-        } catch (e: ActivityNotFoundException) {
-            // display error state to the user
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+        try { startActivityForResult(intent, REQUEST_CODE_IMAGE) } catch (e: ActivityNotFoundException) {
+            Log.i(this.tag, "Cannot open Gallery")
         }
     }
 
