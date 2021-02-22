@@ -1,6 +1,5 @@
 package com.study.mybookshelf.ui
 
-
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
@@ -21,6 +20,7 @@ import androidx.lifecycle.Observer
 import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_IMAGE
 import com.study.mybookshelf.google_books_api.GetCoverClass
+import io.realm.Realm
 import io.realm.Realm.getApplicationContext
 import java.io.File
 import java.io.IOException
@@ -78,8 +78,9 @@ class CoverDialogFragment(var tempFile: File, context: Context, val title: Strin
             getCoverClass.getCover(title, author)
             getCoverClass.livaDataJsonBooks.observe(this, Observer {
                 bitmapList = it.getBitmapArrayList()
+                openInternetCoversDialog(bitmapList)
             })
-            //openInternetCoversDialog(bitmapList)
+
         }
         else {
             Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
@@ -89,7 +90,7 @@ class CoverDialogFragment(var tempFile: File, context: Context, val title: Strin
 
     private fun openCamera() {
         // Create a temp file to store the image and store path in a member variable
-        val uri = getApplicationContext()?.let { FileProvider.getUriForFile(it, requireActivity().packageName + ".provider", tempFile) }
+        val uri = Realm.getApplicationContext()?.let { FileProvider.getUriForFile(it, requireActivity().packageName + ".provider", tempFile) }
 
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
@@ -114,7 +115,7 @@ class CoverDialogFragment(var tempFile: File, context: Context, val title: Strin
         }
     }
 
-    private fun openInternetCoversDialog() {
+    private fun openInternetCoversDialog(bitmapList: ArrayList<Bitmap>) {
         // TODO: create dialog to choose image
     }
 

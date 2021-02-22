@@ -222,6 +222,7 @@ class BorrowedBookDetailsFragment: Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && (requestCode == REQUEST_CODE_IMAGE) && data != null){
             // TODO: get cover and set to ImageView
+            //ivCover.setImageBitmap(data.getByteArrayExtra().toBitmap())
             /*val imageUri: Uri = data.data!!
             val chosenCover: Bitmap =  MediaStore.Images.Media.getBitmap(activity?.contentResolver, imageUri);
             Log.i("bitmap", "Cover is extracted")

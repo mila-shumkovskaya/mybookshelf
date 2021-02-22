@@ -1,8 +1,10 @@
 package com.study.mybookshelf.ui
 
+import android.R.attr
 import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -182,6 +184,8 @@ class LibraryBookDetailsFragment: Fragment() {
                 ivCover.setImageBitmap(chosenCover)
 
             }*/
+            //val photo = data.extras!!.get("data") as Bitmap
+            //ivCover.setImageBitmap(photo)
         }
     }
 }

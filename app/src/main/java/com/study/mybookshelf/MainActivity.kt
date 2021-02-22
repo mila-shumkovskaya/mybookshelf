@@ -21,7 +21,7 @@ import com.study.mybookshelf.utils.toByteArray
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
-const val REQUEST_CODE_IMAGE = 100
+const val REQUEST_CODE_IMAGE = 1
 
 class MainActivity : AppCompatActivity() {
 
