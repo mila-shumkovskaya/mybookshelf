@@ -1,11 +1,14 @@
 package com.study.mybookshelf
 
 import android.app.ActionBar
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.study.mybookshelf.model.Book
@@ -53,5 +56,15 @@ class DetailsActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.i("bitmap", "onActivityResult in DetailsActivity")
+        super.onActivityResult(requestCode, resultCode, data)
+        val fragments: List<Fragment> =
+            supportFragmentManager.fragments
+        for (fragment in fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data)
+        }
     }
 }

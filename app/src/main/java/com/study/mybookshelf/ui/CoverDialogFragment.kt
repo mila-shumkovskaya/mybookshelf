@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_IMAGE
@@ -90,27 +91,33 @@ class CoverDialogFragment(var tempFile: File, context: Context, val title: Strin
 
     private fun openCamera() {
         // Create a temp file to store the image and store path in a member variable
-        val uri = Realm.getApplicationContext()?.let { FileProvider.getUriForFile(it, requireActivity().packageName + ".provider", tempFile) }
+        //val uri = Realm.getApplicationContext()?.let { FileProvider.getUriForFile(it, requireActivity().packageName + ".provider", tempFile) }
 
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
-        intent.type = "image/*"
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
-        try { startActivityForResult(intent, REQUEST_CODE_IMAGE) } catch (e: ActivityNotFoundException) {
+        //intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        //intent.type = "image/*"
+        //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        //targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+        try {
+            activity?.startActivityForResult(intent, REQUEST_CODE_IMAGE)
+            Log.i(this.tag, "OpenCamera")
+        } catch (e: ActivityNotFoundException) {
             Log.i(this.tag, "Cannot open Camera")
         }
     }
 
     private fun openGallery() {
-        val uri = getApplicationContext()?.let { FileProvider.getUriForFile(it, requireActivity().packageName + ".provider", tempFile) }
+        //val uri = getApplicationContext()?.let { FileProvider.getUriForFile(it, requireActivity().packageName + ".provider", tempFile) }
 
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
-        try { startActivityForResult(intent, REQUEST_CODE_IMAGE) } catch (e: ActivityNotFoundException) {
+        //intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        //targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+        try {
+            activity?.startActivityForResult(intent, REQUEST_CODE_IMAGE)
+            Log.i(this.tag, "OpenGallery")
+        } catch (e: ActivityNotFoundException) {
             Log.i(this.tag, "Cannot open Gallery")
         }
     }
@@ -149,6 +156,11 @@ class CoverDialogFragment(var tempFile: File, context: Context, val title: Strin
             }
             else -> { Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show() }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.i(this.tag, "onActivityResult in CoverDialogFragment")
     }
 
 }

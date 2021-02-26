@@ -2,6 +2,7 @@ package com.study.mybookshelf.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,5 +41,10 @@ class LibraryFragment: Fragment() {
             startActivity(intent)
         }
         return root
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.i(this.tag, "onActivityResult in LibraryFragment")
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

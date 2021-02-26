@@ -60,7 +60,7 @@ class LibraryBookDetailsFragment: Fragment() {
 
                val coverDialogFragment = CoverDialogFragment(tempFile, requireContext(), etTitle.text.toString(), etAuthor.text.toString())
                val manager = (context as AppCompatActivity).supportFragmentManager
-               coverDialogFragment.setTargetFragment(this, REQUEST_CODE_IMAGE)
+               //coverDialogFragment.setTargetFragment(this, REQUEST_CODE_IMAGE)
                coverDialogFragment.show(manager, "coverDialogFragment")
            }
        }
@@ -172,8 +172,15 @@ class LibraryBookDetailsFragment: Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.i(this.tag, "onActivityResult")
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && (requestCode == REQUEST_CODE_IMAGE) && data != null && data.extras != null) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE) {
             // TODO: get cover and set to ImageView
+            val thumbnailBitmap = data?.extras?.get("data") as Bitmap?
+            if (thumbnailBitmap != null) {
+                Log.i(this.tag, "bitmap is set")
+                ivCover.setImageBitmap(thumbnailBitmap)
+            } else {
+                Log.i(this.tag, "bitmap is null")
+            }
             /*val options = BitmapFactory.Options()
             options.inPreferredConfig = Bitmap.Config.ARGB_8888
             val chosenCover = BitmapFactory.decodeFile(mPath, options)

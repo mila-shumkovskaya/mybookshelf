@@ -218,7 +218,7 @@ class BorrowedBookDetailsFragment: Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.i(this.tag, "onActivityResult")
+        Log.i("this.tag", "onActivityResult")
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && (requestCode == REQUEST_CODE_IMAGE) && data != null){
             // TODO: get cover and set to ImageView
