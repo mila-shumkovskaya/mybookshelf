@@ -1,14 +1,10 @@
 package com.study.mybookshelf.ui
 
-import android.content.res.Resources
-import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.study.mybookshelf.R
 import com.study.mybookshelf.Repository
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.utils.getString
-import com.study.mybookshelf.utils.toByteArray
 import java.time.LocalDate
 
 class BorrowedBooksViewModel : ViewModel() {

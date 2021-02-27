@@ -23,9 +23,7 @@ class DetailsActivity : AppCompatActivity() {
         val fragmentTransaction: FragmentTransaction = fragmentManager
                 .beginTransaction()
 
-        val book= intent.getSerializableExtra("book")
-
-        when (book) {
+        when (intent.getSerializableExtra("book")) {
             is LendedBook -> {
                 val myFragment = LendedBookDetailsFragment()
                 fragmentTransaction.add(R.id.container, myFragment)
