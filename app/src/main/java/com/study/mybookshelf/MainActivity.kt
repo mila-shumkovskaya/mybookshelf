@@ -14,7 +14,8 @@ import com.google.android.material.navigation.NavigationView
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
-const val REQUEST_CODE_IMAGE = 1 // request code to get image from camera and gallery
+const val REQUEST_CODE_CAMERA = 1 // request code to get image from camera
+const val REQUEST_CODE_GALLERY = 2 // request code to get image from gallery
 
 class MainActivity : AppCompatActivity() {
 

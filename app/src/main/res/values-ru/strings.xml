@@ -43,4 +43,6 @@
     <string name="from_camera">Фото с камеры</string>
     <string name="from_gallery">Фото из Галереи</string>
     <string name="from_internet">Фото из интернета</string>
+
+    <string name="no_books_found">Обложка не найдена</string>
 </resources>

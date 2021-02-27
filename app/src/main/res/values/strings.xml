@@ -34,6 +34,8 @@
     <string name="from_gallery">From Gallery</string>
     <string name="from_internet">From Internet</string>
 
+    <string name="no_books_found">No covers found</string>
+
     <string name="save">Save changes</string>
 
     <string name="hint_title">Enter book title</string>

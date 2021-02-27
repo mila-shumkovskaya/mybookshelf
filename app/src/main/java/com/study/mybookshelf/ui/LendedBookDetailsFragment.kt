@@ -3,8 +3,12 @@ package com.study.mybookshelf.ui
 import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +18,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
-import com.study.mybookshelf.REQUEST_CODE_IMAGE
+import com.study.mybookshelf.REQUEST_CODE_CAMERA
+import com.study.mybookshelf.REQUEST_CODE_GALLERY
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.utils.resize
 import com.study.mybookshelf.utils.toBitmap
@@ -216,14 +221,28 @@ class LendedBookDetailsFragment: Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.i(this.tag, "onActivityResult")
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE) {
-            val thumbnailBitmap = data?.extras?.get("data") as Bitmap?
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_CAMERA && data != null) {
+            val thumbnailBitmap = data.extras?.get("data") as Bitmap?
             if (thumbnailBitmap != null) {
                 Log.i(this.tag, "bitmap is set")
                 ivCover.setImageBitmap(thumbnailBitmap.resize())
             } else {
                 Log.i(this.tag, "bitmap is null")
             }
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_GALLERY && data != null) {
+            val selectedImage: Uri = data.data!!
+            val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+
+            val cursor: Cursor = requireContext().contentResolver.query(selectedImage, filePathColumn, null, null, null)!!
+            cursor.moveToFirst()
+
+            val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
+            val filePath: String = cursor.getString(columnIndex)
+            cursor.close()
+
+            val bitmap = BitmapFactory.decodeFile(filePath)
+            ivCover.setImageBitmap(bitmap.resize())
         }
     }
 }

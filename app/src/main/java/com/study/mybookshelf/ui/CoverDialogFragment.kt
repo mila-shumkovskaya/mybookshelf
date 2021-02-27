@@ -16,7 +16,8 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import com.study.mybookshelf.R
-import com.study.mybookshelf.REQUEST_CODE_IMAGE
+import com.study.mybookshelf.REQUEST_CODE_CAMERA
+import com.study.mybookshelf.REQUEST_CODE_GALLERY
 import com.study.mybookshelf.google_books_api.GetCoverClass
 import java.io.IOException
 
@@ -75,7 +76,6 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
                 bitmapList = it.getBitmapArrayList()
                 openInternetCoversDialog(bitmapList)
             })
-
         }
         else {
             Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
@@ -87,7 +87,7 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         //targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
         try {
-            activity?.startActivityForResult(intent, REQUEST_CODE_IMAGE)
+            activity?.startActivityForResult(intent, REQUEST_CODE_CAMERA)
             Log.i(this.tag, "OpenCamera")
         } catch (e: ActivityNotFoundException) {
             Log.i(this.tag, "Cannot open Camera")
@@ -95,11 +95,11 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
     }
 
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/*"
         //targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
         try {
-            activity?.startActivityForResult(Intent.createChooser(intent, "Select File"), REQUEST_CODE_IMAGE)
+            activity?.startActivityForResult(intent, REQUEST_CODE_GALLERY)
             Log.i(this.tag, "OpenGallery")
         } catch (e: ActivityNotFoundException) {
             Log.i(this.tag, "Cannot open Gallery")
@@ -108,6 +108,11 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
 
     private fun openInternetCoversDialog(bitmapList: ArrayList<Bitmap>) {
         // TODO: create dialog to choose image
+        if (bitmapList.isEmpty()) {
+            Toast.makeText(requireContext(), getString(R.string.no_books_found), Toast.LENGTH_SHORT).show()
+        } else {
+
+        }
     }
 
     // check the Internet connection
