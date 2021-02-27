@@ -30,8 +30,8 @@ fun ByteArray.toBitmap(): Bitmap? {
 }
 
 fun Bitmap.resize(): Bitmap? {
-    val width = 150
-    val height = 200
+    val width = 225
+    val height = 300
     return Bitmap.createScaledBitmap(this, width, height, true);
 }
 

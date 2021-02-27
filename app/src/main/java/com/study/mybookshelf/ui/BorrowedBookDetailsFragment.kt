@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_CAMERA
 import com.study.mybookshelf.REQUEST_CODE_GALLERY
+import com.study.mybookshelf.REQUEST_CODE_INTERNET
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.utils.resize
 import com.study.mybookshelf.utils.toBitmap
@@ -70,7 +71,7 @@ class BorrowedBookDetailsFragment: Fragment() {
             if (etAuthor.isEnabled) {
                 val coverDialogFragment = CoverDialogFragment(requireContext(), etTitle.text.toString(), etAuthor.text.toString())
                 val manager = (context as AppCompatActivity).supportFragmentManager
-                //coverDialogFragment.setTargetFragment(this, REQUEST_CODE_IMAGE)
+                coverDialogFragment.setTargetFragment(this, REQUEST_CODE_INTERNET)
                 coverDialogFragment.show(manager, "coverDialogFragment")
             }
         }
@@ -244,6 +245,15 @@ class BorrowedBookDetailsFragment: Fragment() {
 
             val bitmap = BitmapFactory.decodeFile(filePath)
             ivCover.setImageBitmap(bitmap.resize())
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_INTERNET && data != null) {
+            val thumbnailBitmap = (data.extras?.get("image") as ByteArray).toBitmap()
+            if (thumbnailBitmap != null) {
+                Log.i(this.tag, "bitmap is set")
+                ivCover.setImageBitmap(thumbnailBitmap.resize())
+            } else {
+                Log.i(this.tag, "bitmap is null")
+            }
         }
     }
 }

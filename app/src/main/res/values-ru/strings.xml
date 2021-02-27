@@ -45,4 +45,6 @@
     <string name="from_internet">Фото из интернета</string>
 
     <string name="no_books_found">Обложка не найдена</string>
+    <string name="choose_cover">Выберите обложку</string>
+    <string name="close">Закрыть</string>
 </resources>

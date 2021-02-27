@@ -23,8 +23,8 @@ class LendedBooksViewModel : ViewModel() {
             "Kate&Leo", LocalDate.of(2020, 10, 20).getString(), LocalDate.of(2021, 11, 20).getString())
         val lended3 = LendedBook("lended_3", "author_3", ByteArray(0), 4.7.toFloat(), true, "lendeeed",
             "Smb", LocalDate.of(2019, 12, 10).getString(), LocalDate.of(2020, 12, 20).getString())
-        val lended4 = (LendedBook("HarryPotter1", "J.K.Rowling", ByteArray(0), 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
-        val lended5 = (LendedBook("HarryPotter2", "J.K.Rowling", ByteArray(0), 4.5.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
+        val lended4 = (LendedBook("Harry Potter", "Rowling", ByteArray(0), 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
+        val lended5 = (LendedBook("Гарри Поттер", "Роулинг", ByteArray(0), 4.5.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
         val lended6 = (LendedBook("HarryPotter3", "J.K.Rowling", ByteArray(0), 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
         val lended7 = (LendedBook("HarryPotter4", "J.K.Rowling", ByteArray(0), 3.5.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
         val lended8 = (LendedBook("HarryPotter5", "J.K.Rowling", ByteArray(0), 3.9.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
@@ -40,7 +40,7 @@ class LendedBooksViewModel : ViewModel() {
         createOrUpdateBook(lended8)
         createOrUpdateBook(lended9)
         createOrUpdateBook(lended10)
-        deleteBook(lended4)
+        deleteBook(lended7)
     }
 
     private fun createOrUpdateBook(book: LendedBook) {

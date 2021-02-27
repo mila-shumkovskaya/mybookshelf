@@ -1,6 +1,8 @@
 package com.study.mybookshelf
 
+import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,8 +16,10 @@ import com.google.android.material.navigation.NavigationView
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
+
 const val REQUEST_CODE_CAMERA = 1 // request code to get image from camera
 const val REQUEST_CODE_GALLERY = 2 // request code to get image from gallery
+const val REQUEST_CODE_INTERNET = 3 // request code to get image from internet
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +35,10 @@ class MainActivity : AppCompatActivity() {
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(config)
+
+        val policy =
+            StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
 
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)

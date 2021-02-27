@@ -1,25 +1,38 @@
 package com.study.mybookshelf.ui
 
 import android.Manifest
+import android.app.Activity
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_CAMERA
 import com.study.mybookshelf.REQUEST_CODE_GALLERY
+import com.study.mybookshelf.REQUEST_CODE_INTERNET
 import com.study.mybookshelf.google_books_api.GetCoverClass
+import com.study.mybookshelf.utils.resize
+import com.study.mybookshelf.utils.toByteArray
 import java.io.IOException
+
 
 const val PERMISSION_CODE_CAMERA = 1001
 const val PERMISSION_CODE_GALLERY = 1002
@@ -27,7 +40,6 @@ const val PERMISSION_CODE_GALLERY = 1002
 class CoverDialogFragment(context: Context, val title: String, val author: String) : DialogFragment() {
 
     private val items = arrayOf(context.getString(R.string.from_camera), context.getString(R.string.from_gallery), context.getString(R.string.from_internet))
-    private var bitmapList: ArrayList<Bitmap> = arrayListOf()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -70,14 +82,16 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
     // retrieve books' covers
     private fun getFromInternet() {
         if (isOnline()) {
-            val getCoverClass = GetCoverClass()
-            getCoverClass.getCover(title, author)
-            getCoverClass.livaDataJsonBooks.observe(this, Observer {
+            Log.i(this.tag, "Online")
+            val getCoverClass = GetCoverClass(requireActivity())
+            getCoverClass.getCover(title, author, ::openInternetCoversDialog)
+            /*getCoverClass.livaDataJsonBooks.observe(this, Observer {
                 bitmapList = it.getBitmapArrayList()
                 openInternetCoversDialog(bitmapList)
-            })
+            })*/
         }
         else {
+            Log.i(this.tag, "Offline")
             Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
         }
 
@@ -106,14 +120,31 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
         }
     }
 
-    private fun openInternetCoversDialog(bitmapList: ArrayList<Bitmap>) {
-        // TODO: create dialog to choose image
-        if (bitmapList.isEmpty()) {
-            Toast.makeText(requireContext(), getString(R.string.no_books_found), Toast.LENGTH_SHORT).show()
+    private fun openInternetCoversDialog(activity: Activity, imageList: ArrayList<Bitmap>): Unit {
+        if (imageList.isNullOrEmpty()) {
+            Toast.makeText(activity.baseContext, activity.getString(R.string.no_books_found), Toast.LENGTH_SHORT).show()
         } else {
-
+            val builder = AlertDialog.Builder(activity)
+            val inflater = activity.layoutInflater
+            val view: View = inflater.inflate(R.layout.dialog_internet_covers, null)
+            val alertDialog = builder.create()
+            builder.setTitle(R.string.choose_cover)
+            val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+            val imageListAdapter = ImageListAdapter(imageList) { byteArray: ByteArray ->
+                val intent = Intent()
+                intent.putExtra("image", byteArray)
+                targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+            }
+            recyclerView.adapter = imageListAdapter
+            builder.setView(view)
+            builder.setCancelable(true)
+            builder.setNegativeButton("Close") { dialogInterface: DialogInterface, i: Int ->
+                dialogInterface.dismiss()
+            }
+            builder.show()
         }
     }
+
 
     // check the Internet connection
     private fun isOnline(): Boolean {
@@ -146,5 +177,41 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
             else -> { Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show() }
         }
     }
-}
 
+
+    class ImageListAdapter(
+        private val items: ArrayList<Bitmap>,
+        var startIntent: (byteArray: ByteArray) -> Unit
+    ) : RecyclerView.Adapter<ImageListAdapter.ViewHolder?>() {
+
+        inner class ViewHolder(val view: View) :
+            RecyclerView.ViewHolder(view) {
+            val ivCover: ImageView = view.findViewById(R.id.iv_cover)
+            val cvCover: CardView = view.findViewById(R.id.cv_cover)
+        }
+
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): ViewHolder {
+            val view: View = LayoutInflater.from(parent.context)
+                .inflate(R.layout.dialog_internet_covers_item, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(
+            holder: ViewHolder,
+            position: Int
+        ) {
+            holder.ivCover.setImageBitmap(items[position])
+            holder.ivCover.setImageBitmap(holder.ivCover.drawable.toBitmap().resize())
+            holder.cvCover.setOnClickListener {
+                startIntent(holder.ivCover.drawable.toBitmap().toByteArray())
+            }
+        }
+
+        override fun getItemCount(): Int {
+            return items.size
+        }
+    }
+}
