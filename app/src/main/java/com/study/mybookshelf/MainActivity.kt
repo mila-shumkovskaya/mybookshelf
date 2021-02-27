@@ -1,13 +1,10 @@
 package com.study.mybookshelf
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -17,7 +14,7 @@ import com.google.android.material.navigation.NavigationView
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
-const val REQUEST_CODE_IMAGE = 1
+const val REQUEST_CODE_IMAGE = 1 // request code to get image from camera and gallery
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,6 +55,5 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-
     }
 }

@@ -25,6 +25,13 @@ fun Bitmap.toByteArray(): ByteArray {
 }
 
 fun ByteArray.toBitmap(): Bitmap? {
-    return BitmapFactory.decodeByteArray(this, 0, this.size)
+   return BitmapFactory.decodeByteArray(this, 0, this.size).resize()
+
+}
+
+fun Bitmap.resize(): Bitmap? {
+    val width = 150
+    val height = 200
+    return Bitmap.createScaledBitmap(this, width, height, true);
 }
 

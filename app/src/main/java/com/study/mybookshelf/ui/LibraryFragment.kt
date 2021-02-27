@@ -42,9 +42,4 @@ class LibraryFragment: Fragment() {
         }
         return root
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.i(this.tag, "onActivityResult in LibraryFragment")
-        super.onActivityResult(requestCode, resultCode, data)
-    }
 }

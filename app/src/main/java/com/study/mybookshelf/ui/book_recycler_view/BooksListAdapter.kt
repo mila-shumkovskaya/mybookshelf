@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import com.study.mybookshelf.DetailsActivity
 import com.study.mybookshelf.MainActivity
@@ -20,6 +21,7 @@ import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.model.LibraryBook
 import com.study.mybookshelf.ui.CoverDialogFragment
 import com.study.mybookshelf.utils.BookType
+import com.study.mybookshelf.utils.resize
 import com.study.mybookshelf.utils.toBitmap
 
 
@@ -43,6 +45,7 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
             tbAuthor.text = book.author
             if (book.photo.isEmpty() || book.photo.toBitmap() == null) {
                 ivCover.setImageResource(R.mipmap.book_cover)
+                ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())
             }
@@ -64,6 +67,7 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
             tbAuthor.text = book.author
             if (book.photo.isEmpty()) {
                 ivCover.setImageResource(R.mipmap.book_cover)
+                ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())
             }
@@ -87,6 +91,7 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
             tbAuthor.text = book.author
             if (book.photo.isEmpty()) {
                 ivCover.setImageResource(R.mipmap.book_cover)
+                ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())
             }

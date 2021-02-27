@@ -3,6 +3,7 @@ package com.study.mybookshelf.ui
 import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,15 +12,14 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_IMAGE
 import com.study.mybookshelf.model.BorrowedBook
+import com.study.mybookshelf.utils.resize
 import com.study.mybookshelf.utils.toBitmap
 import com.study.mybookshelf.utils.toByteArray
 import io.realm.Realm
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,7 +41,6 @@ class BorrowedBookDetailsFragment: Fragment() {
     private var today: Calendar = Calendar.getInstance()
 
     lateinit var book: BorrowedBook
-    private var mPath: String? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -64,13 +63,9 @@ class BorrowedBookDetailsFragment: Fragment() {
 
         ivCover.setOnClickListener {
             if (etAuthor.isEnabled) {
-                // TODO: fix or remove tempFile
-                val tempFile: File = File.createTempFile("camera", ".png", requireActivity().externalCacheDir)
-                mPath = tempFile.absolutePath
-
-                val coverDialogFragment = CoverDialogFragment(tempFile, requireContext(), etTitle.text.toString(), etAuthor.text.toString())
+                val coverDialogFragment = CoverDialogFragment(requireContext(), etTitle.text.toString(), etAuthor.text.toString())
                 val manager = (context as AppCompatActivity).supportFragmentManager
-                coverDialogFragment.setTargetFragment(this, REQUEST_CODE_IMAGE)
+                //coverDialogFragment.setTargetFragment(this, REQUEST_CODE_IMAGE)
                 coverDialogFragment.show(manager, "coverDialogFragment")
             }
         }
@@ -78,6 +73,7 @@ class BorrowedBookDetailsFragment: Fragment() {
         if(!add){
             if (book.photo.isEmpty()) {
                 ivCover.setImageResource(R.mipmap.book_cover)
+                ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())
             }
@@ -91,6 +87,7 @@ class BorrowedBookDetailsFragment: Fragment() {
         else {
             if (book.photo.isEmpty()) {
                 ivCover.setImageResource(R.mipmap.book_cover)
+                ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())
             }
@@ -201,7 +198,7 @@ class BorrowedBookDetailsFragment: Fragment() {
 
         modifiedBook.title = etTitle.text.toString()
         modifiedBook.author = etAuthor.text.toString()
-        modifiedBook.photo = ivCover.drawable.toBitmap().toByteArray()
+        modifiedBook.photo = ivCover.drawable.toBitmap().resize()!!.toByteArray()
         modifiedBook.rating = rbRating.rating
         modifiedBook.isDigital = switchIsEl.isChecked
         modifiedBook.comments = etComment.text.toString()
@@ -218,18 +215,16 @@ class BorrowedBookDetailsFragment: Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.i("this.tag", "onActivityResult")
+        Log.i(this.tag, "onActivityResult")
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && (requestCode == REQUEST_CODE_IMAGE) && data != null){
-            // TODO: get cover and set to ImageView
-            //ivCover.setImageBitmap(data.getByteArrayExtra().toBitmap())
-            /*val imageUri: Uri = data.data!!
-            val chosenCover: Bitmap =  MediaStore.Images.Media.getBitmap(activity?.contentResolver, imageUri);
-            Log.i("bitmap", "Cover is extracted")
-            if (chosenCover != null) {
-                ivCover.setImageBitmap(chosenCover!!)
-                Log.i("bitmap", "Cover is selected")
-            }*/
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE) {
+            val thumbnailBitmap = data?.extras?.get("data") as Bitmap?
+            if (thumbnailBitmap != null) {
+                Log.i(this.tag, "bitmap is set")
+                ivCover.setImageBitmap(thumbnailBitmap.resize())
+            } else {
+                Log.i(this.tag, "bitmap is null")
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.study.mybookshelf.ui
 
-import android.R.attr
 import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
@@ -18,10 +17,10 @@ import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_IMAGE
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.LibraryBook
+import com.study.mybookshelf.utils.resize
 import com.study.mybookshelf.utils.toBitmap
 import com.study.mybookshelf.utils.toByteArray
 import io.realm.Realm
-import java.io.File
 
 
 class LibraryBookDetailsFragment: Fragment() {
@@ -34,7 +33,6 @@ class LibraryBookDetailsFragment: Fragment() {
     private lateinit var etComment: EditText
 
     lateinit var book: Book
-    private var mPath: String? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -54,11 +52,7 @@ class LibraryBookDetailsFragment: Fragment() {
 
        ivCover.setOnClickListener {
            if (etAuthor.isEnabled) {
-                // TODO: fix or remove tempFile
-               val tempFile: File = File.createTempFile("camera", ".png", requireActivity().externalCacheDir)
-               mPath = tempFile.absolutePath
-
-               val coverDialogFragment = CoverDialogFragment(tempFile, requireContext(), etTitle.text.toString(), etAuthor.text.toString())
+               val coverDialogFragment = CoverDialogFragment(requireContext(), etTitle.text.toString(), etAuthor.text.toString())
                val manager = (context as AppCompatActivity).supportFragmentManager
                //coverDialogFragment.setTargetFragment(this, REQUEST_CODE_IMAGE)
                coverDialogFragment.show(manager, "coverDialogFragment")
@@ -69,6 +63,7 @@ class LibraryBookDetailsFragment: Fragment() {
        {
            if (book.photo.isEmpty()) {
                ivCover.setImageResource(R.mipmap.book_cover)
+               ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
            } else {
                ivCover.setImageBitmap(book.photo.toBitmap())
            }
@@ -81,6 +76,7 @@ class LibraryBookDetailsFragment: Fragment() {
        {
            if (book.photo.isEmpty()) {
                ivCover.setImageResource(R.mipmap.book_cover)
+               ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
            } else {
                ivCover.setImageBitmap(book.photo.toBitmap())
            }
@@ -150,8 +146,6 @@ class LibraryBookDetailsFragment: Fragment() {
            }
            requireActivity().onBackPressed()
        }
-
-
        return root
     }
 
@@ -160,8 +154,7 @@ class LibraryBookDetailsFragment: Fragment() {
 
         modifiedBook.title = etTitle.text.toString()
         modifiedBook.author = etAuthor.text.toString()
-        //book.photo = ivCover.getDrawable() -- need conversion to byte[]
-        modifiedBook.photo = ivCover.drawable.toBitmap().toByteArray()
+        modifiedBook.photo = ivCover.drawable.toBitmap().resize()!!.toByteArray()
         modifiedBook.rating = rbRating.rating
         modifiedBook.isDigital = switchIsEl.isChecked
         modifiedBook.comments = etComment.text.toString()
@@ -173,26 +166,13 @@ class LibraryBookDetailsFragment: Fragment() {
         Log.i(this.tag, "onActivityResult")
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE) {
-            // TODO: get cover and set to ImageView
             val thumbnailBitmap = data?.extras?.get("data") as Bitmap?
             if (thumbnailBitmap != null) {
                 Log.i(this.tag, "bitmap is set")
-                ivCover.setImageBitmap(thumbnailBitmap)
+                ivCover.setImageBitmap(thumbnailBitmap.resize())
             } else {
                 Log.i(this.tag, "bitmap is null")
             }
-            /*val options = BitmapFactory.Options()
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888
-            val chosenCover = BitmapFactory.decodeFile(mPath, options)
-            //val chosenCover: Bitmap =  MediaStore.Images.Media.getBitmap(activity?.contentResolver, imageUri);
-            Log.i("bitmap", "Cover is extracted")
-            if (chosenCover != null) {
-                Log.i("bitmap", "Cover is selected")
-                ivCover.setImageBitmap(chosenCover)
-
-            }*/
-            //val photo = data.extras!!.get("data") as Bitmap
-            //ivCover.setImageBitmap(photo)
         }
     }
 }
