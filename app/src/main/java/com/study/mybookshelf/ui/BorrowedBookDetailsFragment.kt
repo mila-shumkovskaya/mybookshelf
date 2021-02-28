@@ -96,7 +96,7 @@ class BorrowedBookDetailsFragment: Fragment() {
 
         if(!add){
             if (book.photo.isEmpty()) {
-                ivCover.setImageResource(R.mipmap.book_cover)
+                ivCover.setImageResource(R.mipmap.book_cover_foreground)
                 ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())
@@ -129,7 +129,7 @@ class BorrowedBookDetailsFragment: Fragment() {
         }
         else {
             if (book.photo.isEmpty()) {
-                ivCover.setImageResource(R.mipmap.book_cover)
+                ivCover.setImageResource(R.mipmap.book_cover_foreground)
                 ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())

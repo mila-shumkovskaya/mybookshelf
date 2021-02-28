@@ -44,7 +44,7 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
             tbTitle.text = book.title
             tbAuthor.text = book.author
             if (book.photo.isEmpty() || book.photo.toBitmap() == null) {
-                ivCover.setImageResource(R.mipmap.book_cover)
+                ivCover.setImageResource(R.mipmap.book_cover_foreground)
                 ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())
@@ -66,7 +66,7 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
             tbTitle.text = book.title
             tbAuthor.text = book.author
             if (book.photo.isEmpty()) {
-                ivCover.setImageResource(R.mipmap.book_cover)
+                ivCover.setImageResource(R.mipmap.book_cover_foreground)
                 ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())
@@ -90,7 +90,7 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
             tbTitle.text = book.title
             tbAuthor.text = book.author
             if (book.photo.isEmpty()) {
-                ivCover.setImageResource(R.mipmap.book_cover)
+                ivCover.setImageResource(R.mipmap.book_cover_foreground)
                 ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
             } else {
                 ivCover.setImageBitmap(book.photo.toBitmap())
