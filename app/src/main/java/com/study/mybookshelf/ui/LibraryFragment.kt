@@ -40,7 +40,7 @@ class LibraryFragment: Fragment() {
             val intent = Intent(context, DetailsActivity::class.java)
             //read from shared
             val id = SharedPreferencesId(requireContext()).getId()+1
-            val book = LibraryBook(id, getString(R.string.hint_title), getString(R.string.hint_author), R.mipmap.book_cover, 5.0.toFloat(), true, getString(R.string.hint_comment))
+            val book = LibraryBook(id, getString(R.string.hint_title), getString(R.string.hint_author),ByteArray(0), 5.0.toFloat(), true, getString(R.string.hint_comment))
             intent.putExtra("book", book)
             intent.putExtra("add", true)
             startActivity(intent)
