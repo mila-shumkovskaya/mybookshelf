@@ -47,7 +47,6 @@ class LendedBooksFragment: Fragment() {
             intent.putExtra("add", true)
             startActivity(intent)
         }
-
         return root
     }
 }

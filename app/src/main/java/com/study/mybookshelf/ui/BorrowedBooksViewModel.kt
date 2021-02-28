@@ -2,7 +2,6 @@ package com.study.mybookshelf.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.study.mybookshelf.R
 import com.study.mybookshelf.Repository
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.utils.getString
@@ -38,7 +37,7 @@ class BorrowedBooksViewModel : ViewModel() {
         deleteBook(borrowed3)
     }
 
-    fun createOrUpdateBook(book: BorrowedBook) {
+    private fun createOrUpdateBook(book: BorrowedBook) {
         repository.insertOrUpdateBook(book)
     }
 

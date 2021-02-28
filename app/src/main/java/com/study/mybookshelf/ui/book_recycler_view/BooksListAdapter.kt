@@ -2,6 +2,7 @@ package com.study.mybookshelf.ui.book_recycler_view
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import com.study.mybookshelf.DetailsActivity
 import com.study.mybookshelf.MainActivity
@@ -19,7 +21,8 @@ import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.model.LibraryBook
 import com.study.mybookshelf.ui.CoverDialogFragment
 import com.study.mybookshelf.utils.BookType
-
+import com.study.mybookshelf.utils.resize
+import com.study.mybookshelf.utils.toBitmap
 
 
 class BooksListAdapter(private val context: Context, private val clickListener: (Book) -> Unit): RecyclerView.Adapter<BooksListAdapter.BookViewHolder<*>>()  {
@@ -34,13 +37,18 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
         private val bookView = itemView
         private val tbTitle: TextView = bookView.findViewById(R.id.text_book_title)
         private val tbAuthor: TextView = bookView.findViewById(R.id.text_book_author)
-        private val ivCover: ImageView = itemView.findViewById(R.id.image_cover)
-        private val tbRating: RatingBar = itemView.findViewById(R.id.rating_bar)
+        private val ivCover: ImageView = bookView.findViewById(R.id.image_cover)
+        private val tbRating: RatingBar = bookView.findViewById(R.id.rating_bar)
 
         override fun bind(book: LibraryBook, clickListener: (LibraryBook) -> Unit) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
-            ivCover.setImageResource(book.photo)
+            if (book.photo.isEmpty() || book.photo.toBitmap() == null) {
+                ivCover.setImageResource(R.mipmap.book_cover_foreground)
+                ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
+            } else {
+                ivCover.setImageBitmap(book.photo.toBitmap())
+            }
             tbRating.rating = book.rating
             itemView.setOnClickListener { clickListener(book) }
         }
@@ -57,11 +65,12 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
         override fun bind(book: BorrowedBook, clickListener: (BorrowedBook) -> Unit) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
-            ivCover.setImageResource(book.photo)
-            tbRating.rating = book.rating
-            tbTitle.text = book.title
-            tbAuthor.text = book.author
-            ivCover.setImageResource(book.photo)
+            if (book.photo.isEmpty()) {
+                ivCover.setImageResource(R.mipmap.book_cover_foreground)
+                ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
+            } else {
+                ivCover.setImageBitmap(book.photo.toBitmap())
+            }
             tbRating.rating = book.rating
             tbOwner.text = book.owner
             tbReturnDate.text = book.returnDate
@@ -80,7 +89,12 @@ class BooksListAdapter(private val context: Context, private val clickListener: 
         override fun bind(book: LendedBook, clickListener: (LendedBook) -> Unit) {
             tbTitle.text = book.title
             tbAuthor.text = book.author
-            ivCover.setImageResource(book.photo)
+            if (book.photo.isEmpty()) {
+                ivCover.setImageResource(R.mipmap.book_cover_foreground)
+                ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
+            } else {
+                ivCover.setImageBitmap(book.photo.toBitmap())
+            }
             tbRating.rating = book.rating
             tbRecipient.text = book.recipient
             tbReturnDate.text = book.returnDate

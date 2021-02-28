@@ -10,7 +10,7 @@ import androidx.preference.PreferenceDialogFragmentCompat
 
 class TimePickerPreferenceDialog : PreferenceDialogFragmentCompat() {
 
-    lateinit var timepicker: TimePicker
+    private lateinit var timepicker: TimePicker
 
     override fun onCreateDialogView(context: Context?): View {
         timepicker = TimePicker(context)

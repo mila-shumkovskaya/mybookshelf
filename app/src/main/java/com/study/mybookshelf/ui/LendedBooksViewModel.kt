@@ -1,11 +1,14 @@
 package com.study.mybookshelf.ui
 
+import android.content.res.Resources
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.study.mybookshelf.R
 import com.study.mybookshelf.Repository
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.utils.getString
+import com.study.mybookshelf.utils.toByteArray
 import java.time.LocalDate
 
 class LendedBooksViewModel : ViewModel() {
@@ -37,10 +40,10 @@ class LendedBooksViewModel : ViewModel() {
         createOrUpdateBook(lended8)
         createOrUpdateBook(lended9)
         createOrUpdateBook(lended10)
-        deleteBook(lended4)
+        deleteBook(lended7)
     }
 
-    fun createOrUpdateBook(book: LendedBook) {
+    private fun createOrUpdateBook(book: LendedBook) {
         repository.insertOrUpdateBook(book)
     }
 
