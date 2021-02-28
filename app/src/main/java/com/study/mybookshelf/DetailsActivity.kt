@@ -28,7 +28,7 @@ class DetailsActivity : AppCompatActivity() {
         val fragmentTransaction: FragmentTransaction = fragmentManager
                 .beginTransaction()
 
-        val book= intent.getSerializableExtra("book")
+        val book = intent.getSerializableExtra("book")
       //  val add = intent.getBooleanExtra("add", false)
 
 
@@ -51,7 +51,5 @@ class DetailsActivity : AppCompatActivity() {
             fragmentTransaction.add(R.id.container, myFragment)
             fragmentTransaction.commit()
         }
-
-
     }
 }
