@@ -55,5 +55,7 @@
     <string name="language_english">English</string>
 
     <string name="permission_denied">Permission denied</string>
+    <string name="notifications_enabled">Notifications enabled</string>
+    <string name="notifications_disabled">Notifications disabled</string>
 
 </resources>

@@ -138,7 +138,7 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
             recyclerView.adapter = imageListAdapter
             builder.setView(view)
             builder.setCancelable(true)
-            builder.setNegativeButton("Close") { dialogInterface: DialogInterface, i: Int ->
+            builder.setNegativeButton(R.string.close) { dialogInterface: DialogInterface, i: Int ->
                 dialogInterface.dismiss()
             }
             builder.show()

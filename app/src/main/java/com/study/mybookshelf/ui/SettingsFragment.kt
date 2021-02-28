@@ -15,9 +15,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val switchNotifications: SwitchPreferenceCompat? = findPreference("enable_notifications")
         switchNotifications?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue == true) {
-                Toast.makeText(activity, "Notifications enabled", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, R.string.notifications_enabled, Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(activity, "Notifications disabled", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, R.string.notifications_disabled, Toast.LENGTH_LONG).show()
             }
             true
         }

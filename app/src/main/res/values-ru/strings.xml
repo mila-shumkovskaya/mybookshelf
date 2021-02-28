@@ -47,4 +47,6 @@
     <string name="no_books_found">Обложка не найдена</string>
     <string name="choose_cover">Выберите обложку</string>
     <string name="close">Закрыть</string>
+    <string name="notifications_enabled">Уведомления включены</string>
+    <string name="notifications_disabled">Уведомления выключены</string>
 </resources>
