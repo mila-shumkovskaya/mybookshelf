@@ -14,6 +14,7 @@
         android:gravity="center_horizontal"
         android:padding="@dimen/default_padding"
         android:background="?android:selectableItemBackground">
+
         <ImageView
             android:id="@+id/image_cover"
             android:layout_width="match_parent"

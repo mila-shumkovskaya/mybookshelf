@@ -2,6 +2,7 @@ package com.study.mybookshelf.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,7 @@ class LibraryFragment: Fragment() {
         val fab: FloatingActionButton = root.findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             val intent = Intent(context, DetailsActivity::class.java)
-            val book = LibraryBook(getString(R.string.hint_title), getString(R.string.hint_author), R.mipmap.book_cover, 5.0.toFloat(), true, getString(R.string.hint_comment))
+            val book = LibraryBook(getString(R.string.hint_title), getString(R.string.hint_author), ByteArray(0), 5.0.toFloat(), true, getString(R.string.hint_comment))
             //val bundle = bundleOf( "book" to book)
            intent.putExtra("book", book)
             intent.putExtra("add", true)

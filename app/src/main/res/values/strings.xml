@@ -34,6 +34,10 @@
     <string name="from_gallery">From Gallery</string>
     <string name="from_internet">From Internet</string>
 
+    <string name="no_books_found">No covers found. Possible cause: title or author typed incorrectly</string>
+    <string name="choose_cover">Choose cover</string>
+    <string name="close">Close</string>
+
     <string name="save">Save changes</string>
 
     <string name="hint_title">Enter book title</string>
@@ -51,5 +55,7 @@
     <string name="language_english">English</string>
 
     <string name="permission_denied">Permission denied</string>
+    <string name="notifications_enabled">Notifications enabled</string>
+    <string name="notifications_disabled">Notifications disabled</string>
 
 </resources>
