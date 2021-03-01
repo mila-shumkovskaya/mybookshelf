@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
@@ -151,7 +152,7 @@ class BorrowedBookDetailsFragment: Fragment() {
                 today.get(Calendar.DAY_OF_MONTH),
                 returnDateChangedListener)
         }
-    
+
         val delete: ImageButton = root.findViewById(R.id.bt_delete)
         val save: Button = root.findViewById(R.id.bt_save)
         val edit: ImageButton = root.findViewById(R.id.bt_edit)
@@ -179,12 +180,9 @@ class BorrowedBookDetailsFragment: Fragment() {
             delete.layoutParams = params2
         }
         delete.setOnClickListener {
-            val realm: Realm = Realm.getDefaultInstance()
-            realm.executeTransaction { realmDB ->
-                    val bookToDelete = realmDB.where(BorrowedBook::class.java).equalTo("title", book.title).findFirst()
-                    bookToDelete?.deleteFromRealm()
-            }
-            requireActivity().onBackPressed()
+            val myDialogFragment = DeleteDialogFragment(book)
+            val manager = (context as AppCompatActivity).supportFragmentManager
+            myDialogFragment.show(manager, "myDialog")
         }
 
         edit.setOnClickListener {
@@ -209,7 +207,13 @@ class BorrowedBookDetailsFragment: Fragment() {
 
         save.setOnClickListener {
             //get data and save to realm
-            book = getInfoFromFields()
+            val id=book.id
+            book=getInfoFromFields()
+            book.id=id
+            if(add)
+            {
+                SharedPreferencesId(requireContext()).saveId(id)
+            }
             val realm: Realm = Realm.getDefaultInstance()
             realm.executeTransaction { realmDB ->
                 realmDB.insertOrUpdate(book)

@@ -58,4 +58,11 @@
     <string name="notifications_enabled">Notifications enabled</string>
     <string name="notifications_disabled">Notifications disabled</string>
 
+    <!-- For messages -->
+    <string name="message">Message</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="del_message">Do yoy really want to delete this book?</string>
+
+
 </resources>

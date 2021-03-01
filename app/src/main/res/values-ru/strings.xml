@@ -49,4 +49,10 @@
     <string name="close">Закрыть</string>
     <string name="notifications_enabled">Уведомления включены</string>
     <string name="notifications_disabled">Уведомления выключены</string>
+
+    <!-- For messages -->
+    <string name="message">Сообщение</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="del_message">Вы действительно хотите удалить эту книгу?</string>
 </resources>
