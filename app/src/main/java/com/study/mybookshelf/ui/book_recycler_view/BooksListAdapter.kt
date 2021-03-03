@@ -25,7 +25,7 @@ import com.study.mybookshelf.utils.resize
 import com.study.mybookshelf.utils.toBitmap
 
 
-class BooksListAdapter(private val context: Context, private val clickListener: (Book) -> Unit): RecyclerView.Adapter<BooksListAdapter.BookViewHolder<*>>()  {
+open class BooksListAdapter(private val context: Context, private val clickListener: (Book) -> Unit): RecyclerView.Adapter<BooksListAdapter.BookViewHolder<*>>()  {
 
     private var booksList: List<Book> = ArrayList()
 
