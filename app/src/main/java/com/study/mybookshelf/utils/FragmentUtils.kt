@@ -6,6 +6,7 @@ import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.model.LibraryBook
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -56,6 +57,20 @@ fun setLendedBookSpecialFieldsEnabled(enabled: Boolean, etRecipient: EditText,
     etRecipient.isEnabled = enabled
     dpReturnDate.isEnabled = enabled
     dpTransferDate.isEnabled = enabled
+}
+
+fun getLibraryBookFromFields(etTitle: EditText, etAuthor: EditText, ivCover: ImageView, rbRating: RatingBar,
+                            switchIsEl: Switch, etComment: EditText): LibraryBook {
+    val modifiedBook = LibraryBook()
+
+    modifiedBook.title = etTitle.text.toString()
+    modifiedBook.author = etAuthor.text.toString()
+    modifiedBook.photo = ivCover.drawable.toBitmap().resize()!!.toByteArray()
+    modifiedBook.rating = rbRating.rating
+    modifiedBook.isDigital = switchIsEl.isChecked
+    modifiedBook.comments = etComment.text.toString()
+
+    return modifiedBook
 }
 
 fun getBorrowedBookFromFields(etTitle: EditText, etAuthor: EditText, ivCover: ImageView, rbRating: RatingBar,

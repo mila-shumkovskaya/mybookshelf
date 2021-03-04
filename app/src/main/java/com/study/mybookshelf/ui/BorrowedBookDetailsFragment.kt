@@ -61,7 +61,7 @@ class BorrowedBookDetailsFragment: Fragment() {
         book = requireActivity().intent.getSerializableExtra("book") as BorrowedBook
         val add = requireActivity().intent.getBooleanExtra("add", false)
 
-        // find views by id
+    // find views by id
         ivCover = root.findViewById(R.id.iv_book_cover)
         etTitle = root.findViewById(R.id.et_title)
         etAuthor = root.findViewById(R.id.et_author)
@@ -76,7 +76,7 @@ class BorrowedBookDetailsFragment: Fragment() {
         edit = root.findViewById(R.id.bt_edit)
         save = root.findViewById(R.id.bt_save)
 
-        // set onClickListeners
+    // set onClickListeners
         ivCover.setOnClickListener {
             if (etAuthor.isEnabled) {
                 val coverDialogFragment = CoverDialogFragment(requireContext(), etTitle.text.toString(), etAuthor.text.toString())
@@ -123,7 +123,7 @@ class BorrowedBookDetailsFragment: Fragment() {
             requireActivity().onBackPressed()
         }
 
-        // create OnDateChangedListeners
+    // create OnDateChangedListeners
         val receiveDateChangedListener = DatePicker.OnDateChangedListener {
                 _: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
             receiveDate.set(Calendar.YEAR, year)
@@ -138,7 +138,7 @@ class BorrowedBookDetailsFragment: Fragment() {
             returnDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
         }
 
-        // set up fields
+    // set up fields
         if (!add) {
             setBookInfoToFields(book, false, etTitle, etAuthor, ivCover, rbRating, switchIsEl, etComment)
             etOwner.setText(book.owner)

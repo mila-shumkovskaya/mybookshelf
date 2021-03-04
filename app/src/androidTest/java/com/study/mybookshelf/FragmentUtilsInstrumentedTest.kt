@@ -9,6 +9,7 @@ import android.widget.RatingBar
 import android.widget.Switch
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.model.LibraryBook
 import com.study.mybookshelf.utils.*
 import org.junit.Assert.*
 import org.junit.Before
@@ -32,6 +33,8 @@ class FragmentUtilsInstrumentedTest {
     private val receiveDate = LocalDate.of(2019, 12, 10)
     private val transferDate = LocalDate.of(2017, 7, 15)
 
+    private val libraryBook  = LibraryBook(0, "title", "author", ByteArray(0), 5.0.toFloat(),
+        true, "comment")
     private val borrowedBook  = BorrowedBook(0, "title", "author", ByteArray(0), 5.0.toFloat(),
         true, "comment", "owner", returnDate.toString(), receiveDate.toString())
     private val lendedBook  = LendedBook(0, "title", "author", ByteArray(0), 5.0.toFloat(),
@@ -86,8 +89,21 @@ class FragmentUtilsInstrumentedTest {
         cTransferDate.time = sdf.parse(lendedBook.transferDate)
 
     // make book photos from converted new bitmap
+        libraryBook.photo = bitmap.resize()!!.toByteArray()
         borrowedBook.photo = bitmap.resize()!!.toByteArray()
         lendedBook.photo = bitmap.resize()!!.toByteArray()
+    }
+
+    @Test
+    fun getLibraryBookFromFields() {
+        val book = getLibraryBookFromFields(etTitle, etAuthor, ivCover, rbRating, switchIsEl,
+            etComment)
+        assertEquals(borrowedBook.title, book.title)
+        assertEquals(borrowedBook.author, book.author)
+        assertTrue(borrowedBook.photo.contentEquals(book.photo))
+        assertEquals(borrowedBook.rating, book.rating)
+        assertEquals(borrowedBook.isDigital, book.isDigital)
+        assertEquals(borrowedBook.comments, book.comments)
     }
 
     @Test
