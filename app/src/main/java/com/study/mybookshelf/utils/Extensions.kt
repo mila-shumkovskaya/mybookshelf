@@ -10,6 +10,8 @@ import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+const val DEFAULT_IMAGE_WIDTH = 225
+const val DEFAULT_IMAGE_HEIGHT = 300
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun LocalDate.getString(): String{
@@ -30,8 +32,8 @@ fun ByteArray.toBitmap(): Bitmap? {
 }
 
 fun Bitmap.resize(): Bitmap? {
-    val width = 225
-    val height = 300
-    return Bitmap.createScaledBitmap(this, width, height, true);
+    val width = DEFAULT_IMAGE_WIDTH
+    val height = DEFAULT_IMAGE_HEIGHT
+    return Bitmap.createScaledBitmap(this, width, height, true)
 }
 
