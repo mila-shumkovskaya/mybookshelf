@@ -1,9 +1,11 @@
 package com.study.mybookshelf
 
 import android.graphics.Bitmap
+import android.text.Editable
 import com.study.mybookshelf.utils.DEFAULT_IMAGE_HEIGHT
 import com.study.mybookshelf.utils.DEFAULT_IMAGE_WIDTH
 import com.study.mybookshelf.utils.resize
+import com.study.mybookshelf.utils.toEditable
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -35,5 +37,12 @@ class ExtensionsUnitTest {
         val bitmap: Bitmap? = null
         val newBitmap = bitmap?.resize()
         assertEquals(newBitmap, null)
+    }
+
+    @Test
+    fun testStringToEditable() {
+        val str = "string"
+        val editable: Editable = Editable.Factory.getInstance().newEditable(str)
+        assertEquals(str, editable.toString())
     }
 }

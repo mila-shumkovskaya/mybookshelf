@@ -95,7 +95,7 @@ class FragmentUtilsInstrumentedTest {
     }
 
     @Test
-    fun getLibraryBookFromFields() {
+    fun testGetLibraryBookFromFields() {
         val book = getLibraryBookFromFields(etTitle, etAuthor, ivCover, rbRating, switchIsEl,
             etComment)
         assertEquals(borrowedBook.title, book.title)
@@ -107,7 +107,7 @@ class FragmentUtilsInstrumentedTest {
     }
 
     @Test
-    fun getBorrowedBookFromFields() {
+    fun testGetBorrowedBookFromFields() {
         val book = getBorrowedBookFromFields(etTitle, etAuthor, ivCover, rbRating, switchIsEl,
             etComment, etOwner, cReceiveDate, cReturnDate)
         assertEquals(borrowedBook.title, book.title)
@@ -124,7 +124,7 @@ class FragmentUtilsInstrumentedTest {
     }
 
     @Test
-    fun getLendedBookFromFields() {
+    fun testGetLendedBookFromFields() {
         val book = getLendedBookFromFields(etTitle, etAuthor, ivCover, rbRating, switchIsEl,
             etComment, etRecipient, cTransferDate, cReturnDate)
         assertEquals(lendedBook.title, book.title)
