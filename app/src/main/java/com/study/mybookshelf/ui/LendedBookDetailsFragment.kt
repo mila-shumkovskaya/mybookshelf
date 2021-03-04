@@ -16,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_CAMERA
@@ -201,27 +200,6 @@ class LendedBookDetailsFragment: Fragment() {
 
         return root
     }
-
-//    private fun getInfoFromFields(): LendedBook {
-//        val modifiedBook = LendedBook()
-//
-//        modifiedBook.title = etTitle.text.toString()
-//        modifiedBook.author = etAuthor.text.toString()
-//        modifiedBook.photo = ivCover.drawable.toBitmap().resize()!!.toByteArray()
-//        modifiedBook.rating = rbRating.rating
-//        modifiedBook.isDigital = switchIsEl.isChecked
-//        modifiedBook.comments = etComment.text.toString()
-//
-//        modifiedBook.recipient = etRecipient.text.toString()
-//
-//        val dateFormat = "dd.MM.yyyy"
-//        val sdf = SimpleDateFormat(dateFormat, Locale.US)
-//        modifiedBook.transferDate = sdf.format(transferDate.time)
-//
-//        modifiedBook.returnDate = sdf.format(returnDate.time)
-//
-//        return modifiedBook
-//    }
 
     @SuppressLint("Recycle")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

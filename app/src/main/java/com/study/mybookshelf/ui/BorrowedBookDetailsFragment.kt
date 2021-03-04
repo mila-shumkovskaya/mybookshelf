@@ -196,27 +196,6 @@ class BorrowedBookDetailsFragment: Fragment() {
         return root
     }
 
-//    fun getInfoFromFields(): BorrowedBook {
-//        val modifiedBook = BorrowedBook()
-//
-//        modifiedBook.title = etTitle.text.toString()
-//        modifiedBook.author = etAuthor.text.toString()
-//        modifiedBook.photo = ivCover.drawable.toBitmap().resize()!!.toByteArray()
-//        modifiedBook.rating = rbRating.rating
-//        modifiedBook.isDigital = switchIsEl.isChecked
-//        modifiedBook.comments = etComment.text.toString()
-//
-//        modifiedBook.owner = etOwner.text.toString()
-//
-//        val dateFormat = "dd.MM.yyyy"
-//        val sdf = SimpleDateFormat(dateFormat, Locale.getDefault())
-//        modifiedBook.receiveDate = sdf.format(receiveDate.time)
-//
-//        modifiedBook.returnDate = sdf.format(returnDate.time)
-//
-//        return modifiedBook
-//    }
-
     @SuppressLint("Recycle")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.i(this.tag, "onActivityResult")
