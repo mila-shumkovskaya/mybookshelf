@@ -3,10 +3,7 @@ package com.study.mybookshelf
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.Switch
+import android.widget.*
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.model.LibraryBook
@@ -29,16 +26,16 @@ import java.util.*
 //@RunWith(AndroidJUnit4::class)
 class FragmentUtilsInstrumentedTest {
 
-    private val returnDate = LocalDate.of(2020, 12, 20)
-    private val receiveDate = LocalDate.of(2019, 12, 10)
-    private val transferDate = LocalDate.of(2017, 7, 15)
+    private val returnDate = "20.12.2020"
+    private val receiveDate = "10.12.2019"
+    private val transferDate = "15.07.2017"
 
     private val libraryBook  = LibraryBook(0, "title", "author", ByteArray(0), 5.0.toFloat(),
         true, "comment")
     private val borrowedBook  = BorrowedBook(0, "title", "author", ByteArray(0), 5.0.toFloat(),
-        true, "comment", "owner", returnDate.toString(), receiveDate.toString())
+        true, "comment", "owner", returnDate, receiveDate)
     private val lendedBook  = LendedBook(0, "title", "author", ByteArray(0), 5.0.toFloat(),
-        true, "comment", "recipient", returnDate.toString(), transferDate.toString())
+        true, "comment", "recipient", returnDate, transferDate)
 
     private val ivCover = mock(ImageView::class.java)
     private val etTitle = mock(EditText::class.java)
@@ -54,7 +51,7 @@ class FragmentUtilsInstrumentedTest {
     private val etRecipient = mock(EditText::class.java)
     private val cTransferDate: Calendar = Calendar.getInstance()
 
-    private val dateFormat = "yyyy-MM-dd"
+    private val dateFormat = "dd.MM.yyyy"
     private val sdf = SimpleDateFormat(dateFormat, Locale.US)
 
     @Before
@@ -67,17 +64,11 @@ class FragmentUtilsInstrumentedTest {
         Mockito.doReturn(borrowedBook.isDigital).`when`(switchIsEl).isChecked
         Mockito.doReturn(borrowedBook.comments.toEditable()).`when`(etComment).text
 
-//        ivCover.setImageResource(R.mipmap.book_cover_foreground)
-//        val mockBitmapFactory = mock(BitmapFactory::class.java)
-//        val mockBitmap = Mockito.mock(Bitmap::class.java)
-//        val bitmap = BitmapFactory.decodeResource(context.resources, R.mipmap.book_cover_foreground)
         val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
 //        bitmap.eraseColor(Color.GREEN)
         val drawable: Drawable = BitmapDrawable(bitmap.resize())
         Mockito.doReturn(drawable).`when`(ivCover).drawable
         ivCover.setImageBitmap(bitmap.resize())
-//        ivCover.setImageBitmap(mockBitmap.resize())
-//        ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
 
     // special borrowedBook fields
         Mockito.doReturn(borrowedBook.owner.toEditable()).`when`(etOwner).text
@@ -118,9 +109,8 @@ class FragmentUtilsInstrumentedTest {
         assertEquals(borrowedBook.comments, book.comments)
         assertEquals(borrowedBook.owner, book.owner)
 
-        val fieldSdf = SimpleDateFormat("dd.MM.yyyy", Locale.US)
-        assertEquals(sdf.parse(borrowedBook.receiveDate), fieldSdf.parse(book.receiveDate))
-        assertEquals(sdf.parse(borrowedBook.returnDate), fieldSdf.parse(book.returnDate))
+        assertEquals(borrowedBook.receiveDate, book.receiveDate)
+        assertEquals(borrowedBook.returnDate, book.returnDate)
     }
 
     @Test
@@ -135,8 +125,55 @@ class FragmentUtilsInstrumentedTest {
         assertEquals(lendedBook.comments, book.comments)
         assertEquals(lendedBook.recipient, book.recipient)
 
-        val fieldSdf = SimpleDateFormat("dd.MM.yyyy", Locale.US)
-        assertEquals(sdf.parse(lendedBook.transferDate), fieldSdf.parse(book.transferDate))
-        assertEquals(sdf.parse(lendedBook.returnDate), fieldSdf.parse(book.returnDate))
+        //val fieldSdf = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+        //assertEquals(sdf.parse(lendedBook.transferDate), fieldSdf.parse(book.transferDate))
+        assertEquals(lendedBook.transferDate, book.transferDate)
+        //assertEquals(sdf.parse(lendedBook.returnDate), fieldSdf.parse(book.returnDate))
+        assertEquals(lendedBook.returnDate, book.returnDate)
     }
+
+
+    // MAYBE THERE'S NO NEED IN THIS
+//    @Test
+//    fun testSetBookInfoFieldsEnabled() {
+//        setBookInfoFieldsEnabled(false, etTitle, etAuthor, rbRating, switchIsEl, etComment)
+//        assertFalse(etTitle.isEnabled)
+//        assertFalse(etAuthor.isEnabled)
+//        assertFalse(rbRating.isEnabled)
+//        assertFalse(switchIsEl.isEnabled)
+//        assertFalse(etComment.isEnabled)
+//
+//        setBookInfoFieldsEnabled(true, etTitle, etAuthor, rbRating, switchIsEl, etComment)
+//        assertTrue(etTitle.isEnabled)
+//        assertTrue(etAuthor.isEnabled)
+//        assertTrue(rbRating.isEnabled)
+//        assertTrue(switchIsEl.isEnabled)
+//        assertTrue(etComment.isEnabled)
+//    }
+//
+//    @Test
+//    fun testSetBorrowedBookSpecialFieldsEnabled() {
+//        setBorrowedBookSpecialFieldsEnabled(false, etOwner, dpReceiveDate, dpReturnDate)
+//        assertFalse(etOwner.isEnabled)
+//        assertFalse(dpReceiveDate.isEnabled)
+//        assertFalse(dpReturnDate.isEnabled)
+//
+//        setBorrowedBookSpecialFieldsEnabled(true, etOwner, dpReceiveDate, dpReturnDate)
+//        assertTrue(etOwner.isEnabled)
+//        assertTrue(dpReceiveDate.isEnabled)
+//        assertTrue(dpReturnDate.isEnabled)
+//    }
+//
+//    @Test
+//    fun testSetLendedBookSpecialFieldsEnabled() {
+//        setLendedBookSpecialFieldsEnabled(false, etRecipient, dpTransferDate, dpReturnDate)
+//        assertFalse(etRecipient.isEnabled)
+//        assertFalse(dpTransferDate.isEnabled)
+//        assertFalse(dpReturnDate.isEnabled)
+//
+//        setLendedBookSpecialFieldsEnabled(true, etRecipient, dpTransferDate, dpReturnDate)
+//        assertTrue(etRecipient.isEnabled)
+//        assertTrue(dpTransferDate.isEnabled)
+//        assertTrue(dpReturnDate.isEnabled)
+//    }
 }
