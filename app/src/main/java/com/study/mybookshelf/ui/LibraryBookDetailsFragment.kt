@@ -15,14 +15,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_CAMERA
 import com.study.mybookshelf.REQUEST_CODE_GALLERY
 import com.study.mybookshelf.REQUEST_CODE_INTERNET
 import com.study.mybookshelf.model.Book
-import com.study.mybookshelf.model.LibraryBook
 import com.study.mybookshelf.utils.*
 import io.realm.Realm
 
@@ -63,6 +61,16 @@ class LibraryBookDetailsFragment: Fragment() {
         edit = root.findViewById(R.id.bt_edit)
         save = root.findViewById(R.id.bt_save4)
 
+    // set on text change validation
+        etTitle.validate(getString(R.string.validation_title_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_title_message_end))
+        {str -> str.isValidShortNotEmpty()}
+
+        etAuthor.validate(getString(R.string.validation_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidShort()}
+
+        etComment.validate(getString(R.string.validation_message_begin) + LONG_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidLong()}
+
     // set onClickListeners
         ivCover.setOnClickListener {
             if (etAuthor.isEnabled) {
@@ -94,20 +102,30 @@ class LibraryBookDetailsFragment: Fragment() {
         }
 
         save.setOnClickListener {
-            //get data and save to realm
+            // get data
             val id = book.id
             book = getLibraryBookFromFields(etTitle, etAuthor, ivCover, rbRating, switchIsEl,
                 etComment)
             book.id = id
-            if (add) {
-                SharedPreferencesId(requireContext()).saveId(id)
+
+            // validate book info
+            if (book.title.isValidShortNotEmpty() && book.author.isValidShort()
+                && book.comments.isValidLong()) {
+                // save to realm
+                if (add) {
+                    SharedPreferencesId(requireContext()).saveId(id)
+                }
+                val realm: Realm = Realm.getDefaultInstance()
+                realm.executeTransaction { realmDB ->
+                    realmDB.insertOrUpdate(book)
+                }
+                requireActivity().onBackPressed()
             }
-            val realm: Realm = Realm.getDefaultInstance()
-            realm.executeTransaction { realm ->
-                realm.insertOrUpdate(book)
+            else {
+                Toast.makeText(activity, R.string.book_not_valid, Toast.LENGTH_LONG).show()
             }
-            requireActivity().onBackPressed()
         }
+
     // set up fields
         if (!add) {
             setBookInfoToFields(book, false, etTitle, etAuthor, ivCover, rbRating, switchIsEl, etComment)

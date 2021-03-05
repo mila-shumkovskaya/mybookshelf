@@ -76,6 +76,19 @@ class BorrowedBookDetailsFragment: Fragment() {
         edit = root.findViewById(R.id.bt_edit)
         save = root.findViewById(R.id.bt_save)
 
+    // set on text change validation
+        etTitle.validate(getString(R.string.validation_title_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_title_message_end))
+        {str -> str.isValidShortNotEmpty()}
+
+        etAuthor.validate(getString(R.string.validation_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidShort()}
+
+        etComment.validate(getString(R.string.validation_message_begin) + LONG_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidLong()}
+
+        etOwner.validate(getString(R.string.validation_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidShort()}
+
     // set onClickListeners
         ivCover.setOnClickListener {
             if (etAuthor.isEnabled) {
@@ -108,19 +121,28 @@ class BorrowedBookDetailsFragment: Fragment() {
         }
 
         save.setOnClickListener {
-            //get data and save to realm
+            // get data
             val id = book.id
             book = getBorrowedBookFromFields(etTitle, etAuthor, ivCover, rbRating, switchIsEl,
                                              etComment, etOwner, receiveDate, returnDate)
             book.id = id
-            if (add) {
-                SharedPreferencesId(requireContext()).saveId(id)
+
+            // validate book info
+            if (book.title.isValidShortNotEmpty() && book.author.isValidShort()
+                && book.comments.isValidLong() && book.owner.isValidShort()) {
+                // save to realm
+                if (add) {
+                    SharedPreferencesId(requireContext()).saveId(id)
+                }
+                val realm: Realm = Realm.getDefaultInstance()
+                realm.executeTransaction { realmDB ->
+                    realmDB.insertOrUpdate(book)
+                }
+                requireActivity().onBackPressed()
             }
-            val realm: Realm = Realm.getDefaultInstance()
-            realm.executeTransaction { realmDB ->
-                realmDB.insertOrUpdate(book)
+            else {
+                Toast.makeText(activity, R.string.book_not_valid, Toast.LENGTH_LONG).show()
             }
-            requireActivity().onBackPressed()
         }
 
     // create OnDateChangedListeners
