@@ -17,12 +17,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-
 //@RunWith(AndroidJUnit4::class)
 class FragmentUtilsGetBookUnitTest {
 
@@ -125,10 +119,7 @@ class FragmentUtilsGetBookUnitTest {
         assertEquals(lendedBook.comments, book.comments)
         assertEquals(lendedBook.recipient, book.recipient)
 
-        //val fieldSdf = SimpleDateFormat("dd.MM.yyyy", Locale.US)
-        //assertEquals(sdf.parse(lendedBook.transferDate), fieldSdf.parse(book.transferDate))
         assertEquals(lendedBook.transferDate, book.transferDate)
-        //assertEquals(sdf.parse(lendedBook.returnDate), fieldSdf.parse(book.returnDate))
         assertEquals(lendedBook.returnDate, book.returnDate)
     }
 }
