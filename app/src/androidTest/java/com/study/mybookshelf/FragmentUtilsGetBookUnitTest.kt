@@ -24,7 +24,7 @@ import java.util.*
  */
 
 //@RunWith(AndroidJUnit4::class)
-class FragmentUtilsInstrumentedTest {
+class FragmentUtilsGetBookUnitTest {
 
     private val returnDate = "20.12.2020"
     private val receiveDate = "10.12.2019"
@@ -131,49 +131,4 @@ class FragmentUtilsInstrumentedTest {
         //assertEquals(sdf.parse(lendedBook.returnDate), fieldSdf.parse(book.returnDate))
         assertEquals(lendedBook.returnDate, book.returnDate)
     }
-
-
-    // MAYBE THERE'S NO NEED IN THIS
-//    @Test
-//    fun testSetBookInfoFieldsEnabled() {
-//        setBookInfoFieldsEnabled(false, etTitle, etAuthor, rbRating, switchIsEl, etComment)
-//        assertFalse(etTitle.isEnabled)
-//        assertFalse(etAuthor.isEnabled)
-//        assertFalse(rbRating.isEnabled)
-//        assertFalse(switchIsEl.isEnabled)
-//        assertFalse(etComment.isEnabled)
-//
-//        setBookInfoFieldsEnabled(true, etTitle, etAuthor, rbRating, switchIsEl, etComment)
-//        assertTrue(etTitle.isEnabled)
-//        assertTrue(etAuthor.isEnabled)
-//        assertTrue(rbRating.isEnabled)
-//        assertTrue(switchIsEl.isEnabled)
-//        assertTrue(etComment.isEnabled)
-//    }
-//
-//    @Test
-//    fun testSetBorrowedBookSpecialFieldsEnabled() {
-//        setBorrowedBookSpecialFieldsEnabled(false, etOwner, dpReceiveDate, dpReturnDate)
-//        assertFalse(etOwner.isEnabled)
-//        assertFalse(dpReceiveDate.isEnabled)
-//        assertFalse(dpReturnDate.isEnabled)
-//
-//        setBorrowedBookSpecialFieldsEnabled(true, etOwner, dpReceiveDate, dpReturnDate)
-//        assertTrue(etOwner.isEnabled)
-//        assertTrue(dpReceiveDate.isEnabled)
-//        assertTrue(dpReturnDate.isEnabled)
-//    }
-//
-//    @Test
-//    fun testSetLendedBookSpecialFieldsEnabled() {
-//        setLendedBookSpecialFieldsEnabled(false, etRecipient, dpTransferDate, dpReturnDate)
-//        assertFalse(etRecipient.isEnabled)
-//        assertFalse(dpTransferDate.isEnabled)
-//        assertFalse(dpReturnDate.isEnabled)
-//
-//        setLendedBookSpecialFieldsEnabled(true, etRecipient, dpTransferDate, dpReturnDate)
-//        assertTrue(etRecipient.isEnabled)
-//        assertTrue(dpTransferDate.isEnabled)
-//        assertTrue(dpReturnDate.isEnabled)
-//    }
 }

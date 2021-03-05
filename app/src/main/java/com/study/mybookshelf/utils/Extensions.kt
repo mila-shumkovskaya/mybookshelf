@@ -38,6 +38,6 @@ fun Bitmap.resize(): Bitmap? {
     return Bitmap.createScaledBitmap(this, width, height, true)
 }
 
-// for testing detailsFragments - need to mock EditTest.getText(), which returns Editable
+// for testing detailsFragments - need to mock EditText.getText(), which returns Editable
 fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 

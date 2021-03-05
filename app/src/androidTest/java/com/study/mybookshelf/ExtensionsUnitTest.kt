@@ -41,8 +41,9 @@ class ExtensionsUnitTest {
 
     @Test
     fun testStringToEditable() {
-        val str = "string"
-        val editable: Editable = Editable.Factory.getInstance().newEditable(str)
+        val str = "jh65;m;hjojtnr"
+        //val editable: Editable = Editable.Factory.getInstance().newEditable(str)
+        val editable: Editable = str.toEditable()
         assertEquals(str, editable.toString())
     }
 }
