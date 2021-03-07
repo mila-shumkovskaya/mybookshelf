@@ -115,14 +115,10 @@ class LibraryBookDetailsFragment: Fragment() {
            params2.height=0
            delete.layoutParams=params2
        }
-
        delete.setOnClickListener {
-           val realm: Realm = Realm.getDefaultInstance()
-           realm.executeTransaction { realmDB ->
-               val bookToDelete = realmDB.where(LibraryBook::class.java).equalTo("title", book.title).findFirst()
-               bookToDelete?.deleteFromRealm()
-           }
-           requireActivity().onBackPressed()
+           val myDialogFragment = DeleteDialogFragment(book)
+           val manager = (context as AppCompatActivity).supportFragmentManager
+           myDialogFragment.show(manager, "myDialog")
        }
 
 
@@ -145,10 +141,16 @@ class LibraryBookDetailsFragment: Fragment() {
 
        save.setOnClickListener {
            //get data and save to realm
+           val id=book.id
            book=getInfoFromFields()
+           book.id=id
+           if(add)
+           {
+               SharedPreferencesId(requireContext()).saveId(id)
+           }
            val realm: Realm = Realm.getDefaultInstance()
-           realm.executeTransaction { realmDB ->
-               realmDB.insertOrUpdate(book)
+           realm.executeTransaction { realm ->
+               realm.insertOrUpdate(book)
            }
            requireActivity().onBackPressed()
        }
