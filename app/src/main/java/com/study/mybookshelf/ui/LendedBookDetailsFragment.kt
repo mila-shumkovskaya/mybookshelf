@@ -139,7 +139,7 @@ class LendedBookDetailsFragment: Fragment() {
             rbRating.rating = book.rating
             switchIsEl.isChecked = book.isDigital
             etComment.hint = book.comments
-            etRecipient.hint = book.recipient        
+            etRecipient.hint = book.recipient
 
             dpTransferDate.init(today.get(Calendar.YEAR),
                 today.get(Calendar.MONTH),
@@ -151,7 +151,7 @@ class LendedBookDetailsFragment: Fragment() {
                 today.get(Calendar.DAY_OF_MONTH),
                 returnDateChangedListener)
         }
-        
+
         val delete: ImageButton = root.findViewById(R.id.bt_delete)
         val save: Button = root.findViewById(R.id.bt_save2)
         val edit: ImageButton = root.findViewById(R.id.bt_edit)
@@ -179,12 +179,9 @@ class LendedBookDetailsFragment: Fragment() {
             delete.layoutParams = params2
         }
         delete.setOnClickListener {
-            val realm: Realm = Realm.getDefaultInstance()
-            realm.executeTransaction { realmDB ->
-                val bookToDelete = realmDB.where(LendedBook::class.java).equalTo("title", book.title).findFirst()
-                bookToDelete?.deleteFromRealm()
-            }
-            requireActivity().onBackPressed()
+            val myDialogFragment = DeleteDialogFragment(book)
+            val manager = (context as AppCompatActivity).supportFragmentManager
+            myDialogFragment.show(manager, "myDialog")
         }
 
         edit.setOnClickListener {
@@ -209,10 +206,16 @@ class LendedBookDetailsFragment: Fragment() {
 
         save.setOnClickListener {
             //get data and save to realm
-            book = getInfoFromFields()
+            val id=book.id
+            book=getInfoFromFields()
+            book.id=id
+            if(add)
+            {
+                SharedPreferencesId(requireContext()).saveId(id)
+            }
             val realm: Realm = Realm.getDefaultInstance()
-            realm.executeTransaction { realmDB ->
-                realmDB.insertOrUpdate(book)
+            realm.executeTransaction { realm ->
+                realm.insertOrUpdate(book)
             }
             requireActivity().onBackPressed()
         }
