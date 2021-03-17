@@ -6,50 +6,70 @@ import org.junit.Assert.*
 
 class ExtensionsLocalUnitTest {
     @Test
-    fun testStringIsValidShortNotEmpty() {
-        var string = "jhsvrflji68t puh7ft @##%$#^79I8*()3<?/" // length = 38, OK
+    fun testStringIsValidShortNotEmpty_differentSymbols() {
+        val string = "jhsvrflji68t puh7ft @##%$#^79I8*()3<?/" // length = 38, OK
         assertTrue(string.isValidShortNotEmpty())
-
-        string = "j".repeat(SHORT_STRING_MAX_LENGTH)
+    }
+    @Test
+    fun testStringIsValidShortNotEmpty_maxShortLength() {
+        val string = "j".repeat(SHORT_STRING_MAX_LENGTH)
         assertTrue(string.isValidShortNotEmpty()) // OK
-
-        string = ""
+    }
+    @Test
+    fun testStringIsValidShortNotEmpty_empty() {
+        val string = ""
         assertFalse(string.isValidShortNotEmpty()) // empty, not OK
-
-        string = "l".repeat(SHORT_STRING_MAX_LENGTH + 1)
+    }
+    @Test
+    fun testStringIsValidShortNotEmpty_longerThanMaxShortLength() {
+        val string = "l".repeat(SHORT_STRING_MAX_LENGTH + 1)
         assertFalse(string.isValidShortNotEmpty()) // not OK
     }
 
     @Test
-    fun testStringIsValidShort() {
-        var string = "jhsvrflji68t puh7ft @##%$#^79I8*()3<?/" // length = 38, OK
+    fun testStringIsValidShort_differentSymbols() {
+        val string = "jhsvrflji68t puh7ft @##%$#^79I8*()3<?/" // length = 38, OK
         assertTrue(string.isValidShort())
-
-        string = "t".repeat(SHORT_STRING_MAX_LENGTH)
+    }
+    @Test
+    fun testStringIsValidShort_maxShortLength() {
+        val string = "t".repeat(SHORT_STRING_MAX_LENGTH)
         assertTrue(string.isValidShort()) // OK
-
-        string = ""
+    }
+    @Test
+    fun testStringIsValidShort_empty() {
+        val string = ""
         assertTrue(string.isValidShort()) // empty, OK
-
-        string = "s".repeat(SHORT_STRING_MAX_LENGTH + 1)
+    }
+    @Test
+    fun testStringIsValidShort_longerThanMaxShortLength() {
+        val string = "s".repeat(SHORT_STRING_MAX_LENGTH + 1)
         assertFalse(string.isValidShort()) // not OK
     }
 
     @Test
-    fun testStringIsValidLong() {
-        var string = ""
+    fun testStringIsValidLong_empty() {
+        val string = ""
         assertTrue(string.isValidLong()) // empty, OK
-
-        string = "jhsvrflji68t puh7ft @##%$#^79I8*()3<?/" //length = 38, OK
+    }
+    @Test
+    fun testStringIsValidLong_differentSymbols() {
+        val string = "jhsvrflji68t puh7ft @##%$#^79I8*()3<?/" //length = 38, OK
         assertTrue(string.isValidLong())
-
-        string = "a".repeat(SHORT_STRING_MAX_LENGTH)
+    }
+    @Test
+    fun testStringIsValidLong_maxShortLength() {
+        val string = "a".repeat(SHORT_STRING_MAX_LENGTH)
         assertTrue(string.isValidLong()) // OK
-
-        string = "h".repeat(LONG_STRING_MAX_LENGTH)
+    }
+    @Test
+    fun testStringIsValidLong_maxLongLength() {
+        val string = "h".repeat(LONG_STRING_MAX_LENGTH)
         assertTrue(string.isValidLong()) // OK
-
-        string = "p".repeat(LONG_STRING_MAX_LENGTH + 1)
+    }
+    @Test
+    fun testStringIsValidLong_longerThanMaxLongLength() {
+        val string = "p".repeat(LONG_STRING_MAX_LENGTH + 1)
         assertFalse(string.isValidLong()) // not OK
     }
 }
