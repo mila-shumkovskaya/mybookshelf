@@ -126,11 +126,39 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             dir: "${project.buildDir}/intermediates/app_classes/debug",
             excludes: fileFilter
     )
-    def mainSrc = files(["src/main/java"])
+    def mainSrc = files(["src/main/java/com.study.mybookshelf"])
     getSourceDirectories().setFrom( files(mainSrc) )
     getAdditionalSourceDirs().setFrom( files(mainSrc))
     getClassDirectories().setFrom( files([debugTree]) )
     getExecutionData().setFrom( fileTree(dir: project.buildDir, includes: [
             "jacoco/*.exec",
             "outputs/code_coverage/debugAndroidTest/connected/**/*.ec"]))
+}
+
+tasks.withType(Test) {
+    jacoco.excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            'androidx/**/*.*',
+            'io/**/*.*',
+            'androidTest/**/*.*',
+            'test/**/*.*'
+    ]
+}
+
+tasks.withType(JacocoReport) {
+    doFirst {
+        getClassDirectories().setFrom( classDirectories.collect { fileTree(it) { [
+                '**/R.class',
+                '**/R$*.class',
+                '**/BuildConfig.*',
+                '**/Manifest*.*',
+                'androidx/',
+                'io/',
+                'androidTest/**/*.*',
+                'test/**/*.*'
+        ] } }.sum() )
+    }
 }

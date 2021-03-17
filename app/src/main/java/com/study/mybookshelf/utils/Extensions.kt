@@ -32,8 +32,13 @@ fun Bitmap.toByteArray(): ByteArray {
 }
 
 fun ByteArray.toBitmap(): Bitmap? {
-   return BitmapFactory.decodeByteArray(this, 0, this.size).resize()
-
+    val bitmap = BitmapFactory.decodeByteArray(this, 0, this.size)
+    return when {
+        bitmap != null -> {
+            bitmap.resize()
+        }
+        else -> null
+    }
 }
 
 fun Bitmap.resize(): Bitmap? {

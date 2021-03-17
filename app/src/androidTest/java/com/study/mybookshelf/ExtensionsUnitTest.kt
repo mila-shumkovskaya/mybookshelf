@@ -1,16 +1,41 @@
 package com.study.mybookshelf
 
 import android.graphics.Bitmap
+import androidx.core.graphics.drawable.toBitmap
+import androidx.test.rule.ActivityTestRule
 import android.text.Editable
-import com.study.mybookshelf.utils.DEFAULT_IMAGE_HEIGHT
-import com.study.mybookshelf.utils.DEFAULT_IMAGE_WIDTH
-import com.study.mybookshelf.utils.resize
-import com.study.mybookshelf.utils.toEditable
+import com.study.mybookshelf.utils.*
+import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
-
-import org.junit.Assert.*
+import java.time.LocalDate
 
 class ExtensionsUnitTest {
+
+    @Rule
+    @JvmField
+    var mainActivityRule = ActivityTestRule(MainActivity::class.java)
+
+    @Test
+    fun testLocalDateToString() {
+        val localDate = LocalDate.of(2021, 3, 2)
+        assertEquals(localDate.getString(), "02.03.2021")
+    }
+
+    @Test
+    fun testByteArrayAndBitmapConversion() {
+        val bitmap = mainActivityRule.activity.resources.getDrawable(R.mipmap.book_cover).toBitmap().resize()
+        val byteArray = bitmap!!.toByteArray()
+        val newBitmap = byteArray.toBitmap()
+        assertEquals(bitmap.width, newBitmap!!.width)
+        assertEquals(bitmap.height, newBitmap!!.height)
+    }
+
+    @Test
+    fun testEmptyByteArrayToBitmap() {
+        val emptyByteArray = ByteArray(0)
+        assertEquals(emptyByteArray.toBitmap(), null)
+    }
 
     @Test
     fun testBitmapResizeToHigher() {
