@@ -69,6 +69,8 @@
     <string name="validation_message_end">" characters required"</string>
     <string name="validation_message_begin">Not more than</string>
     <string name="book_not_valid">Please, fill all required fields correctly to save this book</string>
+    <string name="book_receive_date_not_valid">RECEIVE date should not be greater than RETURN date</string>
+    <string name="book_transfer_date_not_valid">TRANSFER date should not be greater than RETURN date</string>
 
 
 </resources>

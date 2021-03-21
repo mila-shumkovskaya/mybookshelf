@@ -4,7 +4,7 @@ import com.study.mybookshelf.utils.*
 import org.junit.Test
 import org.junit.Assert.*
 
-class ExtensionsLocalUnitTest {
+class ExtensionsStringIsValidUnitTest {
     @Test
     fun testStringIsValidShortNotEmpty_differentSymbols() {
         val string = "jhsvrflji68t puh7ft @##%$#^79I8*()3<?/" // length = 38, OK

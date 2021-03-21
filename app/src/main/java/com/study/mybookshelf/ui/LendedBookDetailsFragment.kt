@@ -128,20 +128,25 @@ class LendedBookDetailsFragment: Fragment() {
             book.id = id
 
             // validate book info
-            if (book.title.isValidShortNotEmpty() && book.author.isValidShort()
-                && book.comments.isValidLong() && book.recipient.isValidShort()) {
-                // save to realm
-                if (add) {
-                    SharedPreferencesId(requireContext()).saveId(id)
+            if (transferDate.notGreaterThanDate(returnDate)) {
+                if (book.title.isValidShortNotEmpty() && book.author.isValidShort()
+                    && book.comments.isValidLong() && book.recipient.isValidShort()) {
+                    // save to realm
+                    if (add) {
+                        SharedPreferencesId(requireContext()).saveId(id)
+                    }
+                    val realm: Realm = Realm.getDefaultInstance()
+                    realm.executeTransaction { realmDB ->
+                        realmDB.insertOrUpdate(book)
+                    }
+                    requireActivity().onBackPressed()
                 }
-                val realm: Realm = Realm.getDefaultInstance()
-                realm.executeTransaction { realmDB ->
-                    realmDB.insertOrUpdate(book)
+                else {
+                    Toast.makeText(activity, R.string.book_not_valid, Toast.LENGTH_LONG).show()
                 }
-                requireActivity().onBackPressed()
             }
             else {
-                Toast.makeText(activity, R.string.book_not_valid, Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, R.string.book_transfer_date_not_valid, Toast.LENGTH_LONG).show()
             }
         }
 

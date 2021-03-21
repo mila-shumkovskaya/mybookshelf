@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 const val DEFAULT_IMAGE_WIDTH = 225
 const val DEFAULT_IMAGE_HEIGHT = 300
@@ -73,4 +74,9 @@ fun EditText.validate(message: String, validator: (String) -> Boolean) {
         this.error = if (validator(it)) null else message
     }
     this.error = if (validator(this.text.toString())) null else message
+}
+
+// for DatePicker fields validation
+fun Calendar.notGreaterThanDate(cMustBeGreaterDate: Calendar): Boolean {
+    return this.compareTo(cMustBeGreaterDate) <= 0
 }
