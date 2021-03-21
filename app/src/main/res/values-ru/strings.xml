@@ -55,4 +55,9 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="del_message">Вы действительно хотите удалить эту книгу?</string>
+    <string name="validation_title_message_begin">"Введите название длиной не более "</string>
+    <string name="validation_title_message_end">" символов"</string>
+    <string name="validation_message_end">" символов"</string>
+    <string name="validation_message_begin">"Введите не более "</string>
+    <string name="book_not_valid">Чтобы сохранить книгу, пожалуйста, корректно заполните все необходимые поля</string>
 </resources>

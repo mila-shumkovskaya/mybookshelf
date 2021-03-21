@@ -15,17 +15,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_CAMERA
 import com.study.mybookshelf.REQUEST_CODE_GALLERY
 import com.study.mybookshelf.REQUEST_CODE_INTERNET
 import com.study.mybookshelf.model.Book
-import com.study.mybookshelf.model.LibraryBook
-import com.study.mybookshelf.utils.resize
-import com.study.mybookshelf.utils.toBitmap
-import com.study.mybookshelf.utils.toByteArray
+import com.study.mybookshelf.utils.*
 import io.realm.Realm
 
 
@@ -38,6 +34,10 @@ class LibraryBookDetailsFragment: Fragment() {
     private lateinit var switchIsEl: Switch
     private lateinit var etComment: EditText
 
+    private lateinit var delete: ImageButton
+    private lateinit var edit: ImageButton
+    private lateinit var save: Button
+
     lateinit var book: Book
 
     override fun onCreateView(
@@ -45,130 +45,126 @@ class LibraryBookDetailsFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-       val root = inflater.inflate(R.layout.fragment_library_book_details, container, false)
-       book = requireActivity().intent.getSerializableExtra("book") as Book
-       val add=requireActivity().intent.getBooleanExtra("add", false)
+        val root = inflater.inflate(R.layout.fragment_library_book_details, container, false)
+        book = requireActivity().intent.getSerializableExtra("book") as Book
+        val add = requireActivity().intent.getBooleanExtra("add", false)
 
-       ivCover = root.findViewById(R.id.iv_book_cover)
-       etTitle = root.findViewById(R.id.et_title)
-       etAuthor = root.findViewById(R.id.et_author)
-       rbRating = root.findViewById(R.id.rating_bar)
-       switchIsEl = root.findViewById(R.id.switch_is_el)
-       etComment = root.findViewById(R.id.et_comment)
+    // find views by id
+        ivCover = root.findViewById(R.id.iv_book_cover)
+        etTitle = root.findViewById(R.id.et_title)
+        etAuthor = root.findViewById(R.id.et_author)
+        rbRating = root.findViewById(R.id.rating_bar)
+        switchIsEl = root.findViewById(R.id.switch_is_el)
+        etComment = root.findViewById(R.id.et_comment)
 
-       ivCover.setOnClickListener {
-           if (etAuthor.isEnabled) {
-               val coverDialogFragment = CoverDialogFragment(requireContext(), etTitle.text.toString(), etAuthor.text.toString())
-               val manager = (context as AppCompatActivity).supportFragmentManager
-               coverDialogFragment.setTargetFragment(this, REQUEST_CODE_INTERNET)
-               coverDialogFragment.show(manager, "coverDialogFragment")
-           }
-       }
+        delete = root.findViewById(R.id.bt_delete)
+        edit = root.findViewById(R.id.bt_edit)
+        save = root.findViewById(R.id.bt_save4)
 
-       if(!add)
-       {
-           if (book.photo.isEmpty()) {
-               ivCover.setImageResource(R.mipmap.book_cover_foreground)
-               ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
-           } else {
-               ivCover.setImageBitmap(book.photo.toBitmap())
-           }
-           etTitle.setText(book.title)
-           etAuthor.setText(book.author)
-           rbRating.rating = book.rating
-           switchIsEl.isChecked = book.isDigital
-           etComment.setText(book.comments)
-       } else
-       {
-           if (book.photo.isEmpty()) {
-               ivCover.setImageResource(R.mipmap.book_cover_foreground)
-               ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
-           } else {
-               ivCover.setImageBitmap(book.photo.toBitmap())
-           }
-           etTitle.hint=book.title
-           etAuthor.hint=book.author
-           rbRating.rating = book.rating
-           switchIsEl.isChecked = book.isDigital
-           etComment.hint=book.comments
-       }
+    // set on text change validation
+        etTitle.validate(getString(R.string.validation_title_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_title_message_end))
+        {str -> str.isValidShortNotEmpty()}
 
-       val delete: ImageButton = root.findViewById(R.id.bt_delete)
-       val save: Button =root.findViewById(R.id.bt_save4)
-       val edit: ImageButton = root.findViewById(R.id.bt_edit)
-       if(!add) {
-           val params = save.layoutParams
-           params.height = 0
-           save.layoutParams = params
-           etAuthor.isEnabled = false
-           etComment.isEnabled = false
-           etTitle.isEnabled = false
-           rbRating.isEnabled = false
-           switchIsEl.isEnabled=false
-       }
-       else
-       {
-           val params1=edit.layoutParams
-           params1.height=0
-           edit.layoutParams=params1
-           val params2=delete.layoutParams
-           params2.height=0
-           delete.layoutParams=params2
-       }
-       delete.setOnClickListener {
-           val myDialogFragment = DeleteDialogFragment(book)
-           val manager = (context as AppCompatActivity).supportFragmentManager
-           myDialogFragment.show(manager, "myDialog")
-       }
+        etAuthor.validate(getString(R.string.validation_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidShort()}
 
+        etComment.validate(getString(R.string.validation_message_begin) + LONG_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidLong()}
 
-       edit.setOnClickListener {
-           val params1=edit.layoutParams
-           params1.height=0
-           edit.layoutParams=params1
-           val params2=delete.layoutParams
-           params2.height=0
-           delete.layoutParams=params2
-           val params=save.layoutParams
-           params.height= ActionBar.LayoutParams.WRAP_CONTENT
-           save.layoutParams=params
-           etAuthor.isEnabled=true
-           etComment.isEnabled=true
-           etTitle.isEnabled=true
-           rbRating.isEnabled = true
-           switchIsEl.isEnabled=true
-       }
+    // set onClickListeners
+        ivCover.setOnClickListener {
+            if (etAuthor.isEnabled) {
+                val coverDialogFragment = CoverDialogFragment(requireContext(), etTitle.text.toString(), etAuthor.text.toString())
+                val manager = (context as AppCompatActivity).supportFragmentManager
+                coverDialogFragment.setTargetFragment(this, REQUEST_CODE_INTERNET)
+                coverDialogFragment.show(manager, "coverDialogFragment")
+            }
+        }
 
-       save.setOnClickListener {
-           //get data and save to realm
-           val id=book.id
-           book=getInfoFromFields()
-           book.id=id
-           if(add)
-           {
-               SharedPreferencesId(requireContext()).saveId(id)
-           }
-           val realm: Realm = Realm.getDefaultInstance()
-           realm.executeTransaction { realm ->
-               realm.insertOrUpdate(book)
-           }
-           requireActivity().onBackPressed()
-       }
-       return root
+        delete.setOnClickListener {
+            val myDialogFragment = DeleteDialogFragment(book)
+            val manager = (context as AppCompatActivity).supportFragmentManager
+            myDialogFragment.show(manager, "myDialog")
+        }
+
+        edit.setOnClickListener {
+            val params1 = edit.layoutParams
+            params1.height = 0
+            edit.layoutParams = params1
+            val params2 = delete.layoutParams
+            params2.height = 0
+            delete.layoutParams = params2
+            val params = save.layoutParams
+            params.height = ActionBar.LayoutParams.WRAP_CONTENT
+            save.layoutParams = params
+
+            setBookInfoFieldsEnabled(true, etTitle, etAuthor, rbRating, switchIsEl, etComment)
+        }
+
+        save.setOnClickListener {
+            // get data
+            val id = book.id
+            book = getLibraryBookFromFields(etTitle, etAuthor, ivCover, rbRating, switchIsEl,
+                etComment)
+            book.id = id
+
+            // validate book info
+            if (book.title.isValidShortNotEmpty() && book.author.isValidShort()
+                && book.comments.isValidLong()) {
+                // save to realm
+                if (add) {
+                    SharedPreferencesId(requireContext()).saveId(id)
+                }
+                val realm: Realm = Realm.getDefaultInstance()
+                realm.executeTransaction { realmDB ->
+                    realmDB.insertOrUpdate(book)
+                }
+                requireActivity().onBackPressed()
+            }
+            else {
+                Toast.makeText(activity, R.string.book_not_valid, Toast.LENGTH_LONG).show()
+            }
+        }
+
+    // set up fields
+        if (!add) {
+            setBookInfoToFields(book, false, etTitle, etAuthor, ivCover, rbRating, switchIsEl, etComment)
+        }
+        else {
+            setBookInfoToFields(book, true, etTitle, etAuthor, ivCover, rbRating, switchIsEl, etComment)
+        }
+
+        if (!add) {
+            val params = save.layoutParams
+            params.height = 0
+            save.layoutParams = params
+
+            setBookInfoFieldsEnabled(false, etTitle, etAuthor, rbRating, switchIsEl, etComment)
+        }
+        else {
+            val params1 = edit.layoutParams
+            params1.height = 0
+            edit.layoutParams = params1
+            val params2 = delete.layoutParams
+            params2.height = 0
+            delete.layoutParams = params2
+        }
+
+        return root
     }
 
-    private fun getInfoFromFields(): LibraryBook {
-        val modifiedBook = LibraryBook()
-
-        modifiedBook.title = etTitle.text.toString()
-        modifiedBook.author = etAuthor.text.toString()
-        modifiedBook.photo = ivCover.drawable.toBitmap().resize()!!.toByteArray()
-        modifiedBook.rating = rbRating.rating
-        modifiedBook.isDigital = switchIsEl.isChecked
-        modifiedBook.comments = etComment.text.toString()
-
-        return modifiedBook
-    }
+//    private fun getInfoFromFields(): LibraryBook {
+//        val modifiedBook = LibraryBook()
+//
+//        modifiedBook.title = etTitle.text.toString()
+//        modifiedBook.author = etAuthor.text.toString()
+//        modifiedBook.photo = ivCover.drawable.toBitmap().resize()!!.toByteArray()
+//        modifiedBook.rating = rbRating.rating
+//        modifiedBook.isDigital = switchIsEl.isChecked
+//        modifiedBook.comments = etComment.text.toString()
+//
+//        return modifiedBook
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.i(this.tag, "onActivityResult")

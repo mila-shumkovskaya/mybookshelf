@@ -3,6 +3,7 @@ package com.study.mybookshelf
 import android.graphics.Bitmap
 import androidx.core.graphics.drawable.toBitmap
 import androidx.test.rule.ActivityTestRule
+import android.text.Editable
 import com.study.mybookshelf.utils.*
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -61,5 +62,13 @@ class ExtensionsUnitTest {
         val bitmap: Bitmap? = null
         val newBitmap = bitmap?.resize()
         assertEquals(newBitmap, null)
+    }
+
+    @Test
+    fun testStringToEditable() {
+        val str = "jh65;m;hjojtnr"
+        //val editable: Editable = Editable.Factory.getInstance().newEditable(str)
+        val editable: Editable = str.toEditable()
+        assertEquals(str, editable.toString())
     }
 }
