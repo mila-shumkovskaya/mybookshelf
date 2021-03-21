@@ -23,6 +23,7 @@ class LibraryViewModel : ViewModel() {
         val book8 = (LibraryBook(26,"HarryPotter5", "J.K.Rowling", ByteArray(0), 5.0.toFloat(), true, "comment1"))
         val book9 = (LibraryBook(27,"HarryPotter6", "J.K.Rowling", ByteArray(0), 2.6.toFloat(), true, "comment1"))
         val book10 = (LibraryBook(28,"HarryPotter2", "edited", ByteArray(0), 5.0.toFloat(), true, "comment1"))
+
         //val byteArray = Resources.getSystem().getDrawable(R.drawable.book_cover).toBitmap().toByteArray()
         createOrUpdateBook(book1)
         createOrUpdateBook(book2)

@@ -110,7 +110,7 @@ task jacocoReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDe
        '**/ui/other/**',
        '**/ui_utils/**',
        '**/ui/book_recycler_view/**',
-       '**/view_models/**',
+       //'**/view_models/**',
        //'**/Repository.class',
        '**/MainActivity.class',
        '**/DetailsActivity.class'

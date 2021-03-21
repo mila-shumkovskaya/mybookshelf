@@ -1,15 +1,11 @@
 package com.study.mybookshelf
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.view.View
 import com.study.mybookshelf.google_books_api.ImageListAdapter
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
-import java.util.Arrays.asList
 
 class ImageListAdapterTest {
 
