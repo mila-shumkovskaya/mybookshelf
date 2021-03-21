@@ -1,8 +1,7 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.view_models
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.study.mybookshelf.R
 import com.study.mybookshelf.Repository
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.utils.getString

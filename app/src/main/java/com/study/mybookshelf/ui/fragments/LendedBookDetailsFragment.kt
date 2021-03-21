@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.fragments
 
 import android.annotation.SuppressLint
 import android.app.ActionBar
@@ -22,7 +22,9 @@ import com.study.mybookshelf.REQUEST_CODE_CAMERA
 import com.study.mybookshelf.REQUEST_CODE_GALLERY
 import com.study.mybookshelf.REQUEST_CODE_INTERNET
 import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.ui.preferences.SharedPreferencesId
 import com.study.mybookshelf.utils.*
+import com.study.mybookshelf.ui_utils.*
 import io.realm.Realm
 import java.text.SimpleDateFormat
 import java.util.*

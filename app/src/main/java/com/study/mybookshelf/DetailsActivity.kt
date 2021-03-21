@@ -10,9 +10,9 @@ import androidx.fragment.app.FragmentTransaction
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.model.LibraryBook
-import com.study.mybookshelf.ui.BorrowedBookDetailsFragment
-import com.study.mybookshelf.ui.LendedBookDetailsFragment
-import com.study.mybookshelf.ui.LibraryBookDetailsFragment
+import com.study.mybookshelf.ui.fragments.BorrowedBookDetailsFragment
+import com.study.mybookshelf.ui.fragments.LendedBookDetailsFragment
+import com.study.mybookshelf.ui.fragments.LibraryBookDetailsFragment
 
 class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

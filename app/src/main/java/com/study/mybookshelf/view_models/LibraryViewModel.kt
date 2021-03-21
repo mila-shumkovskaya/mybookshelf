@@ -1,13 +1,9 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.view_models
 
-import android.content.res.Resources
-import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.study.mybookshelf.R
 import com.study.mybookshelf.Repository
 import com.study.mybookshelf.model.LibraryBook
-import com.study.mybookshelf.utils.toByteArray
 
 
 class LibraryViewModel : ViewModel() {

@@ -7,7 +7,7 @@
             app:key="enable_notifications"
             app:title="@string/notif_switch" />
 
-        <com.study.mybookshelf.ui.TimePreference
+        <com.study.mybookshelf.ui.preferences.TimePreference
             app:key="pick_time"
             app:title="@string/notif_label" />
 
