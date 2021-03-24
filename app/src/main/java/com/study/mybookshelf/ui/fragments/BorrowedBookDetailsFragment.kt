@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.fragments
 
 import android.annotation.SuppressLint
 import android.app.ActionBar
@@ -15,18 +15,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_CAMERA
 import com.study.mybookshelf.REQUEST_CODE_GALLERY
 import com.study.mybookshelf.REQUEST_CODE_INTERNET
 import com.study.mybookshelf.model.BorrowedBook
-import com.study.mybookshelf.utils.resize
-import com.study.mybookshelf.utils.toBitmap
-import com.study.mybookshelf.utils.toByteArray
+import com.study.mybookshelf.ui.preferences.SharedPreferencesId
+import com.study.mybookshelf.utils.*
+import com.study.mybookshelf.ui_utils.*
 import io.realm.Realm
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,6 +40,10 @@ class BorrowedBookDetailsFragment: Fragment() {
     private lateinit var etOwner: EditText
     private lateinit var dpReceiveDate: DatePicker
     private lateinit var dpReturnDate: DatePicker
+
+    private lateinit var delete: ImageButton
+    private lateinit var edit: ImageButton
+    private lateinit var save: Button
 
     // init them all by today date
     private var initReceiveDate: Calendar = Calendar.getInstance()
@@ -61,6 +63,7 @@ class BorrowedBookDetailsFragment: Fragment() {
         book = requireActivity().intent.getSerializableExtra("book") as BorrowedBook
         val add = requireActivity().intent.getBooleanExtra("add", false)
 
+    // find views by id
         ivCover = root.findViewById(R.id.iv_book_cover)
         etTitle = root.findViewById(R.id.et_title)
         etAuthor = root.findViewById(R.id.et_author)
@@ -71,6 +74,24 @@ class BorrowedBookDetailsFragment: Fragment() {
         dpReceiveDate = root.findViewById(R.id.receive_date_picker)
         dpReturnDate = root.findViewById(R.id.return_date_picker)
 
+        delete = root.findViewById(R.id.bt_delete)
+        edit = root.findViewById(R.id.bt_edit)
+        save = root.findViewById(R.id.bt_save)
+
+    // set on text change validation
+        etTitle.validate(getString(R.string.validation_title_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_title_message_end))
+        {str -> str.isValidShortNotEmpty()}
+
+        etAuthor.validate(getString(R.string.validation_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidShort()}
+
+        etComment.validate(getString(R.string.validation_message_begin) + LONG_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidLong()}
+
+        etOwner.validate(getString(R.string.validation_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidShort()}
+
+    // set onClickListeners
         ivCover.setOnClickListener {
             if (etAuthor.isEnabled) {
                 val coverDialogFragment = CoverDialogFragment(requireContext(), etTitle.text.toString(), etAuthor.text.toString())
@@ -80,7 +101,58 @@ class BorrowedBookDetailsFragment: Fragment() {
             }
         }
 
-        // create an OnDateChangedListeners
+        delete.setOnClickListener {
+            val myDialogFragment = DeleteDialogFragment(book)
+            val manager = (context as AppCompatActivity).supportFragmentManager
+            myDialogFragment.show(manager, "myDialog")
+        }
+
+        edit.setOnClickListener {
+            val params1 = edit.layoutParams
+            params1.height = 0
+            edit.layoutParams = params1
+            val params2 = delete.layoutParams
+            params2.height = 0
+            delete.layoutParams = params2
+            val params = save.layoutParams
+            params.height = ActionBar.LayoutParams.WRAP_CONTENT
+            save.layoutParams = params
+
+            setBookInfoFieldsEnabled(true, etTitle, etAuthor, rbRating, switchIsEl, etComment)
+            setBorrowedBookSpecialFieldsEnabled (true, etOwner, dpReceiveDate, dpReturnDate)
+        }
+
+        save.setOnClickListener {
+            // get data
+            val id = book.id
+            book = getBorrowedBookFromFields(etTitle, etAuthor, ivCover, rbRating, switchIsEl,
+                                             etComment, etOwner, receiveDate, returnDate)
+            book.id = id
+
+            // validate book info
+            if (receiveDate.notGreaterThanDate(returnDate)) {
+                if (book.title.isValidShortNotEmpty() && book.author.isValidShort()
+                    && book.comments.isValidLong() && book.owner.isValidShort()
+                ) {
+                    // save to realm
+                    if (add) {
+                        SharedPreferencesId(requireContext()).saveId(id)
+                    }
+                    val realm: Realm = Realm.getDefaultInstance()
+                    realm.executeTransaction { realmDB ->
+                        realmDB.insertOrUpdate(book)
+                    }
+                    requireActivity().onBackPressed()
+                } else {
+                    Toast.makeText(activity, R.string.book_not_valid, Toast.LENGTH_LONG).show()
+                }
+            }
+            else {
+                Toast.makeText(activity, R.string.book_receive_date_not_valid, Toast.LENGTH_LONG).show()
+            }
+        }
+
+    // create OnDateChangedListeners
         val receiveDateChangedListener = DatePicker.OnDateChangedListener {
                 _: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
             receiveDate.set(Calendar.YEAR, year)
@@ -95,18 +167,9 @@ class BorrowedBookDetailsFragment: Fragment() {
             returnDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
         }
 
-        if(!add){
-            if (book.photo.isEmpty()) {
-                ivCover.setImageResource(R.mipmap.book_cover_foreground)
-                ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
-            } else {
-                ivCover.setImageBitmap(book.photo.toBitmap())
-            }
-            etTitle.setText(book.title)
-            etAuthor.setText(book.author)
-            rbRating.rating = book.rating
-            switchIsEl.isChecked = book.isDigital
-            etComment.setText(book.comments)
+    // set up fields
+        if (!add) {
+            setBookInfoToFields(book, false, etTitle, etAuthor, ivCover, rbRating, switchIsEl, etComment)
             etOwner.setText(book.owner)
 
             val dateFormat = "dd.MM.yyyy"
@@ -126,20 +189,9 @@ class BorrowedBookDetailsFragment: Fragment() {
                 initReturnDate.get(Calendar.MONTH),
                 initReturnDate.get(Calendar.DAY_OF_MONTH),
                 returnDateChangedListener)
-
         }
         else {
-            if (book.photo.isEmpty()) {
-                ivCover.setImageResource(R.mipmap.book_cover_foreground)
-                ivCover.setImageBitmap(ivCover.drawable.toBitmap().resize())
-            } else {
-                ivCover.setImageBitmap(book.photo.toBitmap())
-            }
-            etTitle.hint = book.title
-            etAuthor.hint = book.author
-            rbRating.rating = book.rating
-            switchIsEl.isChecked = book.isDigital
-            etComment.hint = book.comments
+            setBookInfoToFields(book, true, etTitle, etAuthor, ivCover, rbRating, switchIsEl, etComment)
             etOwner.hint = book.owner
 
             dpReceiveDate.init(today.get(Calendar.YEAR),
@@ -153,96 +205,24 @@ class BorrowedBookDetailsFragment: Fragment() {
                 returnDateChangedListener)
         }
 
-        val delete: ImageButton = root.findViewById(R.id.bt_delete)
-        val save: Button = root.findViewById(R.id.bt_save)
-        val edit: ImageButton = root.findViewById(R.id.bt_edit)
-        if(!add)
-        {
+        if (!add) {
             val params = save.layoutParams
             params.height = 0
             save.layoutParams = params
-            etAuthor.isEnabled = false
-            etComment.isEnabled = false
-            etOwner.isEnabled = false
-            etTitle.isEnabled = false
-            rbRating.isEnabled = false
-            switchIsEl.isEnabled = false
-            dpReturnDate.isEnabled = false
-            dpReceiveDate.isEnabled = false
+
+            setBookInfoFieldsEnabled(false, etTitle, etAuthor, rbRating, switchIsEl, etComment)
+            setBorrowedBookSpecialFieldsEnabled (false, etOwner, dpReceiveDate, dpReturnDate)
         }
-        else
-        {
+        else {
             val params1 = edit.layoutParams
             params1.height = 0
             edit.layoutParams = params1
             val params2 = delete.layoutParams
             params2.height = 0
             delete.layoutParams = params2
-        }
-        delete.setOnClickListener {
-            val myDialogFragment = DeleteDialogFragment(book)
-            val manager = (context as AppCompatActivity).supportFragmentManager
-            myDialogFragment.show(manager, "myDialog")
-        }
-
-        edit.setOnClickListener {
-            val params1 = edit.layoutParams
-            params1.height = 0
-            edit.layoutParams = params1
-            val params2 = delete.layoutParams
-            params2.height = 0
-            delete.layoutParams = params2
-            val params = save.layoutParams
-            params.height = ActionBar.LayoutParams.WRAP_CONTENT
-            save.layoutParams = params
-            etAuthor.isEnabled = true
-            etComment.isEnabled = true
-            etOwner.isEnabled = true
-            etTitle.isEnabled = true
-            rbRating.isEnabled = true
-            switchIsEl.isEnabled = true
-            dpReturnDate.isEnabled = true
-            dpReceiveDate.isEnabled = true
-        }
-
-        save.setOnClickListener {
-            //get data and save to realm
-            val id=book.id
-            book=getInfoFromFields()
-            book.id=id
-            if(add)
-            {
-                SharedPreferencesId(requireContext()).saveId(id)
-            }
-            val realm: Realm = Realm.getDefaultInstance()
-            realm.executeTransaction { realmDB ->
-                realmDB.insertOrUpdate(book)
-            }
-            requireActivity().onBackPressed()
         }
 
         return root
-    }
-
-    private fun getInfoFromFields(): BorrowedBook {
-        val modifiedBook = BorrowedBook()
-
-        modifiedBook.title = etTitle.text.toString()
-        modifiedBook.author = etAuthor.text.toString()
-        modifiedBook.photo = ivCover.drawable.toBitmap().resize()!!.toByteArray()
-        modifiedBook.rating = rbRating.rating
-        modifiedBook.isDigital = switchIsEl.isChecked
-        modifiedBook.comments = etComment.text.toString()
-
-        modifiedBook.owner = etOwner.text.toString()
-
-        val dateFormat = "dd.MM.yyyy"
-        val sdf = SimpleDateFormat(dateFormat, Locale.getDefault())
-        modifiedBook.receiveDate = sdf.format(receiveDate.time)
-
-        modifiedBook.returnDate = sdf.format(returnDate.time)
-
-        return modifiedBook
     }
 
     @SuppressLint("Recycle")

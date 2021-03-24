@@ -1,15 +1,11 @@
 package com.study.mybookshelf.model
 
-import android.content.res.Resources
-import androidx.core.graphics.drawable.toBitmap
-import com.study.mybookshelf.R
-import com.study.mybookshelf.utils.toByteArray
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.io.Serializable
 
 open class LibraryBook (
-    @PrimaryKey override var id: Int=0,
+    @PrimaryKey override var id: Int = 0,
     override var title: String = "",
     override var author: String = "",
     override var photo: ByteArray = ByteArray(0),

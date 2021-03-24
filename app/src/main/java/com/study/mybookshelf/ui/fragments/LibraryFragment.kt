@@ -1,37 +1,36 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.fragments
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.study.mybookshelf.DetailsActivity
 import com.study.mybookshelf.R
-import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.model.LibraryBook
+import com.study.mybookshelf.ui.preferences.SharedPreferencesId
 import com.study.mybookshelf.ui.book_recycler_view.BooksRecyclerView
-import com.study.mybookshelf.utils.getString
-import java.time.LocalDate
+import com.study.mybookshelf.view_models.LibraryViewModel
 
-class LendedBooksFragment: Fragment() {
+class LibraryFragment: Fragment() {
 
-    private lateinit var lendedBooksViewModel: LendedBooksViewModel
+    lateinit var libraryViewModel: LibraryViewModel
+
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        lendedBooksViewModel = ViewModelProviders.of(this).get(LendedBooksViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_lended_books, container, false)
+        libraryViewModel = ViewModelProviders.of(this).get(LibraryViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_library, container, false)
 
         val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
-        lendedBooksViewModel.lendedBooksList.observe(viewLifecycleOwner, Observer {
+        libraryViewModel.libraryBooksList.observe(viewLifecycleOwner, Observer {
             rvBooks.adapter.refreshBooks(it)
         })
 
@@ -40,9 +39,7 @@ class LendedBooksFragment: Fragment() {
             val intent = Intent(context, DetailsActivity::class.java)
             //read from shared
             val id = SharedPreferencesId(requireContext()).getId()+1
-            val book = LendedBook(id, getString(R.string.hint_title), getString(R.string.hint_author), ByteArray(0), 5.0.toFloat(), true, getString(R.string.hint_comment),
-                getString(R.string.hint_recipient), LocalDate.of(2020, 12, 20).getString(), LocalDate.of(2021, 12, 20).getString())
-            //val bundle = bundleOf( "book" to book)
+            val book = LibraryBook(id, getString(R.string.hint_title), getString(R.string.hint_author),ByteArray(0), 5.0.toFloat(), true, getString(R.string.hint_comment))
             intent.putExtra("book", book)
             intent.putExtra("add", true)
             startActivity(intent)

@@ -1,10 +1,5 @@
 package com.study.mybookshelf.model
 
-import android.content.res.Resources
-import android.os.Parcelable
-import androidx.core.graphics.drawable.toBitmap
-import com.study.mybookshelf.R
-import com.study.mybookshelf.utils.toByteArray
 import io.realm.annotations.PrimaryKey
 import java.io.Serializable
 import io.realm.RealmObject as RealmObject1

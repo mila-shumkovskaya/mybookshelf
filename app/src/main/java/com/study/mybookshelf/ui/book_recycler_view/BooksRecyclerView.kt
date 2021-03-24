@@ -6,20 +6,16 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.study.mybookshelf.DetailsActivity
-import com.study.mybookshelf.MainActivity
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.model.LibraryBook
-import com.study.mybookshelf.utils.getString
-import java.time.LocalDate
 
 
 class BooksRecyclerView @JvmOverloads constructor(

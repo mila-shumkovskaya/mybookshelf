@@ -1,13 +1,9 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.view_models
 
-import android.content.res.Resources
-import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.study.mybookshelf.R
 import com.study.mybookshelf.Repository
 import com.study.mybookshelf.model.LibraryBook
-import com.study.mybookshelf.utils.toByteArray
 
 
 class LibraryViewModel : ViewModel() {
@@ -27,6 +23,7 @@ class LibraryViewModel : ViewModel() {
         val book8 = (LibraryBook(26,"HarryPotter5", "J.K.Rowling", ByteArray(0), 5.0.toFloat(), true, "comment1"))
         val book9 = (LibraryBook(27,"HarryPotter6", "J.K.Rowling", ByteArray(0), 2.6.toFloat(), true, "comment1"))
         val book10 = (LibraryBook(28,"HarryPotter2", "edited", ByteArray(0), 5.0.toFloat(), true, "comment1"))
+
         //val byteArray = Resources.getSystem().getDrawable(R.drawable.book_cover).toBitmap().toByteArray()
         createOrUpdateBook(book1)
         createOrUpdateBook(book2)

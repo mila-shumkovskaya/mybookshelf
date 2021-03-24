@@ -28,62 +28,7 @@ class GetCoverClass(val activity: Activity) {
     data class JsonBooks (
         val totalItems: Int,
         val items: List<JsonBook>
-    ) {
-        fun getUriList(): ArrayList<Uri> {
-            Log.i("GetCoverClass", this.toString())
-            val imageList = arrayListOf<Uri>()
-            if (totalItems != 0) {
-                for (item in items) {
-                    val uri: Uri? = item.volumeInfo.imageLinks.getUri()
-                    if (uri != null) {
-                        imageList.add(uri)
-                        if (imageList.size > 9) {
-                            break
-                        }
-                    }
-                }
-            }
-            Log.i("GetCoverClass", imageList.toString())
-            return imageList
-        }
-
-        fun getBitmapList(setImages: (ArrayList<Bitmap>) -> Unit)   {
-            val imageList = arrayListOf<Bitmap>()
-            if (totalItems != 0) {
-                    val thread = Thread(Runnable {
-                        try {
-                            Log.i("GetCoverClass", "new thread")
-                            for (item in items) {
-                                var bitmap: Bitmap? = null
-                                val url = URL(item.volumeInfo.imageLinks.smallThumbnail)
-                                val connection = url.openConnection()
-                                connection.doInput = true
-                                connection.connect()
-                                val input: InputStream = connection.inputStream
-                                val bis = BufferedInputStream(input)
-                                bitmap = BitmapFactory.decodeStream(bis)
-                                if (bitmap != null) {
-                                    imageList.add(bitmap)
-                                    if (imageList.size > 9) {
-                                        break
-                                    }
-                                }
-                            }
-                            Log.i("GetCoverClass", imageList.toString())
-
-                        } catch (e: Exception) {
-                        //Log.i("GetCoverClass", item.toString() + "is NULL")
-                        Log.i("GetCoverClass", e.message.toString())
-                        }
-                        setImages(imageList)
-                    })
-                thread.start()
-            }
-            //return imageList
-        }
-
-
-    }
+    )
 
     data class JsonBook (
         val volumeInfo: VolumeInfo
@@ -91,29 +36,11 @@ class GetCoverClass(val activity: Activity) {
 
     data class VolumeInfo (
         val imageLinks: ImageLinks
-    ) /*{
-        fun getSmallThumbnail(): String? {
-            return imageLinks.get("smallThumbnail")?.asString
-        }
-
-        fun getThumbnail(): String? {
-            return imageLinks?.get("thumbnail")?.asString
-        }
-    }*/
+    )
 
     data class  ImageLinks (
         val smallThumbnail: String
-    ) {
-        fun getUri(): Uri? {
-            return try {
-                Uri.parse(smallThumbnail)
-            } catch (e: IOException) {
-                e.message?.let { Log.e(TAG, it) }
-                null
-            }
-        }
-    }
-
+    )
 
     fun getCover(title: String, author: String, returnImages: (activity: Activity, imageList: ArrayList<Bitmap>) -> Unit) {
         Log.i("GetCoverClass", "getCover()")

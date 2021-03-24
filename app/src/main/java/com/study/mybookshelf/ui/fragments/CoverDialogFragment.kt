@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.fragments
 
 import android.Manifest
 import android.app.Activity
@@ -29,6 +29,7 @@ import com.study.mybookshelf.REQUEST_CODE_CAMERA
 import com.study.mybookshelf.REQUEST_CODE_GALLERY
 import com.study.mybookshelf.REQUEST_CODE_INTERNET
 import com.study.mybookshelf.google_books_api.GetCoverClass
+import com.study.mybookshelf.google_books_api.ImageListAdapter
 import com.study.mybookshelf.utils.resize
 import com.study.mybookshelf.utils.toByteArray
 import java.io.IOException
@@ -57,24 +58,24 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
+    // check access to camera
     private fun getFromCamera() {
-        if (checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-            //permission was not enabled
+        if (checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
             val permission = arrayOf(Manifest.permission.CAMERA)
             //show popup to request permission
             requestPermissions(permission, PERMISSION_CODE_CAMERA)
-        } else{
+        } else {
             openCamera()
         }
     }
 
+    // check access to gallery
     private fun getFromGallery() {
-        if (checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-            //permission was not enabled
+        if (checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
             //show popup to request permission
             requestPermissions(permission, PERMISSION_CODE_GALLERY)
-        } else{
+        } else {
             openGallery()
         }
     }
@@ -85,80 +86,12 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
             Log.i(this.tag, "Online")
             val getCoverClass = GetCoverClass(requireActivity())
             getCoverClass.getCover(title, author, ::openInternetCoversDialog)
-            /*getCoverClass.livaDataJsonBooks.observe(this, Observer {
-                bitmapList = it.getBitmapArrayList()
-                openInternetCoversDialog(bitmapList)
-            })*/
         }
         else {
             Log.i(this.tag, "Offline")
             Toast.makeText(requireContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
         }
 
-    }
-
-    private fun openCamera() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        //targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
-        try {
-            activity?.startActivityForResult(intent, REQUEST_CODE_CAMERA)
-            Log.i(this.tag, "OpenCamera")
-        } catch (e: ActivityNotFoundException) {
-            Log.i(this.tag, "Cannot open Camera")
-        }
-    }
-
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
-        //targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
-        try {
-            activity?.startActivityForResult(intent, REQUEST_CODE_GALLERY)
-            Log.i(this.tag, "OpenGallery")
-        } catch (e: ActivityNotFoundException) {
-            Log.i(this.tag, "Cannot open Gallery")
-        }
-    }
-
-    private fun openInternetCoversDialog(activity: Activity, imageList: ArrayList<Bitmap>): Unit {
-        if (imageList.isNullOrEmpty()) {
-            Toast.makeText(activity.baseContext, activity.getString(R.string.no_books_found), Toast.LENGTH_SHORT).show()
-        } else {
-            val builder = AlertDialog.Builder(activity)
-            val inflater = activity.layoutInflater
-            val view: View = inflater.inflate(R.layout.dialog_internet_covers, null)
-            val alertDialog = builder.create()
-            builder.setTitle(R.string.choose_cover)
-            val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-            val imageListAdapter = ImageListAdapter(imageList) { byteArray: ByteArray ->
-                val intent = Intent()
-                intent.putExtra("image", byteArray)
-                targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
-            }
-            recyclerView.adapter = imageListAdapter
-            builder.setView(view)
-            builder.setCancelable(true)
-            builder.setNegativeButton(R.string.close) { dialogInterface: DialogInterface, i: Int ->
-                dialogInterface.dismiss()
-            }
-            builder.show()
-        }
-    }
-
-
-    // check the Internet connection
-    private fun isOnline(): Boolean {
-        val runtime = Runtime.getRuntime()
-        try {
-            val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
-            val exitValue = ipProcess.waitFor()
-            return exitValue == 0
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-        return false
     }
 
     //called when user presses ALLOW or DENY from Permission Request Popup
@@ -178,40 +111,67 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
         }
     }
 
-
-    class ImageListAdapter(
-        private val items: ArrayList<Bitmap>,
-        var startIntent: (byteArray: ByteArray) -> Unit
-    ) : RecyclerView.Adapter<ImageListAdapter.ViewHolder?>() {
-
-        inner class ViewHolder(val view: View) :
-            RecyclerView.ViewHolder(view) {
-            val ivCover: ImageView = view.findViewById(R.id.iv_cover)
-            val cvCover: CardView = view.findViewById(R.id.cv_cover)
+    // check the Internet connection
+    private fun isOnline(): Boolean {
+        val runtime = Runtime.getRuntime()
+        try {
+            val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
+            val exitValue = ipProcess.waitFor()
+            return exitValue == 0
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
         }
+        return false
+    }
 
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ): ViewHolder {
-            val view: View = LayoutInflater.from(parent.context)
-                .inflate(R.layout.dialog_internet_covers_item, parent, false)
-            return ViewHolder(view)
-        }
 
-        override fun onBindViewHolder(
-            holder: ViewHolder,
-            position: Int
-        ) {
-            holder.ivCover.setImageBitmap(items[position])
-            holder.ivCover.setImageBitmap(holder.ivCover.drawable.toBitmap().resize())
-            holder.cvCover.setOnClickListener {
-                startIntent(holder.ivCover.drawable.toBitmap().toByteArray())
-            }
-        }
-
-        override fun getItemCount(): Int {
-            return items.size
+    private fun openCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            activity?.startActivityForResult(intent, REQUEST_CODE_CAMERA)
+            Log.i(this.tag, "OpenCamera")
+        } catch (e: ActivityNotFoundException) {
+            Log.i(this.tag, "Cannot open Camera")
         }
     }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        try {
+            activity?.startActivityForResult(intent, REQUEST_CODE_GALLERY)
+            Log.i(this.tag, "OpenGallery")
+        } catch (e: ActivityNotFoundException) {
+            Log.i(this.tag, "Cannot open Gallery")
+        }
+    }
+
+    // show dialog to choose cover for book from Internet
+    private fun openInternetCoversDialog(activity: Activity, imageList: ArrayList<Bitmap>): Unit {
+        if (imageList.isNullOrEmpty()) {
+            Toast.makeText(activity.baseContext, activity.getString(R.string.no_books_found), Toast.LENGTH_SHORT).show()
+        } else {
+            val builder = AlertDialog.Builder(activity)
+            val inflater = activity.layoutInflater
+            val view: View = inflater.inflate(R.layout.dialog_internet_covers, null)
+            builder.setTitle(R.string.choose_cover)
+            val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+            // set adapter and onClickListener
+            val imageListAdapter = ImageListAdapter(imageList) { byteArray: ByteArray ->
+                val intent = Intent()
+                intent.putExtra("image", byteArray)
+                targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+            }
+            recyclerView.adapter = imageListAdapter
+            builder.setView(view)
+            builder.setCancelable(true)
+            builder.setNegativeButton(R.string.close) { dialogInterface: DialogInterface, i: Int ->
+                dialogInterface.dismiss()
+            }
+            builder.show()
+        }
+    }
+
 }
