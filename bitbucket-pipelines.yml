@@ -28,8 +28,8 @@ pipelines:
             artifacts:
               - app/build/reports/**        # artifacts are files that are produced by a step https://support.atlassian.com/bitbucket-cloud/docs/use-artifacts-in-steps/
         - step:           # step to run unit tests
-            name: Unit Tests
+            name: Instrumented Tests
             caches:
               - gradle    # caching speed up subsequent execution https://support.atlassian.com/bitbucket-cloud/docs/cache-dependencies/
             script:
-              - ./gradlew testDebugUnitTest # test reporting is automatically enabled https://support.atlassian.com/bitbucket-cloud/docs/test-reporting-in-pipelines/
+              - ./gradlew testDebugInstrumentedTest # test reporting is automatically enabled https://support.atlassian.com/bitbucket-cloud/docs/test-reporting-in-pipelines/
