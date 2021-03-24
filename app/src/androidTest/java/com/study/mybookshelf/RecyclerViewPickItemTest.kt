@@ -41,11 +41,11 @@ class RecyclerViewPickItemTest {
         checkChosenItemAtLayout(layout!!)
     }
 
-    @Test
+    /*@Test
     fun pickItemOnBorrowedBooksTest() {
         val layout = getBorrowedBooksTabLayout()
         checkChosenItemAtLayout(layout!!)
-    }
+    }*/
 
     @Test
     fun pickItemOnLendedBooksTest() {
