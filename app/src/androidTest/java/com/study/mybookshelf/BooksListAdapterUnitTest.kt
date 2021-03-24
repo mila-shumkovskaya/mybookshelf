@@ -27,9 +27,6 @@ class BooksListAdapterUnitTest {
         recyclerViewMock.adapter = bookListAdapter
     }
 
-
-
-
     @Test
     fun testGetItemCount() {
         val book1 = LibraryBook(0,"book1", "author1", ByteArray(0), 5.0.toFloat(), true, "comment1")
