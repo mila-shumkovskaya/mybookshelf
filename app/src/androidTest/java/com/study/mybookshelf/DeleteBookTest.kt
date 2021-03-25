@@ -3,6 +3,7 @@ package com.study.mybookshelf
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -34,9 +35,80 @@ class DeleteBookTest {
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun deleteBookTest() {
-        val recyclerView = mActivityTestRule.activity.findViewById<RecyclerView>(R.id.recycler_view)
-        val position = 3
+    fun deleteItemOnLibraryBooksTest() {
+        val layout = getLibraryTabLayout()
+        deleteBookTest(layout!!, R.id.recycler_view_library_books)
+    }
+
+    @Test
+    fun deleteItemOnBorrowedBooksTest() {
+        val layout = getBorrowedBooksTabLayout()
+        deleteBookTest(layout!!, R.id.recycler_view_borrowed_books)
+    }
+
+    @Test
+    fun deleteItemOnLendedBooksTest() {
+        val layout = getLendedBooksTabLayout()
+        deleteBookTest(layout!!, R.id.recycler_view_lended_books)
+    }
+
+    private fun getLibraryTabLayout(): RelativeLayout? {
+        val tabView = onView(
+            allOf(
+                withContentDescription("Library"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.tab_layout),
+                        0
+                    ),
+                    0
+                ),
+                isDisplayed()
+            )
+        )
+        tabView.perform(click())
+        return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.library_books_fragment)
+    }
+
+    private fun getBorrowedBooksTabLayout(): RelativeLayout? {
+        val tabView = onView(
+            allOf(
+                withContentDescription("Borrowed books"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.tab_layout),
+                        0
+                    ),
+                    1
+                ),
+                isDisplayed()
+            )
+        )
+        tabView.perform(click())
+        return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_fragment)
+    }
+
+    private fun getLendedBooksTabLayout(): RelativeLayout? {
+        val tabView = onView(
+            allOf(
+                withContentDescription("Lended books"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.tab_layout),
+                        0
+                    ),
+                    2
+                ),
+                isDisplayed()
+            )
+        )
+        tabView.perform(click())
+        return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.lended_books_fragment)
+    }
+
+    fun deleteBookTest(layout: RelativeLayout, id: Int) {
+        val recyclerView = layout.findViewById<RecyclerView>(R.id.recycler_view)
+        val position = 2
         val cardView =  recyclerView.layoutManager?.findViewByPosition(position);
         val titleText = cardView?.findViewById<TextView>(R.id.text_book_title)?.text
         val authorText = cardView?.findViewById<TextView>(R.id.text_book_author)?.text
@@ -47,7 +119,9 @@ class DeleteBookTest {
                 childAtPosition(
                     withClassName(`is`("android.widget.LinearLayout")),
                     0
-                )
+                ),
+                withClassName(`is`("androidx.recyclerview.widget.RecyclerView")),
+                withParent(withParent(withId(id)))
             )
         ).perform(actionOnItemAtPosition<ViewHolder>(position, click()))
 
@@ -55,7 +129,6 @@ class DeleteBookTest {
         val imageButton = onView(
             allOf(
                 withId(R.id.bt_delete),
-                withParent(withParent(withId(R.id.lb_details))),
                 isDisplayed()
             )
         )
@@ -64,13 +137,6 @@ class DeleteBookTest {
         val btnDelete = onView(
             allOf(
                 withId(R.id.bt_delete),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.lb_details),
-                        1
-                    ),
-                    1
-                ),
                 isDisplayed()
             )
         )

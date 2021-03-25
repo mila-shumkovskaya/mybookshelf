@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <com.study.mybookshelf.ui.book_recycler_view.BooksRecyclerView
-            android:id="@+id/recycler_view_books"
+            android:id="@+id/recycler_view_library_books"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>

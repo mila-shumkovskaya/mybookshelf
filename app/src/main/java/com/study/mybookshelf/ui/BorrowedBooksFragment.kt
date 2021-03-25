@@ -30,7 +30,7 @@ class BorrowedBooksFragment : Fragment() {
         borrowedBooksViewModel = ViewModelProviders.of(this).get(BorrowedBooksViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_borrowed_books, container, false)
 
-        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
+        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_borrowed_books)
         borrowedBooksViewModel.borrowedBooksList.observe(viewLifecycleOwner, Observer {
             rvBooks.adapter.refreshBooks(it)
         })

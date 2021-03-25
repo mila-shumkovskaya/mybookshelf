@@ -10,16 +10,13 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
-import com.study.mybookshelf.ui.BorrowedBooksFragment
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.*
 import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.core.IsInstanceOf
@@ -41,11 +38,11 @@ class RecyclerViewPickItemTest {
         checkChosenItemAtLayout(layout!!)
     }
 
-    /*@Test
+    @Test
     fun pickItemOnBorrowedBooksTest() {
         val layout = getBorrowedBooksTabLayout()
         checkChosenItemAtLayout(layout!!)
-    }*/
+    }
 
     @Test
     fun pickItemOnLendedBooksTest() {
@@ -53,7 +50,7 @@ class RecyclerViewPickItemTest {
         checkChosenItemAtLayout(layout!!)
     }
 
-    private fun getLibraryTabLayout(): RelativeLayout? {
+    fun getLibraryTabLayout(): RelativeLayout? {
         val tabView = onView(
             allOf(
                 withContentDescription("Library"),
@@ -71,7 +68,7 @@ class RecyclerViewPickItemTest {
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.library_books_fragment)
     }
 
-    private fun getBorrowedBooksTabLayout(): RelativeLayout? {
+    fun getBorrowedBooksTabLayout(): RelativeLayout? {
         val tabView = onView(
             allOf(
                 withContentDescription("Borrowed books"),
@@ -89,7 +86,7 @@ class RecyclerViewPickItemTest {
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_fragment)
     }
 
-    private fun getLendedBooksTabLayout(): RelativeLayout? {
+    fun getLendedBooksTabLayout(): RelativeLayout? {
         val tabView = onView(
             allOf(
                 withContentDescription("Lended books"),
@@ -108,7 +105,7 @@ class RecyclerViewPickItemTest {
     }
 
     private fun checkChosenItemAtLayout(layout: RelativeLayout) {
-        val position = 3
+        val position = 2
         val recyclerView = layout.findViewById<RecyclerView>(R.id.recycler_view)
 
         val cardView =  recyclerView.layoutManager?.findViewByPosition(position);
@@ -125,23 +122,23 @@ class RecyclerViewPickItemTest {
             )
         ).perform(actionOnItemAtPosition<ViewHolder>(position, click()))
 
-        val editText = onView(
+        val etTitle = onView(
             allOf(
                 withId(R.id.et_title), withText(titleText.toString()),
                 withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
                 isDisplayed()
             )
         )
-        editText.check(matches(withText(titleText.toString())))
+        etTitle.check(matches(withText(titleText.toString())))
 
-        val editText2 = onView(
+        val etAuthor = onView(
             allOf(
                 withId(R.id.et_author), withText(authorText.toString()),
                 withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
                 isDisplayed()
             )
         )
-        editText2.check(matches(withText(authorText.toString())))
+        etAuthor.check(matches(withText(authorText.toString())))
     }
 
     private fun childAtPosition(
