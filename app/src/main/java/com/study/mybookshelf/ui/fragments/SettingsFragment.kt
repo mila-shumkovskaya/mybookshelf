@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.fragments
 
 import android.os.Bundle
 import android.widget.Toast
@@ -6,6 +6,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.study.mybookshelf.R
+import com.study.mybookshelf.ui.preferences.TimePickerPreferenceDialog
+import com.study.mybookshelf.ui.preferences.TimePreference
 
 class SettingsFragment : PreferenceFragmentCompat() {
 

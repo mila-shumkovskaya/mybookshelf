@@ -104,11 +104,16 @@ task jacocoReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDe
 
     def fileFilter = [
        '**/google_books_api/**',
-       '**/ui/*DetailsFragment.class',
-       '**/ui/*BooksFragment.class',
-       '**/ui/*ViewModel.class',
-       '**/ui/SettingsFragment.class',
-       '**/ui/SharedPreferences.class'
+       '**/ui/fragments/**',
+       '**/ui/home/**',
+       '**/ui/preferences/**',
+       '**/ui/other/**',
+       '**/ui_utils/**',
+       '**/ui/book_recycler_view/**',
+       //'**/view_models/**',
+       //'**/Repository.class',
+       '**/MainActivity.class',
+       '**/DetailsActivity.class'
     ]
 
     getClassDirectories().setFrom( fileTree(

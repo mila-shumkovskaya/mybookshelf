@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.fragments
 
 import android.Manifest
 import android.app.Activity

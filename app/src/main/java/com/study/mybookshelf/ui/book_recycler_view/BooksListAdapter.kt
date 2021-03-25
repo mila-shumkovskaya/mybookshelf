@@ -1,25 +1,19 @@
 package com.study.mybookshelf.ui.book_recycler_view
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
-import com.study.mybookshelf.DetailsActivity
-import com.study.mybookshelf.MainActivity
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.Book
 import com.study.mybookshelf.model.BorrowedBook
 import com.study.mybookshelf.model.LendedBook
 import com.study.mybookshelf.model.LibraryBook
-import com.study.mybookshelf.ui.CoverDialogFragment
 import com.study.mybookshelf.utils.BookType
 import com.study.mybookshelf.utils.resize
 import com.study.mybookshelf.utils.toBitmap

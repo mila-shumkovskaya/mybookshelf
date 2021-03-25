@@ -1,9 +1,12 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.other
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.study.mybookshelf.ui.fragments.BorrowedBooksFragment
+import com.study.mybookshelf.ui.fragments.LendedBooksFragment
+import com.study.mybookshelf.ui.fragments.LibraryFragment
 
 class TabPagerAdapter(fm: FragmentManager?, lifecycle: Lifecycle) : FragmentStateAdapter(fm!!, lifecycle) {
     private val int_items = 3

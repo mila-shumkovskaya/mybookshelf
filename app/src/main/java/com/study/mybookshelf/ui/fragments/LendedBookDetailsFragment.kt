@@ -1,5 +1,6 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.fragments
 
+import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
@@ -20,12 +21,15 @@ import com.study.mybookshelf.R
 import com.study.mybookshelf.REQUEST_CODE_CAMERA
 import com.study.mybookshelf.REQUEST_CODE_GALLERY
 import com.study.mybookshelf.REQUEST_CODE_INTERNET
-import com.study.mybookshelf.model.Book
+import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.ui.preferences.SharedPreferencesId
 import com.study.mybookshelf.utils.*
+import com.study.mybookshelf.ui_utils.*
 import io.realm.Realm
+import java.text.SimpleDateFormat
+import java.util.*
 
-
-class LibraryBookDetailsFragment: Fragment() {
+class LendedBookDetailsFragment: Fragment() {
 
     private lateinit var ivCover: ImageView
     private lateinit var etTitle: EditText
@@ -33,20 +37,30 @@ class LibraryBookDetailsFragment: Fragment() {
     private lateinit var rbRating: RatingBar
     private lateinit var switchIsEl: Switch
     private lateinit var etComment: EditText
+    private lateinit var etRecipient: EditText
+    private lateinit var dpTransferDate: DatePicker
+    private lateinit var dpReturnDate: DatePicker
 
     private lateinit var delete: ImageButton
     private lateinit var edit: ImageButton
     private lateinit var save: Button
 
-    lateinit var book: Book
+    // init them all by today date
+    private var initTransferDate: Calendar = Calendar.getInstance()
+    private var initReturnDate: Calendar = Calendar.getInstance()
+    private var transferDate: Calendar = Calendar.getInstance()
+    private var returnDate: Calendar = Calendar.getInstance()
+    private var today: Calendar = Calendar.getInstance()
+
+    lateinit var book: LendedBook
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_library_book_details, container, false)
-        book = requireActivity().intent.getSerializableExtra("book") as Book
+        val root = inflater.inflate(R.layout.fragment_lended_book_details, container, false)
+        book = requireActivity().intent.getSerializableExtra("book") as LendedBook
         val add = requireActivity().intent.getBooleanExtra("add", false)
 
     // find views by id
@@ -56,10 +70,13 @@ class LibraryBookDetailsFragment: Fragment() {
         rbRating = root.findViewById(R.id.rating_bar)
         switchIsEl = root.findViewById(R.id.switch_is_el)
         etComment = root.findViewById(R.id.et_comment)
+        etRecipient = root.findViewById(R.id.et_recipient)
+        dpTransferDate = root.findViewById(R.id.transfer_date_picker)
+        dpReturnDate = root.findViewById(R.id.return_date_picker)
 
         delete = root.findViewById(R.id.bt_delete)
         edit = root.findViewById(R.id.bt_edit)
-        save = root.findViewById(R.id.bt_save4)
+        save = root.findViewById(R.id.bt_save2)
 
     // set on text change validation
         etTitle.validate(getString(R.string.validation_title_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_title_message_end))
@@ -70,6 +87,9 @@ class LibraryBookDetailsFragment: Fragment() {
 
         etComment.validate(getString(R.string.validation_message_begin) + LONG_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
         {str -> str.isValidLong()}
+
+        etRecipient.validate(getString(R.string.validation_message_begin) + SHORT_STRING_MAX_LENGTH + getString(R.string.validation_message_end))
+        {str -> str.isValidShort()}
 
     // set onClickListeners
         ivCover.setOnClickListener {
@@ -99,39 +119,90 @@ class LibraryBookDetailsFragment: Fragment() {
             save.layoutParams = params
 
             setBookInfoFieldsEnabled(true, etTitle, etAuthor, rbRating, switchIsEl, etComment)
+            setLendedBookSpecialFieldsEnabled (true, etRecipient, dpTransferDate, dpReturnDate)
         }
 
         save.setOnClickListener {
             // get data
             val id = book.id
-            book = getLibraryBookFromFields(etTitle, etAuthor, ivCover, rbRating, switchIsEl,
-                etComment)
+            book = getLendedBookFromFields(etTitle, etAuthor, ivCover, rbRating, switchIsEl,
+                                           etComment, etRecipient, transferDate, returnDate)
             book.id = id
 
             // validate book info
-            if (book.title.isValidShortNotEmpty() && book.author.isValidShort()
-                && book.comments.isValidLong()) {
-                // save to realm
-                if (add) {
-                    SharedPreferencesId(requireContext()).saveId(id)
+            if (transferDate.notGreaterThanDate(returnDate)) {
+                if (book.title.isValidShortNotEmpty() && book.author.isValidShort()
+                    && book.comments.isValidLong() && book.recipient.isValidShort()) {
+                    // save to realm
+                    if (add) {
+                        SharedPreferencesId(requireContext()).saveId(id)
+                    }
+                    val realm: Realm = Realm.getDefaultInstance()
+                    realm.executeTransaction { realmDB ->
+                        realmDB.insertOrUpdate(book)
+                    }
+                    requireActivity().onBackPressed()
                 }
-                val realm: Realm = Realm.getDefaultInstance()
-                realm.executeTransaction { realmDB ->
-                    realmDB.insertOrUpdate(book)
+                else {
+                    Toast.makeText(activity, R.string.book_not_valid, Toast.LENGTH_LONG).show()
                 }
-                requireActivity().onBackPressed()
             }
             else {
-                Toast.makeText(activity, R.string.book_not_valid, Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, R.string.book_transfer_date_not_valid, Toast.LENGTH_LONG).show()
             }
+        }
+
+    // create OnDateChangedListeners
+        val transferDateChangedListener = DatePicker.OnDateChangedListener {
+                _: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+            transferDate.set(Calendar.YEAR, year)
+            transferDate.set(Calendar.MONTH, monthOfYear)
+            transferDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        }
+
+        val returnDateChangedListener = DatePicker.OnDateChangedListener {
+                _: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+            returnDate.set(Calendar.YEAR, year)
+            returnDate.set(Calendar.MONTH, monthOfYear)
+            returnDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
         }
 
     // set up fields
         if (!add) {
             setBookInfoToFields(book, false, etTitle, etAuthor, ivCover, rbRating, switchIsEl, etComment)
+            etRecipient.setText(book.recipient)
+
+            val dateFormat = "dd.MM.yyyy"
+            val sdf = SimpleDateFormat(dateFormat, Locale.US)
+            initTransferDate.time = sdf.parse(book.transferDate)
+            transferDate.time = sdf.parse(book.transferDate)
+
+            dpTransferDate.init(initTransferDate.get(Calendar.YEAR),
+                initTransferDate.get(Calendar.MONTH),
+                initTransferDate.get(Calendar.DAY_OF_MONTH),
+                transferDateChangedListener)
+
+            initReturnDate.time = sdf.parse(book.returnDate)
+            returnDate.time = sdf.parse(book.returnDate)
+
+            dpReturnDate.init(initReturnDate.get(Calendar.YEAR),
+                initReturnDate.get(Calendar.MONTH),
+                initReturnDate.get(Calendar.DAY_OF_MONTH),
+                returnDateChangedListener)
         }
         else {
             setBookInfoToFields(book, true, etTitle, etAuthor, ivCover, rbRating, switchIsEl, etComment)
+            etRecipient.hint = book.recipient
+
+            dpTransferDate.init(today.get(Calendar.YEAR),
+                today.get(Calendar.MONTH),
+                today.get(Calendar.DAY_OF_MONTH),
+                transferDateChangedListener)
+
+            dpReturnDate.init(today.get(Calendar.YEAR),
+                today.get(Calendar.MONTH),
+                today.get(Calendar.DAY_OF_MONTH),
+                returnDateChangedListener)
         }
 
         if (!add) {
@@ -139,7 +210,14 @@ class LibraryBookDetailsFragment: Fragment() {
             params.height = 0
             save.layoutParams = params
 
-            setBookInfoFieldsEnabled(false, etTitle, etAuthor, rbRating, switchIsEl, etComment)
+            etAuthor.isEnabled = false
+            etComment.isEnabled = false
+            etRecipient.isEnabled = false
+            etTitle.isEnabled = false
+            rbRating.isEnabled = false
+            switchIsEl.isEnabled = false
+            dpReturnDate.isEnabled = false
+            dpTransferDate.isEnabled = false
         }
         else {
             val params1 = edit.layoutParams
@@ -153,19 +231,7 @@ class LibraryBookDetailsFragment: Fragment() {
         return root
     }
 
-//    private fun getInfoFromFields(): LibraryBook {
-//        val modifiedBook = LibraryBook()
-//
-//        modifiedBook.title = etTitle.text.toString()
-//        modifiedBook.author = etAuthor.text.toString()
-//        modifiedBook.photo = ivCover.drawable.toBitmap().resize()!!.toByteArray()
-//        modifiedBook.rating = rbRating.rating
-//        modifiedBook.isDigital = switchIsEl.isChecked
-//        modifiedBook.comments = etComment.text.toString()
-//
-//        return modifiedBook
-//    }
-
+    @SuppressLint("Recycle")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.i(this.tag, "onActivityResult")
         super.onActivityResult(requestCode, resultCode, data)

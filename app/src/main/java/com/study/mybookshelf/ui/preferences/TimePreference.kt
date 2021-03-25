@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.preferences
 
 import android.content.Context
 import android.os.Bundle

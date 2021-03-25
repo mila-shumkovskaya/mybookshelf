@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.fragments
 
 import android.annotation.SuppressLint
 import android.app.ActionBar
@@ -22,7 +22,9 @@ import com.study.mybookshelf.REQUEST_CODE_CAMERA
 import com.study.mybookshelf.REQUEST_CODE_GALLERY
 import com.study.mybookshelf.REQUEST_CODE_INTERNET
 import com.study.mybookshelf.model.BorrowedBook
+import com.study.mybookshelf.ui.preferences.SharedPreferencesId
 import com.study.mybookshelf.utils.*
+import com.study.mybookshelf.ui_utils.*
 import io.realm.Realm
 import java.text.SimpleDateFormat
 import java.util.*
@@ -128,20 +130,25 @@ class BorrowedBookDetailsFragment: Fragment() {
             book.id = id
 
             // validate book info
-            if (book.title.isValidShortNotEmpty() && book.author.isValidShort()
-                && book.comments.isValidLong() && book.owner.isValidShort()) {
-                // save to realm
-                if (add) {
-                    SharedPreferencesId(requireContext()).saveId(id)
+            if (receiveDate.notGreaterThanDate(returnDate)) {
+                if (book.title.isValidShortNotEmpty() && book.author.isValidShort()
+                    && book.comments.isValidLong() && book.owner.isValidShort()
+                ) {
+                    // save to realm
+                    if (add) {
+                        SharedPreferencesId(requireContext()).saveId(id)
+                    }
+                    val realm: Realm = Realm.getDefaultInstance()
+                    realm.executeTransaction { realmDB ->
+                        realmDB.insertOrUpdate(book)
+                    }
+                    requireActivity().onBackPressed()
+                } else {
+                    Toast.makeText(activity, R.string.book_not_valid, Toast.LENGTH_LONG).show()
                 }
-                val realm: Realm = Realm.getDefaultInstance()
-                realm.executeTransaction { realmDB ->
-                    realmDB.insertOrUpdate(book)
-                }
-                requireActivity().onBackPressed()
             }
             else {
-                Toast.makeText(activity, R.string.book_not_valid, Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, R.string.book_receive_date_not_valid, Toast.LENGTH_LONG).show()
             }
         }
 

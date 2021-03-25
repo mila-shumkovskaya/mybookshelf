@@ -60,4 +60,6 @@
     <string name="validation_message_end">" символов"</string>
     <string name="validation_message_begin">"Введите не более "</string>
     <string name="book_not_valid">Чтобы сохранить книгу, пожалуйста, корректно заполните все необходимые поля</string>
+    <string name="book_receive_date_not_valid">Дата ПОЛУЧЕНИЯ должна быть не больше даты ВОЗВРАТА</string>
+    <string name="book_transfer_date_not_valid">Дата, когда книга ОТДАНА, должна быть не больше даты ее ВОЗВРАТА</string>
 </resources>
