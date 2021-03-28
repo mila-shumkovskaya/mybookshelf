@@ -23,6 +23,11 @@ jobs:
       - name: Build Project
         run: ./gradlew assembl
         
+      - name: Test Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+        
   android_tests:
     runs-on: [ macos-latest ]
     steps:
