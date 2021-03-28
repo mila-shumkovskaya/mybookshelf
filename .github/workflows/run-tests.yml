@@ -23,8 +23,6 @@ jobs:
       - name: Build Project
         run: ./gradlew assembl
         
-      - name: Test Coverage
-        run: ./gradlew build jacocoReport
         
   android_tests:
     runs-on: [ macos-latest ]
@@ -36,3 +34,9 @@ jobs:
         with:
           api-level: 29
           script: ./gradlew connectedAndroidTest
+          
+      - name: Test Coverage
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew build jacocoReport
