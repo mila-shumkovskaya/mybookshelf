@@ -24,9 +24,7 @@ jobs:
         run: ./gradlew assembl
         
       - name: Test Coverage
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+        run: ./gradlew build jacocoTestReport sonarqube
         
   android_tests:
     runs-on: [ macos-latest ]
