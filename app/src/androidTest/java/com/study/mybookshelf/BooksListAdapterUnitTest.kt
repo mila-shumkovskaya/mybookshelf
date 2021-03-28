@@ -37,7 +37,7 @@ class BooksListAdapterUnitTest {
         val book3 =  LibraryBook(2, "book3", "author3", ByteArray(0), 3.0.toFloat(), false, "comment3")
         val book4 =  LibraryBook(3, "book4", "author4", ByteArray(0), 3.0.toFloat(), false, "comment4")
         bookListAdapter.refreshBooks(listOf<Book>(book1, book2, book3, book4))
-        assertEquals(3, bookListAdapter.itemCount)
+        assertEquals(2, bookListAdapter.itemCount)
     }
 
     @Test
