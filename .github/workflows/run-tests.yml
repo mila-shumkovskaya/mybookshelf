@@ -17,23 +17,15 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Run Tests
-        run: ./gradlew test
 
       - name: Build Project
         run: ./gradlew assembl
         
         
-  android_tests:
+  tests:
     runs-on: [ macos-latest ]
     steps:
       - uses: actions/checkout@v2
-
-      - name: Instrumentation Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          script: ./gradlew connectedAndroidTest
           
       - name: Test Coverage
         uses: reactivecircus/android-emulator-runner@v2
