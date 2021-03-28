@@ -19,9 +19,17 @@ jobs:
 
       - name: Run Tests
         run: ./gradlew test
-        
-      - name: Run Android
-        run: ./gradlew connectedAndroidTest
 
       - name: Build Project
         run: ./gradlew assembl
+        
+  android_tests:
+    runs-on: [ macos-latest ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Instrumentation Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedAndroidTest
