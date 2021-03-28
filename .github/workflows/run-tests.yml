@@ -24,7 +24,7 @@ jobs:
         run: ./gradlew assembl
         
       - name: Test Coverage
-        run: ./gradlew build jacocoReport sonarqube
+        run: ./gradlew build jacocoReport
         
   android_tests:
     runs-on: [ macos-latest ]
