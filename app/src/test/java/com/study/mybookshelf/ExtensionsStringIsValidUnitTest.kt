@@ -8,7 +8,7 @@ class ExtensionsStringIsValidUnitTest {
     @Test
     fun testStringIsValidShortNotEmpty_differentSymbols() {
         val string = "jhsvrflji68t puh7ft @##%$#^79I8*()3<?/" // length = 38, OK
-        assertFalse(string.isValidShortNotEmpty())
+        assertTrue(string.isValidShortNotEmpty())
     }
     @Test
     fun testStringIsValidShortNotEmpty_maxShortLength() {
