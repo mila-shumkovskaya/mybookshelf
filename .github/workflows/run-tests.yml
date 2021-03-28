@@ -24,7 +24,7 @@ jobs:
         run: ./gradlew assembl
         
   android_tests:
-    runs-on: [ macos-latest ]
+    runs-on: [ ubuntu-latest ]
     steps:
       - uses: actions/checkout@v2
 
@@ -32,4 +32,4 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew connectedAndroidTest
+          script: ./gradlew --info connectedDebugAndroidTest | grep "com\.study\.mybookshelf\..* >"
