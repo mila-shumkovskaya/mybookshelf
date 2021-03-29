@@ -64,7 +64,7 @@ class AddEmptyLendedBookEndToEndTest {
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         Thread.sleep(700)
 
-        Espresso.pressBack()
+        //Espresso.pressBack()
 
         val editText_title = Espresso.onView(
             Matchers.allOf(

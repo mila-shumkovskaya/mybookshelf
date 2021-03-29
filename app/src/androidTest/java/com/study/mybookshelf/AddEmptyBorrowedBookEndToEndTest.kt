@@ -68,7 +68,7 @@ class AddEmptyBorrowedBookEndToEndTest {
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         Thread.sleep(700)
 
-        pressBack()
+        //pressBack()
 
         val editText_title = onView(
             allOf(
