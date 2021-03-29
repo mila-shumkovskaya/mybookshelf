@@ -46,7 +46,7 @@ class BooksListAdapterUnitTest {
 
     @Test
     fun testGetItemViewTypeOfLendedBook() {
-        val lendedBook = LendedBook(0, "lended", "author", ByteArray(0), 5.0.toFloat(), true, "comment",
+        val lendedBook = LendedBook(0, "lended", "author", ByteArray(0), 5.0.toFloat(), false, "comment",
             "Petya", LocalDate.of(2020, 12, 20).getString(), LocalDate.of(2021, 12, 20).getString())
         bookListAdapter.refreshBooks(listOf<Book>(lendedBook))
         assertEquals(bookListAdapter.getItemViewType(0), BookType.LENDED_BOOK.id)
