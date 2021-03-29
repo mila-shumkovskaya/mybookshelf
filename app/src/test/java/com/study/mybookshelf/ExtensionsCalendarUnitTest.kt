@@ -22,7 +22,7 @@ class ExtensionsCalendarUnitTest {
     fun testNotGreaterThanDate_less() {
         cDate.set(Calendar.YEAR, 2021)
         cDate.set(Calendar.MONTH, 11)
-        cDate.set(Calendar.DAY_OF_MONTH, 2)
+        cDate.set(Calendar.DAY_OF_MONTH, 1)
         assertTrue(cDate.notGreaterThanDate(cMustBeGreaterDate))
     }
 
