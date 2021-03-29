@@ -29,10 +29,10 @@ class BooksListAdapterUnitTest {
 
     @Test
     fun testGetItemCount() {
-        val book1 = LibraryBook(0,"book1", "author1", ByteArray(0), 5.0.toFloat(), true, "comment1")
-        val book2 = LibraryBook(1, "book2", "author2", ByteArray(0), 3.0.toFloat(), false, "comment2")
-        val book3 =  LibraryBook(2, "book3", "author3", ByteArray(0), 3.0.toFloat(), false, "comment3")
-        val book4 =  LibraryBook(3, "book4", "author4", ByteArray(0), 3.0.toFloat(), false, "comment4")
+        val book1 = LibraryBook(0, "book1", "author1", ByteArray(0), 5.0.toFloat(), true, "comment1")
+        val book2 = LibraryBook(1, "book2", "author2", ByteArray(0), 4.0.toFloat(), false, "comment2")
+        val book3 = LibraryBook(2, "book3", "author3", ByteArray(0), 3.0.toFloat(), false, "comment3")
+        val book4 = LibraryBook(3, "book4", "author4", ByteArray(0), 3.0.toFloat(), false, "comment4")
         bookListAdapter.refreshBooks(listOf<Book>(book1, book2, book3, book4))
         assertEquals(4, bookListAdapter.itemCount)
     }
