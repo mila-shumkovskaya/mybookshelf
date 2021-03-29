@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,8 +12,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.study.mybookshelf.DetailsActivity
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.LendedBook
+import com.study.mybookshelf.ui.preferences.SharedPreferencesId
 import com.study.mybookshelf.ui.book_recycler_view.BooksRecyclerView
 import com.study.mybookshelf.utils.getString
+import com.study.mybookshelf.view_models.LendedBooksViewModel
 import java.time.LocalDate
 
 class LendedBooksFragment: Fragment() {
@@ -28,7 +30,7 @@ class LendedBooksFragment: Fragment() {
         lendedBooksViewModel = ViewModelProviders.of(this).get(LendedBooksViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_lended_books, container, false)
 
-        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
+        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_lended_books)
         lendedBooksViewModel.lendedBooksList.observe(viewLifecycleOwner, Observer {
             rvBooks.adapter.refreshBooks(it)
         })
@@ -36,14 +38,15 @@ class LendedBooksFragment: Fragment() {
         val fab: FloatingActionButton = root.findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             val intent = Intent(context, DetailsActivity::class.java)
-            val book = LendedBook("lended", "author", R.mipmap.book_cover, 5.0.toFloat(), true, "interesting book",
-                    "Recipient", LocalDate.of(2020, 12, 20).getString(), LocalDate.of(2021, 12, 20).getString())
+            //read from shared
+            val id = SharedPreferencesId(requireContext()).getId()+1
+            val book = LendedBook(id, getString(R.string.hint_title), getString(R.string.hint_author), ByteArray(0), 5.0.toFloat(), true, getString(R.string.hint_comment),
+                getString(R.string.hint_recipient), LocalDate.of(2020, 12, 20).getString(), LocalDate.of(2021, 12, 20).getString())
             //val bundle = bundleOf( "book" to book)
             intent.putExtra("book", book)
-
+            intent.putExtra("add", true)
             startActivity(intent)
         }
-
         return root
     }
 }

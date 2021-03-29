@@ -34,9 +34,9 @@ class Repository<T : RealmModel?>(booksList: MutableLiveData<List<T>>, private v
     }
 
 
-    fun deleteBook(title: String) {
+    fun deleteBook(id: Int) {
         realm.executeTransaction { realm ->
-            val book = realm.where(bookClass).equalTo("title", title).findFirst()
+            val book = realm.where(bookClass).equalTo("id", id).findFirst()
             book?.deleteFromRealm()
         }
 
