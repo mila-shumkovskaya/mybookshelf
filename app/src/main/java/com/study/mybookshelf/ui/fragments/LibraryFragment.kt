@@ -12,9 +12,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.study.mybookshelf.DetailsActivity
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.LibraryBook
+import com.study.mybookshelf.ui.LibraryViewModel
 import com.study.mybookshelf.ui.preferences.SharedPreferencesId
 import com.study.mybookshelf.ui.book_recycler_view.BooksRecyclerView
-import com.study.mybookshelf.view_models.LibraryViewModel
 
 class LibraryFragment: Fragment() {
 
@@ -29,7 +29,7 @@ class LibraryFragment: Fragment() {
         libraryViewModel = ViewModelProviders.of(this).get(LibraryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_library, container, false)
 
-        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
+        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_library_books)
         libraryViewModel.libraryBooksList.observe(viewLifecycleOwner, Observer {
             rvBooks.adapter.refreshBooks(it)
         })
