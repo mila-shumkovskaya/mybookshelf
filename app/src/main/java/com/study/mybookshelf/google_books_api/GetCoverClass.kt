@@ -45,7 +45,13 @@ class GetCoverClass(val activity: Activity) {
     fun getCover(title: String, author: String, returnImages: (activity: Activity, imageList: ArrayList<Bitmap>) -> Unit) {
         Log.i("GetCoverClass", "getCover()")
         val request = ServiceBuilder.buildService(ApiInterface::class.java)
-        val call = request.getBooks("intitle:" + title + "+inauthor:" + author, APIKey)
+        if (title.isEmpty()) {
+            returnImages(activity, arrayListOf<Bitmap>())
+        }
+        var callString = "intitle:$title"
+        if (author.isNotBlank())
+            callString += "+inauthor:$author"
+        val call = request.getBooks(callString, APIKey)
         call.enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {

@@ -59,7 +59,7 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
     }
 
     // check access to camera
-    private fun getFromCamera() {
+    fun getFromCamera() {
         if (checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
             val permission = arrayOf(Manifest.permission.CAMERA)
             //show popup to request permission
@@ -70,7 +70,7 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
     }
 
     // check access to gallery
-    private fun getFromGallery() {
+    fun getFromGallery() {
         if (checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
             //show popup to request permission
@@ -81,7 +81,7 @@ class CoverDialogFragment(context: Context, val title: String, val author: Strin
     }
 
     // retrieve books' covers
-    private fun getFromInternet() {
+    fun getFromInternet() {
         if (isOnline()) {
             Log.i(this.tag, "Online")
             val getCoverClass = GetCoverClass(requireActivity())
