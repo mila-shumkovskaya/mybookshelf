@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.study.mybookshelf.R
-import com.study.mybookshelf.ui.TabPagerAdapter
+import com.study.mybookshelf.ui.other.TabPagerAdapter
 
 class HomeFragment : Fragment() {
 

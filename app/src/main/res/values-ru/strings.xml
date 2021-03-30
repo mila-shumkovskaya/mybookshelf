@@ -17,6 +17,8 @@
     <string name="rating">Рейтинг:</string>
     <string name="isEl">Электронная книга:</string>
     <string name="comment">Комментарий:</string>
+
+    <string name="save">Сохранить изменения</string>
     <string name="hint_title">Введите название</string>
     <string name="hint_author">Введите автора</string>
     <string name="hint_comment">Введите комментарий</string>
@@ -24,4 +26,40 @@
     <string name="transfer_date">Отдана:</string>
     <string name="hint_owner">Укажите владельца</string>
     <string name="hint_recipient">Укажите, кому отдали</string>
+
+    <string name="notif_switch">Включить уведомления</string>
+    <string name="notif_label">Установить время уведомлений</string>
+    <string name="notif_title">Уведомления</string>
+
+    <string name="language_label">Язык приложения</string>
+    <string name="language_title">Выбрать язык</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_english">Английский</string>
+
+    <string name="permission_denied">Нет доступа</string>
+
+    <!-- COVER -->
+    <string name="load_cover">Загрузить обложку</string>
+    <string name="from_camera">Фото с камеры</string>
+    <string name="from_gallery">Фото из Галереи</string>
+    <string name="from_internet">Фото из интернета</string>
+
+    <string name="no_books_found">Обложка не найдена. Возможная причина: автор или название введены неверно</string>
+    <string name="choose_cover">Выберите обложку</string>
+    <string name="close">Закрыть</string>
+    <string name="notifications_enabled">Уведомления включены</string>
+    <string name="notifications_disabled">Уведомления выключены</string>
+
+    <!-- For messages -->
+    <string name="message">Сообщение</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="del_message">Вы действительно хотите удалить эту книгу?</string>
+    <string name="validation_title_message_begin">"Введите название длиной не более "</string>
+    <string name="validation_title_message_end">" символов"</string>
+    <string name="validation_message_end">" символов"</string>
+    <string name="validation_message_begin">"Введите не более "</string>
+    <string name="book_not_valid">Чтобы сохранить книгу, пожалуйста, корректно заполните все необходимые поля</string>
+    <string name="book_receive_date_not_valid">Дата ПОЛУЧЕНИЯ должна быть не больше даты ВОЗВРАТА</string>
+    <string name="book_transfer_date_not_valid">Дата, когда книга ОТДАНА, должна быть не больше даты ее ВОЗВРАТА</string>
 </resources>

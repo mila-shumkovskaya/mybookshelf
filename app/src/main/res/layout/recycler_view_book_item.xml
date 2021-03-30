@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/default_padding"
@@ -14,6 +15,7 @@
         android:gravity="center_horizontal"
         android:padding="@dimen/default_padding"
         android:background="?android:selectableItemBackground">
+
         <ImageView
             android:id="@+id/image_cover"
             android:layout_width="match_parent"
