@@ -12,6 +12,7 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
@@ -65,7 +66,7 @@ class EditBookTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.library_books_fragment)
     }
 
@@ -83,7 +84,7 @@ class EditBookTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_books_fragment)
     }
 
@@ -101,7 +102,7 @@ class EditBookTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.lended_books_fragment)
     }
 
@@ -120,7 +121,7 @@ class EditBookTest {
                 withClassName(`is`("androidx.recyclerview.widget.RecyclerView")),
                 withParent(withParent(withId(id)))
             )
-        ).perform(actionOnItemAtPosition<ViewHolder>(position, click()))
+        ).perform(scrollToPosition<ViewHolder>(position), actionOnItemAtPosition<ViewHolder>(position, click()))
 
         val btnEdit = onView(
             allOf(
@@ -170,8 +171,7 @@ class EditBookTest {
         val tvNewTitle = onView(
             allOf(
                 withId(R.id.text_book_title), withText(newTitle),
-                withParent(withParent(withId(R.id.card_view))),
-                isDisplayed()
+                withParent(withParent(withId(R.id.card_view)))
             )
         )
         tvNewTitle.check(matches(isDisplayed()))
@@ -179,8 +179,7 @@ class EditBookTest {
         val tvNewAuthor = onView(
             allOf(
                 withId(R.id.text_book_author), withText(newAuthor),
-                withParent(withParent(withId(R.id.card_view))),
-                isDisplayed()
+                withParent(withParent(withId(R.id.card_view)))
             )
         )
         tvNewAuthor.check(matches(isDisplayed()))
@@ -188,8 +187,7 @@ class EditBookTest {
         val tvOldTitle = onView(
             allOf(
                 withId(R.id.text_book_title), withText(oldTitle.toString()),
-                withParent(withParent(withId(R.id.card_view))),
-                isDisplayed()
+                withParent(withParent(withId(R.id.card_view)))
             )
         )
         tvOldTitle.check(ViewAssertions.doesNotExist())
@@ -197,8 +195,7 @@ class EditBookTest {
         val tvOldAuthor = onView(
             allOf(
                 withId(R.id.text_book_author), withText(oldAuthor.toString()),
-                withParent(withParent(withId(R.id.card_view))),
-                isDisplayed()
+                withParent(withParent(withId(R.id.card_view)))
             )
         )
         tvOldAuthor.check(ViewAssertions.doesNotExist())

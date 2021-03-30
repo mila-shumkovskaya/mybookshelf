@@ -66,7 +66,7 @@ class DeleteBookTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.library_books_fragment)
     }
 
@@ -84,7 +84,7 @@ class DeleteBookTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_books_fragment)
     }
 
@@ -102,7 +102,7 @@ class DeleteBookTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.lended_books_fragment)
     }
 

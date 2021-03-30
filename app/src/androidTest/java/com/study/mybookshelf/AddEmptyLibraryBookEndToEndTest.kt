@@ -51,48 +51,48 @@ class AddEmptyLibraryBookEndToEndTest {
         val editText_title = onView(
             allOf(
                 withId(R.id.et_title), withText(""), withHint(R.string.hint_title),
-                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
-                isDisplayed()
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java)))
             )
         )
+        editText_title.perform(scrollTo())
         editText_title.check(matches(withText("")))
         editText_title.check(matches(withHint(R.string.hint_title)))
 
         val editText_author = onView(
             allOf(
                 withId(R.id.et_author), withText(""), withHint(R.string.hint_author),
-                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
-                isDisplayed()
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java)))
             )
         )
+        editText_author.perform(scrollTo())
         editText_author.check(matches(withText("")))
         editText_author.check(matches(withHint(R.string.hint_author)))
 
         val ratingBar = onView(
             allOf(
                 withId(R.id.rating_bar),
-                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
-                isDisplayed()
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java)))
             )
         )
+        ratingBar.perform(scrollTo())
         ratingBar.check(matches(isDisplayed()))
 
         val switch = onView(
             allOf(
                 withId(R.id.switch_is_el), isChecked(),
-                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
-                isDisplayed()
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java)))
             )
         )
+        switch.perform(scrollTo())
         switch.check(matches(isChecked()))
 
         val editText_comment = onView(
             allOf(
                 withId(R.id.et_comment), withText(""), withHint(R.string.hint_comment),
-                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
-                isDisplayed()
+                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java)))
             )
         )
+        editText_comment.perform(scrollTo())
         editText_comment.check(matches(withText("")))
         editText_comment.check(matches(withHint(R.string.hint_comment)))
     }

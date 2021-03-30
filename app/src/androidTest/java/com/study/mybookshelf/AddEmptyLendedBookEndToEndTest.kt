@@ -32,7 +32,7 @@ class AddEmptyLendedBookEndToEndTest {
     fun addEmptyLendedBookEndToEndTest() {
         val tabView = Espresso.onView(
             Matchers.allOf(
-                ViewMatchers.withContentDescription(R.string.tab3_lended_books),
+                ViewMatchers.withContentDescription("Lended books"),
                 childAtPosition(
                     childAtPosition(
                         ViewMatchers.withId(R.id.tab_layout),
@@ -43,7 +43,7 @@ class AddEmptyLendedBookEndToEndTest {
                 ViewMatchers.isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
 
         val floatingActionButton = Espresso.onView(
             Matchers.allOf(
@@ -66,10 +66,10 @@ class AddEmptyLendedBookEndToEndTest {
                 ViewMatchers.withId(R.id.et_title),
                 ViewMatchers.withText(""),
                 ViewMatchers.withHint(R.string.hint_title),
-                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
-                ViewMatchers.isDisplayed()
+                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java)))
             )
         )
+        editText_title.perform(scrollTo())
         editText_title.check(ViewAssertions.matches(ViewMatchers.withText("")))
         editText_title.check(ViewAssertions.matches(ViewMatchers.withHint(R.string.hint_title)))
 
@@ -78,29 +78,29 @@ class AddEmptyLendedBookEndToEndTest {
                 ViewMatchers.withId(R.id.et_author),
                 ViewMatchers.withText(""),
                 ViewMatchers.withHint(R.string.hint_author),
-                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
-                ViewMatchers.isDisplayed()
+                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java)))
             )
         )
+        editText_author.perform(scrollTo())
         editText_author.check(ViewAssertions.matches(ViewMatchers.withText("")))
         editText_author.check(ViewAssertions.matches(ViewMatchers.withHint(R.string.hint_author)))
 
         val ratingBar = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withId(R.id.rating_bar),
-                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
-                ViewMatchers.isDisplayed()
+                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java)))
             )
         )
+        ratingBar.perform(scrollTo())
         ratingBar.check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
         val switch = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withId(R.id.switch_is_el), ViewMatchers.isChecked(),
-                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
-                ViewMatchers.isDisplayed()
+                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java)))
             )
         )
+        switch.perform(scrollTo())
         switch.check(ViewAssertions.matches(ViewMatchers.isChecked()))
 
         val editText_comment = Espresso.onView(
@@ -108,10 +108,10 @@ class AddEmptyLendedBookEndToEndTest {
                 ViewMatchers.withId(R.id.et_comment),
                 ViewMatchers.withText(""),
                 ViewMatchers.withHint(R.string.hint_comment),
-                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
-                ViewMatchers.isDisplayed()
+                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java)))
             )
         )
+        editText_comment.perform(scrollTo())
         editText_comment.check(ViewAssertions.matches(ViewMatchers.withText("")))
         editText_comment.check(ViewAssertions.matches(ViewMatchers.withHint(R.string.hint_comment)))
 
@@ -120,35 +120,29 @@ class AddEmptyLendedBookEndToEndTest {
                 ViewMatchers.withId(R.id.et_recipient),
                 ViewMatchers.withText(""),
                 ViewMatchers.withHint(R.string.hint_recipient),
-                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
-                ViewMatchers.isDisplayed()
+                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java)))
             )
         )
+        editText_recipient.perform(scrollTo())
         editText_recipient.check(ViewAssertions.matches(ViewMatchers.withText("")))
         editText_recipient.check(ViewAssertions.matches(ViewMatchers.withHint(R.string.hint_recipient)))
-
-        Espresso.onView(ViewMatchers.withChild(ViewMatchers.withId(R.id.et_recipient)))
-            .perform(swipeUp())
-            .perform(swipeUp())
-            .perform(swipeUp())
-            .perform(swipeUp())
 
         val transferDatePicker = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withId(R.id.transfer_date_picker),
-                ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java)),
-                ViewMatchers.isDisplayed()
+                ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))
             )
         )
+        transferDatePicker.perform(scrollTo())
         transferDatePicker.check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
         val returnDatePicker = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withId(R.id.return_date_picker),
-                ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java)),
-                ViewMatchers.isDisplayed()
+                ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))
             )
         )
+        returnDatePicker.perform(scrollTo())
         returnDatePicker.check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
