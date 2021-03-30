@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
@@ -30,17 +31,11 @@ class AddEmptyLibraryBookEndToEndTest {
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun addEmptyLibraryBook_EndToEndTest() {
+    fun addEmptyLibraryBookEndToEndTest() {
         val floatingActionButton = onView(
             allOf(
                 withId(R.id.fab),
-                childAtPosition(
-                    childAtPosition(
-                        withClassName(`is`("android.widget.FrameLayout")),
-                        0
-                    ),
-                    1
-                ),
+                withParent(withId(R.id.library_books_fragment)),
                 isDisplayed()
             )
         )

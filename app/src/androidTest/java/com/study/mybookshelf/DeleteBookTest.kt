@@ -85,7 +85,7 @@ class DeleteBookTest {
             )
         )
         tabView.perform(click())
-        return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_fragment)
+        return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_books_fragment)
     }
 
     private fun getLendedBooksTabLayout(): RelativeLayout? {
@@ -108,7 +108,7 @@ class DeleteBookTest {
 
     fun deleteBookTest(layout: RelativeLayout, id: Int) {
         val recyclerView = layout.findViewById<RecyclerView>(R.id.recycler_view)
-        val position = 2
+        val position = 1
         val cardView =  recyclerView.layoutManager?.findViewByPosition(position);
         val titleText = cardView?.findViewById<TextView>(R.id.text_book_title)?.text
         val authorText = cardView?.findViewById<TextView>(R.id.text_book_author)?.text
@@ -116,10 +116,6 @@ class DeleteBookTest {
         onView(
             allOf(
                 withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(`is`("android.widget.LinearLayout")),
-                    0
-                ),
                 withClassName(`is`("androidx.recyclerview.widget.RecyclerView")),
                 withParent(withParent(withId(id)))
             )
@@ -178,7 +174,7 @@ class DeleteBookTest {
                 )
             )
         )
-        yesButton.perform(scrollTo(), click())
+        yesButton.perform(click())
 
         val tvTitle = onView(
             allOf(

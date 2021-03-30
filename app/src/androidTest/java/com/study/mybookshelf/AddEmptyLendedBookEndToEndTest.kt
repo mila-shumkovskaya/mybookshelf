@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.filters.LargeTest
@@ -28,7 +29,7 @@ class AddEmptyLendedBookEndToEndTest {
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun addEmptyBorrowedBookEndToEndTest() {
+    fun addEmptyLendedBookEndToEndTest() {
         val tabView = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withContentDescription(R.string.tab3_lended_books),
@@ -42,22 +43,16 @@ class AddEmptyLendedBookEndToEndTest {
                 ViewMatchers.isDisplayed()
             )
         )
-        tabView.perform(ViewActions.click())
+        tabView.perform(click())
 
         val floatingActionButton = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withId(R.id.fab),
-                childAtPosition(
-                    childAtPosition(
-                        ViewMatchers.withClassName(Matchers.`is`("android.widget.FrameLayout")),
-                        0
-                    ),
-                    1
-                ),
+                ViewMatchers.withParent(ViewMatchers.withId(R.id.lended_books_fragment)),
                 ViewMatchers.isDisplayed()
             )
         )
-        floatingActionButton.perform(ViewActions.click())
+        floatingActionButton.perform(click())
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -133,10 +128,10 @@ class AddEmptyLendedBookEndToEndTest {
         editText_recipient.check(ViewAssertions.matches(ViewMatchers.withHint(R.string.hint_recipient)))
 
         Espresso.onView(ViewMatchers.withChild(ViewMatchers.withId(R.id.et_recipient)))
-            .perform(ViewActions.swipeUp())
-            .perform(ViewActions.swipeUp())
-            .perform(ViewActions.swipeUp())
-            .perform(ViewActions.swipeUp())
+            .perform(swipeUp())
+            .perform(swipeUp())
+            .perform(swipeUp())
+            .perform(swipeUp())
 
         val transferDatePicker = Espresso.onView(
             Matchers.allOf(

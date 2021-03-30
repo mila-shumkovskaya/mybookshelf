@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -42,7 +43,7 @@ class GoToSettingsFromDrawerEndToEndTest {
     fun goToSettingsFromDrawerEndToEndTest() {
         val appCompatImageButton = onView(
             allOf(
-                withContentDescription("Открыть панель навигации"),/////////////////////////////////////////
+                //withContentDescription("Открыть панель навигации"),/////////////////////////////////////////
                 childAtPosition(
                     allOf(
                         withId(R.id.toolbar),

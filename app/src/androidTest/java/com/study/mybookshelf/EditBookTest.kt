@@ -84,7 +84,7 @@ class EditBookTest {
             )
         )
         tabView.perform(click())
-        return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_fragment)
+        return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_books_fragment)
     }
 
     private fun getLendedBooksTabLayout(): RelativeLayout? {
@@ -107,7 +107,7 @@ class EditBookTest {
 
     private fun editBookTest(layout: RelativeLayout, id: Int, idBtnSave: Int) {
         val recyclerView = layout.findViewById<RecyclerView>(R.id.recycler_view)
-        val position = 2
+        val position = 1
         val cardView =  recyclerView.layoutManager?.findViewByPosition(position);
         val oldTitle = cardView?.findViewById<TextView>(R.id.text_book_title)?.text
         val oldAuthor = cardView?.findViewById<TextView>(R.id.text_book_author)?.text
@@ -117,10 +117,6 @@ class EditBookTest {
         onView(
             allOf(
                 withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(`is`("android.widget.LinearLayout")),
-                    0
-                ),
                 withClassName(`is`("androidx.recyclerview.widget.RecyclerView")),
                 withParent(withParent(withId(id)))
             )
@@ -146,7 +142,7 @@ class EditBookTest {
                 )
             )
         )
-        etTitle.perform(scrollTo(), replaceText(newTitle))
+        etTitle.perform(replaceText(newTitle))
 
 
         val etAuthor = onView(
@@ -161,7 +157,7 @@ class EditBookTest {
                 )
             )
         )
-        etAuthor.perform(scrollTo(), replaceText(newAuthor))
+        etAuthor.perform(replaceText(newAuthor))
 
         val btnSave = onView(
             allOf(
@@ -187,7 +183,7 @@ class EditBookTest {
                 isDisplayed()
             )
         )
-        .check(matches(isDisplayed()))
+        tvNewAuthor.check(matches(isDisplayed()))
 
         val tvOldTitle = onView(
             allOf(

@@ -4,7 +4,6 @@ package com.study.mybookshelf
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
@@ -15,7 +14,6 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.core.IsInstanceOf
@@ -46,18 +44,12 @@ class AddEmptyBorrowedBookEndToEndTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
 
         val floatingActionButton = onView(
             allOf(
                 withId(R.id.fab),
-                childAtPosition(
-                    childAtPosition(
-                        withClassName(`is`("android.widget.FrameLayout")),
-                        0
-                    ),
-                    1
-                ),
+                withParent(withId(R.id.borrowed_books_fragment)),
                 isDisplayed()
             )
         )

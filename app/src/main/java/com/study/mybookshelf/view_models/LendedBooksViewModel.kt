@@ -16,7 +16,7 @@ class LendedBooksViewModel : ViewModel() {
         val lended1 = LendedBook(9,"lended_1", "author_1", ByteArray(0), 5.0.toFloat(), true, "interesting book",
             "Petya", LocalDate.of(2020, 12, 20).getString(), LocalDate.of(2021, 12, 20).getString())
         val lended2 = LendedBook(10,"lended_2", "author_2", ByteArray(0), 3.0.toFloat(), false, "hi!",
-            "Kate&Leo", LocalDate.of(2020, 10, 20).getString(), LocalDate.of(2021, 11, 20).getString())
+            "Kate&Leo", LocalDate.of(2020, 10, 20).getString(), LocalDate.of(2019, 11, 20).getString())
 //        val lended3 = LendedBook(11,"lended_3", "author_3", ByteArray(0), 4.7.toFloat(), true, "lendeeed",
 //            "Smb", LocalDate.of(2019, 12, 10).getString(), LocalDate.of(2020, 12, 20).getString())
 //        val lended4 = (LendedBook(12,"HarryPotter1", "J.K.Rowling", ByteArray(0), 5.0.toFloat(), true, "comment1", "Dasha", LocalDate.of(2018, 6, 25).getString(), LocalDate.of(2018, 6, 25).getString()))
