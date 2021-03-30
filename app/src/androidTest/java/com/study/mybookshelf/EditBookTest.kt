@@ -112,8 +112,8 @@ class EditBookTest {
         val cardView =  recyclerView.layoutManager?.findViewByPosition(position);
         val oldTitle = cardView?.findViewById<TextView>(R.id.text_book_title)?.text
         val oldAuthor = cardView?.findViewById<TextView>(R.id.text_book_author)?.text
-        val newTitle = "New_book"
-        val newAuthor = "New_author"
+        val newTitle = "A_new_book"
+        val newAuthor = "A_new_author"
 
         onView(
             allOf(
