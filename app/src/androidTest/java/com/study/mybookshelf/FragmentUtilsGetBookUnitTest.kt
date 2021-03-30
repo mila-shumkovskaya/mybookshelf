@@ -16,8 +16,7 @@ import org.mockito.Mockito.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-//@RunWith(AndroidJUnit4::class)
-class ragmentUtilsGetBookUnitTest {
+class FragmentUtilsGetBookUnitTest {
 
     private val returnDate = "20.12.2020"
     private val receiveDate = "10.12.2019"
