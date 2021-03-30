@@ -1,4 +1,4 @@
-package com.study.mybookshelf
+package com.study.mybookshelf.end_to_end_tests
 
 
 import android.view.View
@@ -11,6 +11,8 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.study.mybookshelf.MainActivity
+import com.study.mybookshelf.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -21,7 +23,7 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class ChooseTabTest {
+class ChooseTabEndToEndTests {
 
     @Rule
     @JvmField

@@ -1,4 +1,4 @@
-package com.study.mybookshelf
+package com.study.mybookshelf.end_to_end_tests
 
 
 import android.view.View
@@ -10,48 +10,57 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.study.mybookshelf.MainActivity
+import com.study.mybookshelf.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
-import org.hamcrest.core.IsInstanceOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class RecyclerViewPickItemTest {
+class DeleteBookEndToEndTests {
 
     @Rule
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun pickItemOnLibraryBooksTest() {
+    fun deleteItemOnLibraryBooksTest() {
         val layout = getLibraryTabLayout()
-        checkChosenItemAtLayout(layout!!, R.id.library_books_fragment)
+        deleteBookTest(layout!!,
+            R.id.recycler_view_library_books
+        )
     }
 
     @Test
-    fun pickItemOnBorrowedBooksTest() {
+    fun deleteItemOnBorrowedBooksTest() {
         val layout = getBorrowedBooksTabLayout()
-        checkChosenItemAtLayout(layout!!, R.id.borrowed_books_fragment)
+        deleteBookTest(layout!!,
+            R.id.recycler_view_borrowed_books
+        )
     }
 
     @Test
-    fun pickItemOnLendedBooksTest() {
+    fun deleteItemOnLendedBooksTest() {
         val layout = getLendedBooksTabLayout()
-        checkChosenItemAtLayout(layout!!, R.id.lended_books_fragment)
+        deleteBookTest(layout!!,
+            R.id.recycler_view_lended_books
+        )
     }
 
-    fun getLibraryTabLayout(): RelativeLayout? {
+    private fun getLibraryTabLayout(): RelativeLayout? {
         val tabView = onView(
             allOf(
                 withContentDescription("Library"),
@@ -69,7 +78,7 @@ class RecyclerViewPickItemTest {
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.library_books_fragment)
     }
 
-    fun getBorrowedBooksTabLayout(): RelativeLayout? {
+    private fun getBorrowedBooksTabLayout(): RelativeLayout? {
         val tabView = onView(
             allOf(
                 withContentDescription("Borrowed books"),
@@ -87,7 +96,7 @@ class RecyclerViewPickItemTest {
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_books_fragment)
     }
 
-    fun getLendedBooksTabLayout(): RelativeLayout? {
+    private fun getLendedBooksTabLayout(): RelativeLayout? {
         val tabView = onView(
             allOf(
                 withContentDescription("Lended books"),
@@ -105,10 +114,9 @@ class RecyclerViewPickItemTest {
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.lended_books_fragment)
     }
 
-    private fun checkChosenItemAtLayout(layout: RelativeLayout, fragmentId: Int) {
-        val position = 1
+    fun deleteBookTest(layout: RelativeLayout, id: Int) {
         val recyclerView = layout.findViewById<RecyclerView>(R.id.recycler_view)
-
+        val position = 1
         val cardView =  recyclerView.layoutManager?.findViewByPosition(position);
         val titleText = cardView?.findViewById<TextView>(R.id.text_book_title)?.text
         val authorText = cardView?.findViewById<TextView>(R.id.text_book_author)?.text
@@ -117,27 +125,82 @@ class RecyclerViewPickItemTest {
             allOf(
                 withId(R.id.recycler_view),
                 withClassName(`is`("androidx.recyclerview.widget.RecyclerView")),
-                withParent(withParent(withParent(withParent(withId(fragmentId)))))
+                withParent(withParent(withId(id)))
             )
         ).perform(actionOnItemAtPosition<ViewHolder>(position, click()))
 
-        val etTitle = onView(
+        // check if image with basket for deleting exist
+        val imageButton = onView(
             allOf(
-                withId(R.id.et_title), withText(titleText.toString()),
-                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
+                withId(R.id.bt_delete),
                 isDisplayed()
             )
         )
-        etTitle.check(matches(withText(titleText.toString())))
+        imageButton.check(matches(isDisplayed()))
 
-        val etAuthor = onView(
+        val btnDelete = onView(
             allOf(
-                withId(R.id.et_author), withText(authorText.toString()),
-                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
+                withId(R.id.bt_delete),
                 isDisplayed()
             )
         )
-        etAuthor.check(matches(withText(authorText.toString())))
+        btnDelete.perform(click())
+
+        val linearLayoutCompat = onView(
+            allOf(
+                withId(R.id.parentPanel),
+                withParent(
+                    allOf(
+                        withId(android.R.id.content),
+                        withParent(withId(R.id.action_bar_root))
+                    )
+                ),
+                isDisplayed()
+            )
+        )
+        linearLayoutCompat.check(matches(isDisplayed()))
+
+        // check delete message
+        val textView = onView(
+            allOf(
+                withId(android.R.id.message),
+                withParent(withParent(withId(R.id.scrollView))),
+                isDisplayed()
+            )
+        )
+        textView.check(matches(withText(R.string.del_message)))
+
+        val yesButton = onView(
+            allOf(
+                withId(android.R.id.button1), withText("Yes"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.buttonPanel),
+                        0
+                    ),
+                    3
+                )
+            )
+        )
+        yesButton.perform(click())
+
+        val tvTitle = onView(
+            allOf(
+                withId(R.id.text_book_title), withText(titleText.toString()),
+                withParent(withParent(withId(R.id.card_view))),
+                isDisplayed()
+            )
+        )
+        tvTitle.check(doesNotExist())
+
+        val tvAuthor = onView(
+            allOf(
+                withId(R.id.text_book_author), withText(authorText.toString()),
+                withParent(withParent(withId(R.id.card_view))),
+                isDisplayed()
+            )
+        )
+        tvAuthor.check(doesNotExist())
     }
 
     private fun childAtPosition(

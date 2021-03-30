@@ -1,4 +1,4 @@
-package com.study.mybookshelf
+package com.study.mybookshelf.end_to_end_tests
 
 
 import android.view.View
@@ -17,6 +17,8 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.study.mybookshelf.MainActivity
+import com.study.mybookshelf.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
@@ -28,7 +30,7 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class EditBookTest {
+class EditBookEndToEndTests {
 
     @Rule
     @JvmField
@@ -37,19 +39,28 @@ class EditBookTest {
     @Test
     fun editItemOnLibraryBooksTest() {
         val layout = getLibraryTabLayout()
-        editBookTest(layout!!, R.id.recycler_view_library_books, R.id.bt_save4)
+        editBookTest(layout!!,
+            R.id.recycler_view_library_books,
+            R.id.bt_save4
+        )
     }
 
     @Test
     fun editItemOnBorrowedBooksTest() {
         val layout = getBorrowedBooksTabLayout()
-        editBookTest(layout!!, R.id.recycler_view_borrowed_books, R.id.bt_save)
+        editBookTest(layout!!,
+            R.id.recycler_view_borrowed_books,
+            R.id.bt_save
+        )
     }
 
     @Test
     fun editItemOnLendedBooksTest() {
         val layout = getLendedBooksTabLayout()
-        editBookTest(layout!!, R.id.recycler_view_lended_books, R.id.bt_save2)
+        editBookTest(layout!!,
+            R.id.recycler_view_lended_books,
+            R.id.bt_save2
+        )
     }
 
     private fun getLibraryTabLayout(): RelativeLayout? {

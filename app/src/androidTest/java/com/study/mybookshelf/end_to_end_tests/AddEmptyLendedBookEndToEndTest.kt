@@ -1,16 +1,17 @@
-package com.study.mybookshelf
+package com.study.mybookshelf.end_to_end_tests
 
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.study.mybookshelf.MainActivity
+import com.study.mybookshelf.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -29,7 +30,7 @@ class AddEmptyLendedBookEndToEndTest {
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun addEmptyLendedBookEndToEndTest() {
+    fun addEmptyLendedBookTest() {
         val tabView = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withContentDescription("Lended books"),

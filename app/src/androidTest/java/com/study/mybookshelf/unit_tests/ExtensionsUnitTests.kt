@@ -1,16 +1,18 @@
-package com.study.mybookshelf
+package com.study.mybookshelf.unit_tests
 
 import android.graphics.Bitmap
 import androidx.core.graphics.drawable.toBitmap
 import androidx.test.rule.ActivityTestRule
 import android.text.Editable
+import com.study.mybookshelf.MainActivity
+import com.study.mybookshelf.R
 import com.study.mybookshelf.utils.*
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import java.time.LocalDate
 
-class ExtensionsUnitTest {
+class ExtensionsUnitTests {
 
     @Rule
     @JvmField
