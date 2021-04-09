@@ -1,4 +1,4 @@
-package com.study.mybookshelf
+package com.study.mybookshelf.unit_tests
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +15,7 @@ import org.junit.Test
 import org.mockito.Mockito.*
 import java.time.LocalDate
 
-class BooksListAdapterUnitTest {
+class BooksListAdapterUnitTests {
 
     private val context = mock(Context::class.java)
     private lateinit var bookListAdapter: BooksListAdapter

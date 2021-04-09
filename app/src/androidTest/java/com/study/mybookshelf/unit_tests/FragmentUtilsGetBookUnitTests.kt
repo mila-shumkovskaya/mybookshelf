@@ -1,4 +1,4 @@
-package com.study.mybookshelf
+package com.study.mybookshelf.unit_tests
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -16,7 +16,7 @@ import org.mockito.Mockito.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FragmentUtilsGetBookUnitTest {
+class FragmentUtilsGetBookUnitTests {
 
     private val returnDate = "20.12.2020"
     private val receiveDate = "10.12.2019"

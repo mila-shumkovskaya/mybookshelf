@@ -29,7 +29,7 @@ import io.realm.Realm
 
 class LibraryBookDetailsFragment: Fragment() {
 
-    private lateinit var ivCover: ImageView
+    lateinit var ivCover: ImageView
     private lateinit var etTitle: EditText
     private lateinit var etAuthor: EditText
     private lateinit var rbRating: RatingBar

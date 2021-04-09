@@ -1,11 +1,11 @@
-package com.study.mybookshelf
+package com.study.mybookshelf.integration_tests
 
 import android.app.Activity
 import android.graphics.Bitmap
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
-import androidx.test.rule.GrantPermissionRule
 import androidx.test.runner.AndroidJUnit4
+import com.study.mybookshelf.DetailsActivity
 import com.study.mybookshelf.google_books_api.GetCoverClass
 import junit.framework.Assert.assertEquals
 import org.junit.Rule
@@ -34,7 +34,9 @@ class CoverFromInternetTest {
     @Test
     fun coverWithoutTitleTest() {
         val getCoverClass = GetCoverClass(detailsActivityTestRule.activity)
-        getCoverClass.getCover("", author) { _: Activity, imageList: ArrayList<Bitmap> ->
+        getCoverClass.getCover("",
+            author
+        ) { _: Activity, imageList: ArrayList<Bitmap> ->
             assertEquals(true, imageList.isEmpty())
         }
     }
@@ -50,7 +52,10 @@ class CoverFromInternetTest {
     @Test
     fun coverWithTitleAndAuthorTest() {
         val getCoverClass = GetCoverClass(detailsActivityTestRule.activity)
-        getCoverClass.getCover(title, author) { _: Activity, imageList: ArrayList<Bitmap> ->
+        getCoverClass.getCover(
+            title,
+            author
+        ) { _: Activity, imageList: ArrayList<Bitmap> ->
             assertEquals(false, imageList.isNullOrEmpty())
         }
     }

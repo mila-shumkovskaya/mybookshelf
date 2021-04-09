@@ -1,4 +1,4 @@
-package com.study.mybookshelf
+package com.study.mybookshelf.end_to_end_tests
 
 
 import android.view.View
@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.study.mybookshelf.MainActivity
+import com.study.mybookshelf.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.*
@@ -26,7 +29,7 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class RecyclerViewPickItemTest {
+class RecyclerViewPickItemEndToEndTests {
 
     @Rule
     @JvmField
@@ -35,19 +38,25 @@ class RecyclerViewPickItemTest {
     @Test
     fun pickItemOnLibraryBooksTest() {
         val layout = getLibraryTabLayout()
-        checkChosenItemAtLayout(layout!!)
+        checkChosenItemAtLayout(layout!!,
+            R.id.library_books_fragment
+        )
     }
 
     @Test
     fun pickItemOnBorrowedBooksTest() {
         val layout = getBorrowedBooksTabLayout()
-        checkChosenItemAtLayout(layout!!)
+        checkChosenItemAtLayout(layout!!,
+            R.id.borrowed_books_fragment
+        )
     }
 
     @Test
     fun pickItemOnLendedBooksTest() {
         val layout = getLendedBooksTabLayout()
-        checkChosenItemAtLayout(layout!!)
+        checkChosenItemAtLayout(layout!!,
+            R.id.lended_books_fragment
+        )
     }
 
     fun getLibraryTabLayout(): RelativeLayout? {
@@ -64,7 +73,7 @@ class RecyclerViewPickItemTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.library_books_fragment)
     }
 
@@ -82,8 +91,8 @@ class RecyclerViewPickItemTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
-        return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_fragment)
+        tabView.perform(scrollTo(), click())
+        return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.borrowed_books_fragment)
     }
 
     fun getLendedBooksTabLayout(): RelativeLayout? {
@@ -100,12 +109,12 @@ class RecyclerViewPickItemTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
         return mActivityTestRule.activity.findViewById<RelativeLayout>(R.id.lended_books_fragment)
     }
 
-    private fun checkChosenItemAtLayout(layout: RelativeLayout) {
-        val position = 2
+    private fun checkChosenItemAtLayout(layout: RelativeLayout, fragmentId: Int) {
+        val position = 1
         val recyclerView = layout.findViewById<RecyclerView>(R.id.recycler_view)
 
         val cardView =  recyclerView.layoutManager?.findViewByPosition(position);
@@ -115,10 +124,8 @@ class RecyclerViewPickItemTest {
         onView(
             allOf(
                 withId(R.id.recycler_view),
-                childAtPosition(
-                    withClassName(`is`("android.widget.LinearLayout")),
-                    0
-                )
+                withClassName(`is`("androidx.recyclerview.widget.RecyclerView")),
+                withParent(withParent(withParent(withParent(withId(fragmentId)))))
             )
         ).perform(actionOnItemAtPosition<ViewHolder>(position, click()))
 

@@ -1,15 +1,18 @@
-package com.study.mybookshelf
+package com.study.mybookshelf.end_to_end_tests
 
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.study.mybookshelf.MainActivity
+import com.study.mybookshelf.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -20,7 +23,7 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class ChooseTabTest {
+class ChooseTabEndToEndTests {
 
     @Rule
     @JvmField
@@ -41,7 +44,7 @@ class ChooseTabTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
 
         val linearLayout = onView(
             allOf(
@@ -68,12 +71,12 @@ class ChooseTabTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
 
         val linearLayout = onView(
             allOf(
                 withId(R.id.recycler_view_borrowed_books),
-                withParent(withParent(withId(R.id.borrowed_fragment))),
+                withParent(withParent(withId(R.id.borrowed_books_fragment))),
                 isDisplayed()
             )
         )
@@ -95,7 +98,7 @@ class ChooseTabTest {
                 isDisplayed()
             )
         )
-        tabView.perform(click())
+        tabView.perform(scrollTo(), click())
 
         val linearLayout = onView(
             allOf(
