@@ -14,7 +14,6 @@ class LibraryViewModel : ViewModel() {
     val libraryBooksList: MutableLiveData<List<LibraryBook>> = MutableLiveData()
     private val repository: Repository<LibraryBook> = Repository(libraryBooksList, LibraryBook::class.java)
 
-
     init {
 
         val book1 = LibraryBook(19,"title_1", "author_1", ByteArray(0), 5.0.toFloat(), true, "useful comments")

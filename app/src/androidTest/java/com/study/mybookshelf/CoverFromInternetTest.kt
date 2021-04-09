@@ -23,13 +23,6 @@ class CoverFromInternetTest {
     @JvmField
     val detailsActivityTestRule = ActivityTestRule(DetailsActivity::class.java)
 
-    @Rule
-    @JvmField
-    var mGrantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        "android.permission.CAMERA",
-        "android.permission.READ_EXTERNAL_STORAGE"
-    )
-
     @Test
     fun coverWithoutTitleAndAuthorTest() {
         val getCoverClass = GetCoverClass(detailsActivityTestRule.activity)
