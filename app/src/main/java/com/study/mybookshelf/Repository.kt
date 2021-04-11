@@ -16,9 +16,9 @@ class Repository<T : RealmModel?>(booksList: MutableLiveData<List<T>>, private v
     private var realmChangeListener: RealmChangeListener<RealmResults<T>> =
         RealmChangeListener { results ->
             if (results.isLoaded && results.isValid && results.isNotEmpty()) {
-                booksList.value = results as List<T>
+                booksList.postValue(results as List<T>)
             } else {
-                booksList.value = listOf()
+                booksList.postValue(listOf())
             }
         }
 
@@ -39,7 +39,6 @@ class Repository<T : RealmModel?>(booksList: MutableLiveData<List<T>>, private v
             val book = realm.where(bookClass).equalTo("id", id).findFirst()
             book?.deleteFromRealm()
         }
-
     }
 
     fun close() {
