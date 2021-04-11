@@ -15,7 +15,6 @@ class LibraryViewModel : ViewModel() {
     private val repository: Repository<LibraryBook> = Repository(libraryBooksList, LibraryBook::class.java)
 
     init {
-
         val book1 = LibraryBook(19,"title_1", "author_1", ByteArray(0), 5.0.toFloat(), true, "useful comments")
         val book2 = LibraryBook(20,"title_2", "author_2", ByteArray(0), 3.0.toFloat(), false, "unuseful comments")
         val book3 = LibraryBook(21,"title_3", "author_3", ByteArray(0), 4.7.toFloat(), false, "best comment ever")
@@ -40,7 +39,7 @@ class LibraryViewModel : ViewModel() {
         deleteBook(book2)
     }
 
-    private fun createOrUpdateBook(book: LibraryBook) {
+    fun createOrUpdateBook(book: LibraryBook) {
         repository.insertOrUpdateBook(book)
     }
 

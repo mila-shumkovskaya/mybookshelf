@@ -15,6 +15,8 @@ import com.study.mybookshelf.ui.fragments.LendedBookDetailsFragment
 import com.study.mybookshelf.ui.fragments.LibraryBookDetailsFragment
 
 class DetailsActivity : AppCompatActivity() {
+    lateinit var myFragment: Fragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
@@ -25,17 +27,17 @@ class DetailsActivity : AppCompatActivity() {
 
         when (intent.getSerializableExtra("book")) {
             is LendedBook -> {
-                val myFragment = LendedBookDetailsFragment()
+                myFragment = LendedBookDetailsFragment()
                 fragmentTransaction.add(R.id.container, myFragment)
                 fragmentTransaction.commit()
             }
             is BorrowedBook -> {
-                val myFragment = BorrowedBookDetailsFragment()
+                myFragment = BorrowedBookDetailsFragment()
                 fragmentTransaction.add(R.id.container, myFragment)
                 fragmentTransaction.commit()
             }
             is LibraryBook -> {
-                val myFragment = LibraryBookDetailsFragment()
+                myFragment = LibraryBookDetailsFragment()
                 fragmentTransaction.add(R.id.container, myFragment)
                 fragmentTransaction.commit()
             }
