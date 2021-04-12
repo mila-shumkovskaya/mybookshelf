@@ -3,7 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
+apply plugin: 'jacoco'
 
+
+jacoco {
+    toolVersion = '0.8.5' //Use latest version
+}
 
 android {
     compileSdkVersion 30
@@ -21,8 +26,13 @@ android {
 
     buildTypes {
         release {
+            testCoverageEnabled false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            testCoverageEnabled true
         }
     }
     compileOptions {
@@ -32,23 +42,93 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    testOptions {
+        animationsDisabled true
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+            all {
+                jacoco {
+                    includeNoLocationClasses = true
+                }
+            }
+        }
+    }
+
 }
+
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.navigation:navigation-fragment:2.3.0'
-    implementation 'androidx.navigation:navigation-ui:2.3.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.4'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.4'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.3.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
+    
+    testImplementation 'org.mockito:mockito-all:1.10.19'
+    testImplementation 'com.squareup.assertj:assertj-android:1.1.0'
+    testImplementation 'org.robolectric:robolectric:4.4'
+    testImplementation 'com.squareup.assertj:assertj-android-recyclerview-v7:1.1.0@aar'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'androidx.test:core-ktx:1.3.0'
+    testImplementation 'androidx.test.ext:junit-ktx:1.1.2'
+    testImplementation 'androidx.test.ext:truth:1.3.0'
+    testImplementation 'com.google.truth:truth:1.0'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0-alpha04'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0-alpha04'
+    androidTestImplementation 'androidx.test:rules:1.4.0-alpha05'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0-alpha05'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
+    androidTestImplementation 'org.mockito:mockito-android:2.13.0'
 
 }
+
+task jacocoReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugAndroidTestCoverageReport']) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = [
+       '**/google_books_api/**',
+       '**/ui/fragments/**',
+       '**/ui/home/**',
+       '**/ui/preferences/**',
+       '**/ui/other/**',
+       '**/ui_utils/**',
+       '**/ui/book_recycler_view/**',
+       //'**/view_models/**',
+       //'**/Repository.class',
+       '**/MainActivity.class',
+       '**/DetailsActivity.class'
+    ]
+
+    getClassDirectories().setFrom( fileTree(
+            dir: "${project.buildDir}/tmp/kotlin-classes/debug",
+            exclude: fileFilter
+    ))
+
+    getExecutionData().setFrom( fileTree(dir: project.buildDir, includes: [
+            "jacoco/*.exec",
+            "outputs/code_coverage/debugAndroidTest/connected/**/*.ec"]))
+}
+

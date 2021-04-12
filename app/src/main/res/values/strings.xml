@@ -28,10 +28,49 @@
     <string name="isEl">Is electronic:</string>
     <string name="comment">Comment:</string>
 
+    <!-- COVER -->
+    <string name="load_cover">Load cover</string>
+    <string name="from_camera">From Camera</string>
+    <string name="from_gallery">From Gallery</string>
+    <string name="from_internet">From Internet</string>
+
+    <string name="no_books_found">No covers found. Possible cause: title or author typed incorrectly</string>
+    <string name="choose_cover">Choose cover</string>
+    <string name="close">Close</string>
+
+    <string name="save">Save changes</string>
+
     <string name="hint_title">Enter book title</string>
     <string name="hint_author">Enter author</string>
     <string name="hint_comment">Enter you comment</string>
     <string name="hint_owner">Enter owner name</string>
     <string name="hint_recipient">Enter recipient name</string>
+
+    <string name="notif_switch">Enable notifications</string>
+    <string name="notif_label">Time for notification</string>
+    <string name="notif_title">Notifications</string>
+    <string name="language_label">Language</string>
+    <string name="language_title">Choose language</string>
+    <string name="language_russian">Russian</string>
+    <string name="language_english">English</string>
+
+    <string name="permission_denied">Permission denied</string>
+    <string name="notifications_enabled">Notifications enabled</string>
+    <string name="notifications_disabled">Notifications disabled</string>
+
+    <!-- For messages -->
+    <string name="message">Message</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="del_message">Do you really want to delete this book?</string>
+
+    <string name="validation_title_message_begin">"Title should be not empty and contain not more than "</string>
+    <string name="validation_title_message_end">" characters"</string>
+    <string name="validation_message_end">" characters required"</string>
+    <string name="validation_message_begin">Not more than</string>
+    <string name="book_not_valid">Please, fill all required fields correctly to save this book</string>
+    <string name="book_receive_date_not_valid">RECEIVE date should not be greater than RETURN date</string>
+    <string name="book_transfer_date_not_valid">TRANSFER date should not be greater than RETURN date</string>
+
 
 </resources>

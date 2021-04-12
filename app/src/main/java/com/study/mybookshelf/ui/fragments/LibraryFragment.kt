@@ -1,4 +1,4 @@
-package com.study.mybookshelf.ui
+package com.study.mybookshelf.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,11 +12,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.study.mybookshelf.DetailsActivity
 import com.study.mybookshelf.R
 import com.study.mybookshelf.model.LibraryBook
+import com.study.mybookshelf.ui.LibraryViewModel
+import com.study.mybookshelf.ui.preferences.SharedPreferencesId
 import com.study.mybookshelf.ui.book_recycler_view.BooksRecyclerView
 
 class LibraryFragment: Fragment() {
 
-    lateinit var libraryViewModel:LibraryViewModel
+    lateinit var libraryViewModel: LibraryViewModel
+
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -25,7 +29,7 @@ class LibraryFragment: Fragment() {
         libraryViewModel = ViewModelProviders.of(this).get(LibraryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_library, container, false)
 
-        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_books)
+        val rvBooks: BooksRecyclerView =  root.findViewById(R.id.recycler_view_library_books)
         libraryViewModel.libraryBooksList.observe(viewLifecycleOwner, Observer {
             rvBooks.adapter.refreshBooks(it)
         })
@@ -33,10 +37,11 @@ class LibraryFragment: Fragment() {
         val fab: FloatingActionButton = root.findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             val intent = Intent(context, DetailsActivity::class.java)
-            val book = LibraryBook("title", "author", R.mipmap.book_cover, 5.0.toFloat(), true, "comments")
-            //val bundle = bundleOf( "book" to book)
+            //read from shared
+            val id = SharedPreferencesId(requireContext()).getId()+1
+            val book = LibraryBook(id, getString(R.string.hint_title), getString(R.string.hint_author),ByteArray(0), 5.0.toFloat(), true, getString(R.string.hint_comment))
             intent.putExtra("book", book)
-
+            intent.putExtra("add", true)
             startActivity(intent)
         }
         return root
